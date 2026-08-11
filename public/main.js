@@ -1,4 +1,5 @@
-const socket = io();
+// const socket = io();
+const socket = io("https://ymgame-server.onrender.com");
 // const io = new Server(server, {
 //     cors: {
 //         origin: "https://beamish-palmier-9359d7.netlify.app",
