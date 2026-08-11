@@ -148,6 +148,75 @@ io.on("connection", (socket) => {
 
         }
     );
+    socket.on(
+        "pushPlayer",
+        (data) => {
+
+            const target =
+                players[data.targetId];
+
+            if (!target) {
+                return;
+            }
+
+
+            const pushX =
+                Number(data.pushX) || 0;
+
+            const pushZ =
+                Number(data.pushZ) || 0;
+
+
+            // 너무 강한 값 방지
+            const maxPush =
+                0.08;
+
+
+            const safePushX =
+                Math.max(
+                    -maxPush,
+                    Math.min(
+                        maxPush,
+                        pushX
+                    )
+                );
+
+
+            const safePushZ =
+                Math.max(
+                    -maxPush,
+                    Math.min(
+                        maxPush,
+                        pushZ
+                    )
+                );
+
+
+            target.x +=
+                safePushX;
+
+            target.z +=
+                safePushZ;
+
+
+            io.emit(
+                "playerPushed",
+                {
+
+                    id:
+                        data.targetId,
+
+                    x:
+                        target.x,
+
+                    z:
+                        target.z
+
+                }
+            );
+
+        }
+    );
 
 
     // ================================

@@ -624,54 +624,76 @@ function resolvePlayerCollisions(
                 other.root.position.z;
 
 
-            const distance =
+            let distance =
                 Math.hypot(
                     dx,
                     dz
                 );
 
 
-            // 완전히 같은 위치가 되면
-            // 방향 계산이 안 되므로 임시값
-            const safeDistance =
-                distance || 0.0001;
+            if (distance < 0.0001) {
+                distance = 0.0001;
+            }
 
 
-            // 정규화 방향
             const normalX =
-                dx / safeDistance;
+                dx / distance;
 
             const normalZ =
-                dz / safeDistance;
+                dz / distance;
 
 
-            // 현재 플레이어 중심 간 거리
-            const minimumDistance =
-                1.0;
-
-
-            // 서로 얼마나 겹쳤는지
             const overlap =
-                minimumDistance -
-                distance;
+                1.0 - distance;
 
 
             if (overlap > 0) {
 
-                // 밀림 강도
-                const pushStrength =
-                    0.35;
+                // =========================================
+                // 내 캐릭터도 살짝 밀림
+                // =========================================
+
+                const selfPush =
+                    0.25;
 
 
                 player.root.position.x +=
                     normalX *
                     overlap *
-                    pushStrength;
+                    selfPush;
+
 
                 player.root.position.z +=
                     normalZ *
                     overlap *
-                    pushStrength;
+                    selfPush;
+
+
+                // =========================================
+                // 상대 캐릭터도 밀기
+                // =========================================
+
+                const otherPush =
+                    0.06;
+
+
+                socket.emit(
+                    "pushPlayer",
+                    {
+
+                        targetId:
+                            id,
+
+                        pushX:
+                            -normalX *
+                            otherPush,
+
+                        pushZ:
+                            -normalZ *
+                            otherPush
+
+                    }
+                );
             }
         }
     }
@@ -843,6 +865,30 @@ socket.on(
                 data.crouching
             )
         );
+
+    }
+);
+// ==================================================
+// 서버에서 플레이어 밀림 수신
+// ==================================================
+
+socket.on(
+    "playerPushed",
+    (data) => {
+
+        const player =
+            players[data.id];
+
+        if (!player) {
+            return;
+        }
+
+
+        player.root.position.x =
+            data.x;
+
+        player.root.position.z =
+            data.z;
 
     }
 );
