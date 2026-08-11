@@ -416,6 +416,230 @@ function applyCrouchVisual(
     }
 }
 
+// function applyCrouchVisual(
+//     player,
+//     crouching,
+//     immediate = false
+// ) {
+
+//     if (!player) {
+//         return;
+//     }
+
+//     player.crouching = crouching;
+
+//     player.targetScaleY =
+//         crouching ? 0.5 : 1;
+
+//     player.targetVisualY =
+//         crouching ? -0.25 : 0;
+
+//     if (immediate) {
+
+//         player.visual.scale.y =
+//             player.targetScaleY;
+
+//         player.visual.position.y =
+//             player.targetVisualY;
+
+//     }
+// }
+
+
+// 여기부터 추가
+function getPlayerHeight(player) {
+
+    return player.crouching
+        ? 0.5
+        : 1.0;
+}
+
+
+function getPlayerBounds(player) {
+
+    const bottom =
+        player.root.position.y - 0.5;
+
+    const height =
+        getPlayerHeight(player);
+
+    return {
+        bottom: bottom,
+        top: bottom + height
+    };
+}
+
+
+function findStandingPlayer(player) {
+
+    const myBottom =
+        player.root.position.y - 0.5;
+
+    for (const id in players) {
+
+        if (id === myId) {
+            continue;
+        }
+
+        const other =
+            players[id];
+
+        if (!other) {
+            continue;
+        }
+
+        const otherBounds =
+            getPlayerBounds(other);
+
+        const overlapX =
+            Math.abs(
+                player.root.position.x -
+                other.root.position.x
+            ) < 0.95;
+
+        const overlapZ =
+            Math.abs(
+                player.root.position.z -
+                other.root.position.z
+            ) < 0.95;
+
+        if (
+            overlapX &&
+            overlapZ &&
+            Math.abs(
+                myBottom -
+                otherBounds.top
+            ) < 0.08
+        ) {
+
+            return other;
+        }
+    }
+
+    return null;
+}
+
+
+function resolvePlayerCollisions(
+    player,
+    previousPosition
+) {
+
+    const myHalfWidth = 0.5;
+
+    let landedOnPlayer = false;
+
+    for (const id in players) {
+
+        if (id === myId) {
+            continue;
+        }
+
+        const other =
+            players[id];
+
+        if (!other) {
+            continue;
+        }
+
+        const otherHalfWidth = 0.5;
+
+        const myBounds =
+            getPlayerBounds(player);
+
+        const otherBounds =
+            getPlayerBounds(other);
+
+        const overlapX =
+            Math.abs(
+                player.root.position.x -
+                other.root.position.x
+            ) <
+            myHalfWidth +
+            otherHalfWidth;
+
+        const overlapZ =
+            Math.abs(
+                player.root.position.z -
+                other.root.position.z
+            ) <
+            myHalfWidth +
+            otherHalfWidth;
+
+        if (
+            !overlapX ||
+            !overlapZ
+        ) {
+            continue;
+        }
+
+        const previousBottom =
+            previousPosition.y - 0.5;
+
+        // 위에서 내려오면 머리 위 착지
+        if (
+            verticalVelocity <= 0 &&
+            previousBottom >=
+                otherBounds.top - 0.12 &&
+            myBounds.bottom <=
+                otherBounds.top
+        ) {
+
+            player.root.position.y =
+                otherBounds.top + 0.5;
+
+            verticalVelocity = 0;
+
+            isGrounded = true;
+
+            landedOnPlayer = true;
+
+            continue;
+        }
+
+
+        const verticalOverlap =
+            myBounds.top >
+                otherBounds.bottom + 0.05 &&
+            myBounds.bottom <
+                otherBounds.top - 0.05;
+
+        if (verticalOverlap) {
+
+            player.root.position.x =
+                previousPosition.x;
+
+            player.root.position.z =
+                previousPosition.z;
+        }
+    }
+
+
+    if (
+        isGrounded &&
+        player.root.position.y >
+            groundPlayerY + 0.05 &&
+        !landedOnPlayer
+    ) {
+
+        const support =
+            findStandingPlayer(player);
+
+        if (support) {
+
+            const supportBounds =
+                getPlayerBounds(support);
+
+            player.root.position.y =
+                supportBounds.top + 0.5;
+
+        } else {
+
+            isGrounded = false;
+        }
+    }
+}
+
 
 // ==================================================
 // 접속 완료
@@ -847,7 +1071,8 @@ function movePlayer() {
     if (!player) {
         return;
     }
-
+    const previousPosition =
+        player.root.position.clone();
 
     const isRunning =
 
@@ -1095,7 +1320,10 @@ function movePlayer() {
 
     }
 
-
+    resolvePlayerCollisions(
+        player,
+        previousPosition
+    );
     // ==================================================
     // 이동 상태 서버 전송
     // ==================================================
