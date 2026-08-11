@@ -59,7 +59,7 @@ document.body.appendChild(
 const ambientLight =
     new THREE.AmbientLight(
         0xffffff,
-        0.7
+        0.55
     );
 
 scene.add(
@@ -70,7 +70,7 @@ scene.add(
 const directionalLight =
     new THREE.DirectionalLight(
         0xffffff,
-        0.8
+        0.45
     );
 
 directionalLight.position.set(
@@ -97,13 +97,14 @@ const floorGeometry =
 const floorMaterial =
     new THREE.MeshStandardMaterial({
 
-        // 나무 바닥 느낌
-        color: 0x8a735c,
+        color:
+            0x766a5e,
 
-        roughness: 0.75,
+        roughness:
+            0.72,
 
-        metalness: 0
-
+        metalness:
+            0
     });
 
 
@@ -314,14 +315,19 @@ const ceilingMaterial =
     new THREE.MeshStandardMaterial({
 
         color:
+            0xf8f8f8,
+
+        emissive:
             0xffffff,
+
+        emissiveIntensity:
+            0.18,
 
         roughness:
             0.95,
 
         side:
             THREE.DoubleSide
-
     });
 
 
@@ -349,181 +355,260 @@ scene.add(
 // LED 천장 패널 생성
 // ==================================================
 
-function createLEDPanel(
-    x,
-    z,
-    width = 3,
-    depth = 3
-) {
+// function createLEDPanel(
+//     x,
+//     z,
+//     width = 3,
+//     depth = 3
+// ) {
 
-    const geometry =
-        new THREE.PlaneGeometry(
-            width,
-            depth
-        );
-
-
-    const material =
-        new THREE.MeshStandardMaterial({
-
-            color:
-                0xffffff,
-
-            emissive:
-                0xffffff,
-
-            emissiveIntensity:
-                1.5,
-
-            roughness:
-                0.4,
-
-            side:
-                THREE.DoubleSide
-
-        });
+//     const geometry =
+//         new THREE.PlaneGeometry(
+//             width,
+//             depth
+//         );
 
 
-    const panel =
-        new THREE.Mesh(
-            geometry,
-            material
-        );
+//     const material =
+//         new THREE.MeshStandardMaterial({
+
+//             color:
+//                 0xffffff,
+
+//             emissive:
+//                 0xffffff,
+
+//             emissiveIntensity:
+//                 1.5,
+
+//             roughness:
+//                 0.4,
+
+//             side:
+//                 THREE.DoubleSide
+
+//         });
 
 
-    panel.rotation.x =
-        Math.PI / 2;
+//     const panel =
+//         new THREE.Mesh(
+//             geometry,
+//             material
+//         );
 
 
-    panel.position.set(
-
-        x,
-
-        5.95,
-
-        z
-
-    );
+//     panel.rotation.x =
+//         Math.PI / 2;
 
 
-    scene.add(
-        panel
-    );
+//     panel.position.set(
 
-}
+//         x,
+
+//         5.95,
+
+//         z
+
+//     );
+
+
+//     scene.add(
+//         panel
+//     );
+
+// }
 
 
 // ==================================================
 // LED 격자
 // ==================================================
 
-for (
-    let x = -9;
-    x <= 9;
-    x += 4
-) {
+// for (
+//     let x = -9;
+//     x <= 9;
+//     x += 4
+// ) {
 
-    for (
-        let z = -9;
-        z <= 9;
-        z += 4
-    ) {
+//     for (
+//         let z = -9;
+//         z <= 9;
+//         z += 4
+//     ) {
 
-        createLEDPanel(
-            x,
-            z,
-            3.5,
-            3.5
-        );
+//         createLEDPanel(
+//             x,
+//             z,
+//             3.5,
+//             3.5
+//         );
 
-    }
+//     }
 
-}
+// }
 
 
 // ==================================================
 // 실제 천장 조명
 // ==================================================
-
-const galleryLight1 =
-    new THREE.PointLight(
+const galleryFillLight =
+    new THREE.HemisphereLight(
         0xffffff,
-        45,
-        18
+        0x777777,
+        1.4
     );
 
-
-galleryLight1.position.set(
-    -6,
-    5.4,
-    -6
-);
-
-
 scene.add(
-    galleryLight1
+    galleryFillLight
 );
+// const galleryLight1 =
+//     new THREE.PointLight(
+//         0xffffff,
+//         45,
+//         18
+//     );
 
 
-const galleryLight2 =
-    new THREE.PointLight(
-        0xffffff,
-        45,
-        18
+// galleryLight1.position.set(
+//     -6,
+//     5.4,
+//     -6
+// );
+
+
+// scene.add(
+//     galleryLight1
+// );
+
+
+// const galleryLight2 =
+//     new THREE.PointLight(
+//         0xffffff,
+//         45,
+//         18
+//     );
+
+
+// galleryLight2.position.set(
+//     6,
+//     5.4,
+//     -6
+// );
+
+
+// scene.add(
+//     galleryLight2
+// );
+
+
+// const galleryLight3 =
+//     new THREE.PointLight(
+//         0xffffff,
+//         45,
+//         18
+//     );
+
+
+// galleryLight3.position.set(
+//     -6,
+//     5.4,
+//     6
+// );
+
+
+// scene.add(
+//     galleryLight3
+// );
+
+
+// const galleryLight4 =
+//     new THREE.PointLight(
+//         0xffffff,
+//         45,
+//         18
+//     );
+
+
+// galleryLight4.position.set(
+//     6,
+//     5.4,
+//     6
+// );
+
+
+// scene.add(
+//     galleryLight4
+// );
+
+
+// ==================================================
+// 천장 LED 격자 프레임
+// ==================================================
+
+const ceilingGridMaterial =
+    new THREE.MeshStandardMaterial({
+        color: 0x888888,
+        roughness: 0.8
+    });
+
+
+// 세로 프레임
+for (
+    let x = -12;
+    x <= 12;
+    x += 4
+) {
+
+    const geometry =
+        new THREE.BoxGeometry(
+            0.08,
+            0.08,
+            24
+        );
+
+    const beam =
+        new THREE.Mesh(
+            geometry,
+            ceilingGridMaterial
+        );
+
+    beam.position.set(
+        x,
+        5.92,
+        0
     );
 
-
-galleryLight2.position.set(
-    6,
-    5.4,
-    -6
-);
+    scene.add(beam);
+}
 
 
-scene.add(
-    galleryLight2
-);
+// 가로 프레임
+for (
+    let z = -12;
+    z <= 12;
+    z += 4
+) {
 
+    const geometry =
+        new THREE.BoxGeometry(
+            24,
+            0.08,
+            0.08
+        );
 
-const galleryLight3 =
-    new THREE.PointLight(
-        0xffffff,
-        45,
-        18
+    const beam =
+        new THREE.Mesh(
+            geometry,
+            ceilingGridMaterial
+        );
+
+    beam.position.set(
+        0,
+        5.92,
+        z
     );
 
-
-galleryLight3.position.set(
-    -6,
-    5.4,
-    6
-);
-
-
-scene.add(
-    galleryLight3
-);
-
-
-const galleryLight4 =
-    new THREE.PointLight(
-        0xffffff,
-        45,
-        18
-    );
-
-
-galleryLight4.position.set(
-    6,
-    5.4,
-    6
-);
-
-
-scene.add(
-    galleryLight4
-);
-
+    scene.add(beam);
+}
 // ==================================================
 // 플레이어
 // ==================================================
