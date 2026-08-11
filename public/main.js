@@ -85,7 +85,7 @@ document.body.appendChild(
 const ambientLight =
     new THREE.AmbientLight(
         0xffffff,
-        1.15
+        0.75
     );
 
 scene.add(
@@ -98,7 +98,7 @@ const hemiLight =
     new THREE.HemisphereLight(
         0xffffff,
         0x8b8175,
-        1.65
+        1.15
     );
 
 scene.add(
@@ -107,31 +107,46 @@ scene.add(
 
 
 // 약한 방향광
+// ==========================================
+// 은은한 메인 그림자 조명
+// ==========================================
+
 const directionalLight =
     new THREE.DirectionalLight(
         0xfffdf8,
-        0.55
+        1.15
     );
 
 directionalLight.position.set(
-    2,
+    -4,
     8,
-    4
+    5
 );
 
-directionalLight.castShadow =
-    true;
+// 그림자 활성화
+directionalLight.castShadow = true;
 
-directionalLight.shadow.mapSize.width =
-    2048;
+// 그림자 품질
+directionalLight.shadow.mapSize.width = 2048;
+directionalLight.shadow.mapSize.height = 2048;
 
-directionalLight.shadow.mapSize.height =
-    2048;
+// 그림자 가장자리 부드럽게
+directionalLight.shadow.radius = 5;
 
-scene.add(
-    directionalLight
-);
+// 그림자 깨짐 방지
+directionalLight.shadow.bias = -0.0003;
 
+// 그림자가 적용되는 범위
+directionalLight.shadow.camera.left = -12;
+directionalLight.shadow.camera.right = 12;
+directionalLight.shadow.camera.top = 12;
+directionalLight.shadow.camera.bottom = -12;
+
+directionalLight.shadow.camera.near = 0.5;
+directionalLight.shadow.camera.far = 30;
+
+// ★ 마지막에 반드시 씬에 추가
+scene.add(directionalLight);
 
 // ==================================================
 // 맵 크기
