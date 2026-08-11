@@ -85,7 +85,7 @@ document.body.appendChild(
 const ambientLight =
     new THREE.AmbientLight(
         0xffffff,
-        0.75
+        1.5
     );
 
 scene.add(
@@ -98,7 +98,7 @@ const hemiLight =
     new THREE.HemisphereLight(
         0xffffff,
         0x8b8175,
-        1.15
+        1.5
     );
 
 scene.add(
