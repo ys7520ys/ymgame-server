@@ -604,13 +604,75 @@ function resolvePlayerCollisions(
             myBounds.bottom <
                 otherBounds.top - 0.05;
 
+        // if (verticalOverlap) {
+
+        //     player.root.position.x =
+        //         previousPosition.x;
+
+        //     player.root.position.z =
+        //         previousPosition.z;
+        // }
+
         if (verticalOverlap) {
 
-            player.root.position.x =
-                previousPosition.x;
+            const dx =
+                player.root.position.x -
+                other.root.position.x;
 
-            player.root.position.z =
-                previousPosition.z;
+            const dz =
+                player.root.position.z -
+                other.root.position.z;
+
+
+            const distance =
+                Math.hypot(
+                    dx,
+                    dz
+                );
+
+
+            // 완전히 같은 위치가 되면
+            // 방향 계산이 안 되므로 임시값
+            const safeDistance =
+                distance || 0.0001;
+
+
+            // 정규화 방향
+            const normalX =
+                dx / safeDistance;
+
+            const normalZ =
+                dz / safeDistance;
+
+
+            // 현재 플레이어 중심 간 거리
+            const minimumDistance =
+                1.0;
+
+
+            // 서로 얼마나 겹쳤는지
+            const overlap =
+                minimumDistance -
+                distance;
+
+
+            if (overlap > 0) {
+
+                // 밀림 강도
+                const pushStrength =
+                    0.35;
+
+
+                player.root.position.x +=
+                    normalX *
+                    overlap *
+                    pushStrength;
+
+                player.root.position.z +=
+                    normalZ *
+                    overlap *
+                    pushStrength;
+            }
         }
     }
 
