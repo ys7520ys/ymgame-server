@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Keyboard Test</title>
+</head>
+
+<body>
+
+<h1>키보드 테스트</h1>
+<p>아무 키나 눌러보세요.</p>
+
+<div id="result" style="font-size:30px;"></div>
+
+<script>
+
+const result =
+    document.getElementById("result");
+
+window.addEventListener(
+    "keydown",
+    (event) => {
+
+        console.log(
+            "code:",
+            event.code,
+            "key:",
+            event.key,
+            "keyCode:",
+            event.keyCode
+        );
+
+        result.innerHTML =
+            "code: " + event.code +
+            "<br>key: " + event.key +
+            "<br>keyCode: " + event.keyCode;
+
+    },
+    true
+);
+
+</script>
+
+</body>
+</html>

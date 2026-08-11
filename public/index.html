@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>YM GAME</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+<body>
+
+    <div id="info">
+
+        <h2>YM GAME</h2>
+
+        <p>WASD : 이동</p>
+
+        <p id="connection">
+            서버 연결 중...
+        </p>
+
+        <p>
+            접속자 :
+            <span id="playerCount">0</span>
+        </p>
+
+    </div>
+
+    <!-- Socket.IO -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- Three.js -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js">
+    </script>
+
+    <script src="main.js"></script>
+
+</body>
+
+</html>
