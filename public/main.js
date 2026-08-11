@@ -159,7 +159,7 @@ const GALLERY_DEPTH =
     18;
 
 const GALLERY_HEIGHT =
-    4.8;
+    8;
 
 
 // ==================================================
@@ -702,7 +702,7 @@ for (
 
         lightPositions.push([
             x,
-            4.45,
+            GALLERY_HEIGHT - 0.35,
             z
         ]);
     }
