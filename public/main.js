@@ -535,7 +535,7 @@ const ceilingMaterial =
             0xffffff,
 
         emissiveIntensity:
-            0.48,
+            0.7,
 
         roughness:
             0.82,
