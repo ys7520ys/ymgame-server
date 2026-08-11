@@ -1821,11 +1821,11 @@ for (
 
 
     beam.castShadow =
-        true;
+        false;
 
 
     beam.receiveShadow =
-        true;
+        false;
 
 
     scene.add(
