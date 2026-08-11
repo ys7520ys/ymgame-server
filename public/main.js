@@ -685,49 +685,48 @@ for (
 //     [ 4.5, 4.35,  4.5]
 
 // ];
+// ==================================================
+// 넓은 천장 면광원
+// ==================================================
 
-const lightPositions = [];
+const ceilingAreaLights = [
 
-for (
-    let x = -6.75;
-    x <= 6.75;
-    x += 4.5
-) {
+    [-4.5, -4.5],
+    [ 0.0, -4.5],
+    [ 4.5, -4.5],
 
-    for (
-        let z = -6.75;
-        z <= 6.75;
-        z += 4.5
-    ) {
+    [-4.5,  0.0],
+    [ 0.0,  0.0],
+    [ 4.5,  0.0],
 
-        lightPositions.push([
-            x,
-            GALLERY_HEIGHT - 0.35,
-            z
-        ]);
-    }
-}
+    [-4.5,  4.5],
+    [ 0.0,  4.5],
+    [ 4.5,  4.5]
+
+];
+
 
 for (
-    const position
-    of lightPositions
+    const [x, z]
+    of ceilingAreaLights
 ) {
 
     const light =
-        new THREE.PointLight(
-            0xfffdf8,
-            4.5,
-            10,
-            2
+        new THREE.RectAreaLight(
+            0xffffff,
+            2.2,
+            5.5,
+            5.5
         );
 
-
     light.position.set(
-        position[0],
-        position[1],
-        position[2]
+        x,
+        GALLERY_HEIGHT - 0.12,
+        z
     );
 
+    light.rotation.x =
+        -Math.PI / 2;
 
     scene.add(
         light
