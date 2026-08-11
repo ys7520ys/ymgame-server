@@ -929,7 +929,7 @@ renderer.toneMapping =
 
 
 renderer.toneMappingExposure =
-    1.25;
+    1.00;
 
 
 renderer.shadowMap.enabled =
@@ -957,7 +957,7 @@ const ambientLight =
 
         0xffffff,
 
-        0.9
+        0.55
 
     );
 
@@ -973,13 +973,9 @@ scene.add(
 
 const hemiLight =
     new THREE.HemisphereLight(
-
         0xffffff,
-
-        0x8b8175,
-
-        1.1
-
+        0x70675f,
+        0.8
     );
 
 
@@ -1152,15 +1148,15 @@ for (
     ) {
 
         const brightness =
-            90 +
-            Math.random() * 30;
+            62 +
+            Math.random() * 22;
 
 
         floorContext.fillStyle =
             `rgb(
-                ${brightness + 20},
-                ${brightness + 5},
-                ${brightness - 10}
+                ${brightness + 18},
+                ${brightness + 8},
+                ${brightness}
             )`;
 
 
@@ -1332,7 +1328,7 @@ const wallMaterial =
     new THREE.MeshStandardMaterial({
 
         color:
-            0xf7f7f5,
+            0xeeeeeb,
 
         roughness:
             0.88,
@@ -1531,7 +1527,32 @@ createWall(
 
 );
 
+const centerWallFloorShadow =
+    new THREE.Mesh(
+        new THREE.PlaneGeometry(
+            8.2,
+            0.45
+        ),
+        new THREE.MeshBasicMaterial({
+            color: 0x000000,
+            transparent: true,
+            opacity: 0.10,
+            depthWrite: false
+        })
+    );
 
+centerWallFloorShadow.rotation.x =
+    -Math.PI / 2;
+
+centerWallFloorShadow.position.set(
+    0,
+    0.012,
+    -4.43
+);
+
+scene.add(
+    centerWallFloorShadow
+);
 // ==================================================
 // 천장
 // ==================================================
@@ -1556,7 +1577,7 @@ const ceilingMaterial =
             0xffffff,
 
         emissiveIntensity:
-            0.7,
+            0.8,
 
         roughness:
             0.82,
