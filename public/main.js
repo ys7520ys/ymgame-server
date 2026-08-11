@@ -15,13 +15,13 @@ const scene =
     new THREE.Scene();
 
 scene.background =
-    new THREE.Color(0x87ceeb);
+    new THREE.Color(0xf3f3f1);
 
 
 // 카메라
 const camera =
     new THREE.PerspectiveCamera(
-        75,
+        62,
         window.innerWidth /
             window.innerHeight,
         0.1,
@@ -46,6 +46,24 @@ renderer.setPixelRatio(
         2
     )
 );
+// ==================================================
+// 렌더링 색감 / 조명 품질
+// ==================================================
+
+renderer.outputColorSpace =
+    THREE.SRGBColorSpace;
+
+renderer.toneMapping =
+    THREE.ACESFilmicToneMapping;
+
+renderer.toneMappingExposure =
+    1.25;
+
+renderer.shadowMap.enabled =
+    true;
+
+renderer.shadowMap.type =
+    THREE.PCFSoftShadowMap;
 
 document.body.appendChild(
     renderer.domElement
@@ -55,11 +73,19 @@ document.body.appendChild(
 // ==================================================
 // 조명
 // ==================================================
+// 갤러리 맵
+// 참고 이미지 스타일
+// ==================================================
+
+
+// ==================================================
+// 기본 조명
+// ==================================================
 
 const ambientLight =
     new THREE.AmbientLight(
         0xffffff,
-        0.55
+        1.15
     );
 
 scene.add(
@@ -67,17 +93,40 @@ scene.add(
 );
 
 
+// 위에서 들어오는 아주 부드러운 빛
+const hemiLight =
+    new THREE.HemisphereLight(
+        0xffffff,
+        0x8b8175,
+        1.65
+    );
+
+scene.add(
+    hemiLight
+);
+
+
+// 약한 방향광
 const directionalLight =
     new THREE.DirectionalLight(
-        0xffffff,
-        0.45
+        0xfffdf8,
+        0.55
     );
 
 directionalLight.position.set(
-    5,
-    10,
-    5
+    2,
+    8,
+    4
 );
+
+directionalLight.castShadow =
+    true;
+
+directionalLight.shadow.mapSize.width =
+    2048;
+
+directionalLight.shadow.mapSize.height =
+    2048;
 
 scene.add(
     directionalLight
@@ -85,26 +134,193 @@ scene.add(
 
 
 // ==================================================
-// 바닥
+// 맵 크기
 // ==================================================
+
+const GALLERY_WIDTH =
+    18;
+
+const GALLERY_DEPTH =
+    18;
+
+const GALLERY_HEIGHT =
+    4.8;
+
+
+// ==================================================
+// 나무 바닥
+// ==================================================
+
+const floorCanvas =
+    document.createElement(
+        "canvas"
+    );
+
+floorCanvas.width =
+    1024;
+
+floorCanvas.height =
+    1024;
+
+
+const floorContext =
+    floorCanvas.getContext(
+        "2d"
+    );
+
+
+// 바닥 기본색
+floorContext.fillStyle =
+    "#766657";
+
+floorContext.fillRect(
+    0,
+    0,
+    1024,
+    1024
+);
+
+
+// ==================================================
+// 나무 판자 패턴
+// ==================================================
+
+const plankHeight =
+    64;
+
+
+for (
+    let y = 0;
+    y < 1024;
+    y += plankHeight
+) {
+
+    const row =
+        y / plankHeight;
+
+
+    // 행마다 판자 위치 어긋나게
+    const offset =
+        row % 2 === 0
+            ? 0
+            : -128;
+
+
+    for (
+        let x = offset;
+        x < 1024;
+        x += 256
+    ) {
+
+        const brightness =
+            90 +
+            Math.random() * 30;
+
+
+        floorContext.fillStyle =
+            `rgb(
+                ${brightness + 20},
+                ${brightness + 5},
+                ${brightness - 10}
+            )`;
+
+
+        floorContext.fillRect(
+            x + 1,
+            y + 1,
+            254,
+            plankHeight - 2
+        );
+
+
+        // 판자 경계선
+        floorContext.strokeStyle =
+            "rgba(40,30,20,0.22)";
+
+        floorContext.lineWidth =
+            2;
+
+        floorContext.strokeRect(
+            x,
+            y,
+            256,
+            plankHeight
+        );
+
+
+        // 아주 약한 나뭇결
+        for (
+            let i = 0;
+            i < 6;
+            i++
+        ) {
+
+            floorContext.strokeStyle =
+                "rgba(70,45,30,0.10)";
+
+            floorContext.beginPath();
+
+            const grainY =
+                y +
+                Math.random() *
+                plankHeight;
+
+            floorContext.moveTo(
+                x,
+                grainY
+            );
+
+            floorContext.lineTo(
+                x + 256,
+                grainY +
+                Math.random() * 5
+            );
+
+            floorContext.stroke();
+        }
+    }
+}
+
+
+const floorTexture =
+    new THREE.CanvasTexture(
+        floorCanvas
+    );
+
+floorTexture.colorSpace =
+    THREE.SRGBColorSpace;
+
+floorTexture.wrapS =
+    THREE.RepeatWrapping;
+
+floorTexture.wrapT =
+    THREE.RepeatWrapping;
+
+floorTexture.repeat.set(
+    2.2,
+    2.2
+);
+
+
 const floorGeometry =
     new THREE.PlaneGeometry(
-        24,
-        24
+        GALLERY_WIDTH,
+        GALLERY_DEPTH
     );
 
 
 const floorMaterial =
     new THREE.MeshStandardMaterial({
 
-        color:
-            0x766a5e,
+        map:
+            floorTexture,
 
         roughness:
-            0.72,
+            0.68,
 
         metalness:
             0
+
     });
 
 
@@ -118,14 +334,31 @@ const floor =
 floor.rotation.x =
     -Math.PI / 2;
 
-
-floor.position.y =
-    0;
-
+floor.receiveShadow =
+    true;
 
 scene.add(
     floor
 );
+
+
+// ==================================================
+// 벽 재질
+// ==================================================
+
+const wallMaterial =
+    new THREE.MeshStandardMaterial({
+
+        color:
+            0xf7f7f5,
+
+        roughness:
+            0.88,
+
+        metalness:
+            0
+
+    });
 
 
 // ==================================================
@@ -149,25 +382,10 @@ function createWall(
         );
 
 
-    const material =
-        new THREE.MeshStandardMaterial({
-
-            color:
-                0xf4f4f2,
-
-            roughness:
-                0.9,
-
-            metalness:
-                0
-
-        });
-
-
     const wall =
         new THREE.Mesh(
             geometry,
-            material
+            wallMaterial
         );
 
 
@@ -178,13 +396,19 @@ function createWall(
     );
 
 
+    wall.castShadow =
+        true;
+
+    wall.receiveShadow =
+        true;
+
+
     scene.add(
         wall
     );
 
 
     return wall;
-
 }
 
 
@@ -195,108 +419,83 @@ function createWall(
 
 // 뒤쪽 벽
 createWall(
-
     0,
-    3,
-    -12,
+    GALLERY_HEIGHT / 2,
+    -9,
 
-    24,
-    6,
-    0.3
-
+    18,
+    GALLERY_HEIGHT,
+    0.18
 );
 
 
 // 왼쪽 벽
 createWall(
-
-    -12,
-    3,
+    -9,
+    GALLERY_HEIGHT / 2,
     0,
 
-    0.3,
-    6,
-    24
-
+    0.18,
+    GALLERY_HEIGHT,
+    18
 );
 
 
 // 오른쪽 벽
 createWall(
-
-    12,
-    3,
+    9,
+    GALLERY_HEIGHT / 2,
     0,
 
-    0.3,
-    6,
-    24
-
+    0.18,
+    GALLERY_HEIGHT,
+    18
 );
 
 
-// 앞쪽 벽
-createWall(
+// 참고사진처럼
+// 카메라 쪽 앞벽은 없음
 
+
+// ==================================================
+// 중앙 메인 전시벽
+// ==================================================
+
+createWall(
     0,
-    3,
-    12,
+    2.05,
+    -4.6,
 
-    24,
-    6,
-    0.3
-
+    8.6,
+    4.1,
+    0.24
 );
 
 
 // ==================================================
-// 중앙 전시 벽
+// 중앙벽 뒤쪽 좌우 짧은 벽
+// 참고사진 통로 느낌
 // ==================================================
 
 createWall(
+    -6.75,
+    2.05,
+    -6.1,
 
-    0,
-    2.5,
-    -4,
-
-    10,
-    5,
-    0.35
-
+    4.3,
+    4.1,
+    0.20
 );
 
 
-// ==================================================
-// 왼쪽 내부 벽
-// ==================================================
-
 createWall(
+    6.75,
+    2.05,
+    -6.1,
 
-    -7,
-    2.5,
-    3,
-
-    0.35,
-    5,
-    8
-
-);
-
-
-// ==================================================
-// 오른쪽 내부 벽
-// ==================================================
-
-createWall(
-
-    7,
-    2.5,
-    3,
-
-    0.35,
-    5,
-    8
-
+    4.3,
+    4.1,
+    0.20
 );
 
 
@@ -306,8 +505,8 @@ createWall(
 
 const ceilingGeometry =
     new THREE.PlaneGeometry(
-        24,
-        24
+        GALLERY_WIDTH,
+        GALLERY_DEPTH
     );
 
 
@@ -315,19 +514,23 @@ const ceilingMaterial =
     new THREE.MeshStandardMaterial({
 
         color:
-            0xf8f8f8,
+            0xffffff,
 
         emissive:
             0xffffff,
 
         emissiveIntensity:
-            0.18,
+            0.48,
 
         roughness:
-            0.95,
+            0.82,
+
+        metalness:
+            0,
 
         side:
             THREE.DoubleSide
+
     });
 
 
@@ -341,10 +544,8 @@ const ceiling =
 ceiling.rotation.x =
     Math.PI / 2;
 
-
 ceiling.position.y =
-    6;
-
+    GALLERY_HEIGHT;
 
 scene.add(
     ceiling
@@ -352,263 +553,267 @@ scene.add(
 
 
 // ==================================================
-// LED 천장 패널 생성
+// 천장 LED 격자
+// 아주 얇은 회색 프레임
 // ==================================================
 
-// function createLEDPanel(
-//     x,
-//     z,
-//     width = 3,
-//     depth = 3
-// ) {
-
-//     const geometry =
-//         new THREE.PlaneGeometry(
-//             width,
-//             depth
-//         );
-
-
-//     const material =
-//         new THREE.MeshStandardMaterial({
-
-//             color:
-//                 0xffffff,
-
-//             emissive:
-//                 0xffffff,
-
-//             emissiveIntensity:
-//                 1.5,
-
-//             roughness:
-//                 0.4,
-
-//             side:
-//                 THREE.DoubleSide
-
-//         });
-
-
-//     const panel =
-//         new THREE.Mesh(
-//             geometry,
-//             material
-//         );
-
-
-//     panel.rotation.x =
-//         Math.PI / 2;
-
-
-//     panel.position.set(
-
-//         x,
-
-//         5.95,
-
-//         z
-
-//     );
-
-
-//     scene.add(
-//         panel
-//     );
-
-// }
-
-
-// ==================================================
-// LED 격자
-// ==================================================
-
-// for (
-//     let x = -9;
-//     x <= 9;
-//     x += 4
-// ) {
-
-//     for (
-//         let z = -9;
-//         z <= 9;
-//         z += 4
-//     ) {
-
-//         createLEDPanel(
-//             x,
-//             z,
-//             3.5,
-//             3.5
-//         );
-
-//     }
-
-// }
-
-
-// ==================================================
-// 실제 천장 조명
-// ==================================================
-const galleryFillLight =
-    new THREE.HemisphereLight(
-        0xffffff,
-        0x777777,
-        1.4
-    );
-
-scene.add(
-    galleryFillLight
-);
-// const galleryLight1 =
-//     new THREE.PointLight(
-//         0xffffff,
-//         45,
-//         18
-//     );
-
-
-// galleryLight1.position.set(
-//     -6,
-//     5.4,
-//     -6
-// );
-
-
-// scene.add(
-//     galleryLight1
-// );
-
-
-// const galleryLight2 =
-//     new THREE.PointLight(
-//         0xffffff,
-//         45,
-//         18
-//     );
-
-
-// galleryLight2.position.set(
-//     6,
-//     5.4,
-//     -6
-// );
-
-
-// scene.add(
-//     galleryLight2
-// );
-
-
-// const galleryLight3 =
-//     new THREE.PointLight(
-//         0xffffff,
-//         45,
-//         18
-//     );
-
-
-// galleryLight3.position.set(
-//     -6,
-//     5.4,
-//     6
-// );
-
-
-// scene.add(
-//     galleryLight3
-// );
-
-
-// const galleryLight4 =
-//     new THREE.PointLight(
-//         0xffffff,
-//         45,
-//         18
-//     );
-
-
-// galleryLight4.position.set(
-//     6,
-//     5.4,
-//     6
-// );
-
-
-// scene.add(
-//     galleryLight4
-// );
-
-
-// ==================================================
-// 천장 LED 격자 프레임
-// ==================================================
-
-const ceilingGridMaterial =
+const gridMaterial =
     new THREE.MeshStandardMaterial({
-        color: 0x888888,
-        roughness: 0.8
+
+        color:
+            0xa8a8a5,
+
+        roughness:
+            0.82,
+
+        metalness:
+            0
+
     });
 
 
-// 세로 프레임
+// ==================================================
+// X 방향 프레임
+// ==================================================
+
 for (
-    let x = -12;
-    x <= 12;
-    x += 4
+    let z = -9;
+    z <= 9;
+    z += 2.25
 ) {
 
     const geometry =
         new THREE.BoxGeometry(
-            0.08,
-            0.08,
-            24
+            18,
+            0.028,
+            0.035
         );
+
 
     const beam =
         new THREE.Mesh(
             geometry,
-            ceilingGridMaterial
+            gridMaterial
         );
 
-    beam.position.set(
-        x,
-        5.92,
-        0
-    );
-
-    scene.add(beam);
-}
-
-
-// 가로 프레임
-for (
-    let z = -12;
-    z <= 12;
-    z += 4
-) {
-
-    const geometry =
-        new THREE.BoxGeometry(
-            24,
-            0.08,
-            0.08
-        );
-
-    const beam =
-        new THREE.Mesh(
-            geometry,
-            ceilingGridMaterial
-        );
 
     beam.position.set(
         0,
-        5.92,
+        GALLERY_HEIGHT - 0.035,
         z
     );
 
-    scene.add(beam);
+
+    scene.add(
+        beam
+    );
 }
+
+
+// ==================================================
+// Z 방향 프레임
+// ==================================================
+
+for (
+    let x = -9;
+    x <= 9;
+    x += 2.25
+) {
+
+    const geometry =
+        new THREE.BoxGeometry(
+            0.035,
+            0.028,
+            18
+        );
+
+
+    const beam =
+        new THREE.Mesh(
+            geometry,
+            gridMaterial
+        );
+
+
+    beam.position.set(
+        x,
+        GALLERY_HEIGHT - 0.035,
+        0
+    );
+
+
+    scene.add(
+        beam
+    );
+}
+
+
+// ==================================================
+// 천장 조명
+//
+// PointLight 여러 개를 쓰지 않고
+// 큰 조명을 아주 부드럽게 분산
+// ==================================================
+
+const lightPositions = [
+
+    [-4.5, 4.35, -4.5],
+    [ 0.0, 4.35, -4.5],
+    [ 4.5, 4.35, -4.5],
+
+    [-4.5, 4.35,  0.0],
+    [ 0.0, 4.35,  0.0],
+    [ 4.5, 4.35,  0.0],
+
+    [-4.5, 4.35,  4.5],
+    [ 0.0, 4.35,  4.5],
+    [ 4.5, 4.35,  4.5]
+
+];
+
+
+for (
+    const position
+    of lightPositions
+) {
+
+    const light =
+        new THREE.PointLight(
+            0xfffdf8,
+            4.5,
+            10,
+            2
+        );
+
+
+    light.position.set(
+        position[0],
+        position[1],
+        position[2]
+    );
+
+
+    scene.add(
+        light
+    );
+}
+
+
+// ==================================================
+// 벤치
+// ==================================================
+
+const benchGroup =
+    new THREE.Group();
+
+
+const benchMaterial =
+    new THREE.MeshStandardMaterial({
+
+        color:
+            0x272522,
+
+        roughness:
+            0.68
+
+    });
+
+
+// 윗판
+const benchTop =
+    new THREE.Mesh(
+
+        new THREE.BoxGeometry(
+            4.5,
+            0.22,
+            1.05
+        ),
+
+        benchMaterial
+    );
+
+
+benchTop.position.y =
+    0.72;
+
+benchTop.castShadow =
+    true;
+
+benchTop.receiveShadow =
+    true;
+
+benchGroup.add(
+    benchTop
+);
+
+
+// 왼쪽 다리
+const benchLegLeft =
+    new THREE.Mesh(
+
+        new THREE.BoxGeometry(
+            0.28,
+            0.7,
+            0.85
+        ),
+
+        benchMaterial
+    );
+
+
+benchLegLeft.position.set(
+    -1.8,
+    0.35,
+    0
+);
+
+benchLegLeft.castShadow =
+    true;
+
+benchGroup.add(
+    benchLegLeft
+);
+
+
+// 오른쪽 다리
+const benchLegRight =
+    new THREE.Mesh(
+
+        new THREE.BoxGeometry(
+            0.28,
+            0.7,
+            0.85
+        ),
+
+        benchMaterial
+    );
+
+
+benchLegRight.position.set(
+    1.8,
+    0.35,
+    0
+);
+
+benchLegRight.castShadow =
+    true;
+
+benchGroup.add(
+    benchLegRight
+);
+
+
+// 참고사진처럼 중앙 앞쪽
+benchGroup.position.set(
+    0,
+    0,
+    2.3
+);
+
+
+scene.add(
+    benchGroup
+);
 // ==================================================
 // 플레이어
 // ==================================================
