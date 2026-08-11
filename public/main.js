@@ -59,7 +59,7 @@ document.body.appendChild(
 const ambientLight =
     new THREE.AmbientLight(
         0xffffff,
-        1.5
+        0.7
     );
 
 scene.add(
@@ -70,7 +70,7 @@ scene.add(
 const directionalLight =
     new THREE.DirectionalLight(
         0xffffff,
-        2
+        0.8
     );
 
 directionalLight.position.set(
@@ -87,48 +87,442 @@ scene.add(
 // ==================================================
 // 바닥
 // ==================================================
-
-const groundGeometry =
+const floorGeometry =
     new THREE.PlaneGeometry(
-        100,
-        100
+        24,
+        24
     );
 
-const groundMaterial =
+
+const floorMaterial =
     new THREE.MeshStandardMaterial({
-        color: 0x3e8e41
+
+        // 나무 바닥 느낌
+        color: 0x8a735c,
+
+        roughness: 0.75,
+
+        metalness: 0
+
     });
 
-const ground =
+
+const floor =
     new THREE.Mesh(
-        groundGeometry,
-        groundMaterial
+        floorGeometry,
+        floorMaterial
     );
 
-ground.rotation.x =
+
+floor.rotation.x =
     -Math.PI / 2;
 
+
+floor.position.y =
+    0;
+
+
 scene.add(
-    ground
+    floor
 );
 
 
 // ==================================================
-// 그리드
+// 벽 생성 함수
 // ==================================================
 
-const grid =
-    new THREE.GridHelper(
-        100,
-        100
+function createWall(
+    x,
+    y,
+    z,
+    width,
+    height,
+    depth
+) {
+
+    const geometry =
+        new THREE.BoxGeometry(
+            width,
+            height,
+            depth
+        );
+
+
+    const material =
+        new THREE.MeshStandardMaterial({
+
+            color:
+                0xf4f4f2,
+
+            roughness:
+                0.9,
+
+            metalness:
+                0
+
+        });
+
+
+    const wall =
+        new THREE.Mesh(
+            geometry,
+            material
+        );
+
+
+    wall.position.set(
+        x,
+        y,
+        z
     );
 
-grid.position.y = 0.01;
 
-scene.add(
-    grid
+    scene.add(
+        wall
+    );
+
+
+    return wall;
+
+}
+
+
+// ==================================================
+// 외벽
+// ==================================================
+
+
+// 뒤쪽 벽
+createWall(
+
+    0,
+    3,
+    -12,
+
+    24,
+    6,
+    0.3
+
 );
 
+
+// 왼쪽 벽
+createWall(
+
+    -12,
+    3,
+    0,
+
+    0.3,
+    6,
+    24
+
+);
+
+
+// 오른쪽 벽
+createWall(
+
+    12,
+    3,
+    0,
+
+    0.3,
+    6,
+    24
+
+);
+
+
+// 앞쪽 벽
+createWall(
+
+    0,
+    3,
+    12,
+
+    24,
+    6,
+    0.3
+
+);
+
+
+// ==================================================
+// 중앙 전시 벽
+// ==================================================
+
+createWall(
+
+    0,
+    2.5,
+    -4,
+
+    10,
+    5,
+    0.35
+
+);
+
+
+// ==================================================
+// 왼쪽 내부 벽
+// ==================================================
+
+createWall(
+
+    -7,
+    2.5,
+    3,
+
+    0.35,
+    5,
+    8
+
+);
+
+
+// ==================================================
+// 오른쪽 내부 벽
+// ==================================================
+
+createWall(
+
+    7,
+    2.5,
+    3,
+
+    0.35,
+    5,
+    8
+
+);
+
+
+// ==================================================
+// 천장
+// ==================================================
+
+const ceilingGeometry =
+    new THREE.PlaneGeometry(
+        24,
+        24
+    );
+
+
+const ceilingMaterial =
+    new THREE.MeshStandardMaterial({
+
+        color:
+            0xffffff,
+
+        roughness:
+            0.95,
+
+        side:
+            THREE.DoubleSide
+
+    });
+
+
+const ceiling =
+    new THREE.Mesh(
+        ceilingGeometry,
+        ceilingMaterial
+    );
+
+
+ceiling.rotation.x =
+    Math.PI / 2;
+
+
+ceiling.position.y =
+    6;
+
+
+scene.add(
+    ceiling
+);
+
+
+// ==================================================
+// LED 천장 패널 생성
+// ==================================================
+
+function createLEDPanel(
+    x,
+    z,
+    width = 3,
+    depth = 3
+) {
+
+    const geometry =
+        new THREE.PlaneGeometry(
+            width,
+            depth
+        );
+
+
+    const material =
+        new THREE.MeshStandardMaterial({
+
+            color:
+                0xffffff,
+
+            emissive:
+                0xffffff,
+
+            emissiveIntensity:
+                1.5,
+
+            roughness:
+                0.4,
+
+            side:
+                THREE.DoubleSide
+
+        });
+
+
+    const panel =
+        new THREE.Mesh(
+            geometry,
+            material
+        );
+
+
+    panel.rotation.x =
+        Math.PI / 2;
+
+
+    panel.position.set(
+
+        x,
+
+        5.95,
+
+        z
+
+    );
+
+
+    scene.add(
+        panel
+    );
+
+}
+
+
+// ==================================================
+// LED 격자
+// ==================================================
+
+for (
+    let x = -9;
+    x <= 9;
+    x += 4
+) {
+
+    for (
+        let z = -9;
+        z <= 9;
+        z += 4
+    ) {
+
+        createLEDPanel(
+            x,
+            z,
+            3.5,
+            3.5
+        );
+
+    }
+
+}
+
+
+// ==================================================
+// 실제 천장 조명
+// ==================================================
+
+const galleryLight1 =
+    new THREE.PointLight(
+        0xffffff,
+        45,
+        18
+    );
+
+
+galleryLight1.position.set(
+    -6,
+    5.4,
+    -6
+);
+
+
+scene.add(
+    galleryLight1
+);
+
+
+const galleryLight2 =
+    new THREE.PointLight(
+        0xffffff,
+        45,
+        18
+    );
+
+
+galleryLight2.position.set(
+    6,
+    5.4,
+    -6
+);
+
+
+scene.add(
+    galleryLight2
+);
+
+
+const galleryLight3 =
+    new THREE.PointLight(
+        0xffffff,
+        45,
+        18
+    );
+
+
+galleryLight3.position.set(
+    -6,
+    5.4,
+    6
+);
+
+
+scene.add(
+    galleryLight3
+);
+
+
+const galleryLight4 =
+    new THREE.PointLight(
+        0xffffff,
+        45,
+        18
+    );
+
+
+galleryLight4.position.set(
+    6,
+    5.4,
+    6
+);
+
+
+scene.add(
+    galleryLight4
+);
 
 // ==================================================
 // 플레이어
