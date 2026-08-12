@@ -63,7 +63,8 @@ io.on("connection", (socket) => {
 
         rotation: 0,
 
-        // 웅크리기 상태
+        pitch: 0,
+
         crouching: false
 
     };
@@ -116,7 +117,8 @@ io.on("connection", (socket) => {
             // 방향
             player.rotation =
                 data.rotation;
-
+            player.pitch =
+                Number(data.pitch) || 0;
 
             // 웅크리기
             player.crouching =
@@ -139,6 +141,8 @@ io.on("connection", (socket) => {
 
                     rotation:
                         player.rotation,
+                    pitch:
+                        player.pitch,
 
                     crouching:
                         player.crouching

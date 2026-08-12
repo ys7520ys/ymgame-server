@@ -3174,6 +3174,8 @@ socket.on(
 
         player.root.rotation.y =
             data.rotation;
+        player.visual.rotation.x =
+            -data.pitch;
 
         applyCrouchVisual(
             player,
@@ -3797,6 +3799,9 @@ function sendPlayerState() {
 
             rotation:
                 yaw,
+
+            pitch:
+                pitch,
 
             crouching:
                 Boolean(
