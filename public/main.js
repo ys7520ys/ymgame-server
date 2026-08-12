@@ -1341,7 +1341,7 @@ audioLoader.load(
             );
 
             sound.setVolume(
-                0.55
+                0.75
             );
 
             sound.setRefDistance(
