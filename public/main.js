@@ -885,8 +885,40 @@ const camera =
 
         1000
     );
+const normalFov = 62;
+const zoomFov = 30;
 
+let isZooming = false;
+window.addEventListener(
+    "mousedown",
+    (event) => {
 
+        if (event.button === 2) {
+
+            isZooming = true;
+
+        }
+    }
+);
+window.addEventListener(
+    "mouseup",
+    (event) => {
+
+        if (event.button === 2) {
+
+            isZooming = false;
+
+        }
+    }
+);
+window.addEventListener(
+    "contextmenu",
+    (event) => {
+
+        event.preventDefault();
+
+    }
+);
 // ==================================================
 // 렌더러
 // ==================================================
@@ -4337,7 +4369,15 @@ function animate() {
     requestAnimationFrame(
         animate
     );
+    const targetFov =
+            isZooming
+                ? zoomFov
+                : normalFov;
 
+        camera.fov +=
+            (targetFov - camera.fov) * 0.15;
+
+        camera.updateProjectionMatrix();
 
     movePlayer();
 
