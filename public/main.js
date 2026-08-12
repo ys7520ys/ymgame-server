@@ -1553,6 +1553,105 @@ centerWallFloorShadow.position.set(
 scene.add(
     centerWallFloorShadow
 );
+
+// ==================================================
+// 중앙 벽 작품
+// ==================================================
+
+const artworkGroup =
+    new THREE.Group();
+
+
+// 액자
+const artworkFrame =
+    new THREE.Mesh(
+        new THREE.BoxGeometry(
+            1.75,
+            3.15,
+            0.08
+        ),
+        new THREE.MeshStandardMaterial({
+            color: 0x161616,
+            roughness: 0.65
+        })
+    );
+
+artworkFrame.castShadow = true;
+
+artworkGroup.add(
+    artworkFrame
+);
+
+
+// 흰색 액자 안쪽
+const artworkMat =
+    new THREE.Mesh(
+        new THREE.PlaneGeometry(
+            1.62,
+            3.02
+        ),
+        new THREE.MeshStandardMaterial({
+            color: 0xf8f8f5,
+            roughness: 0.9
+        })
+    );
+
+artworkMat.position.z =
+    0.045;
+
+artworkGroup.add(
+    artworkMat
+);
+
+
+// ==================================================
+// 작품 이미지 불러오기
+// ==================================================
+
+const artworkTexture =
+    new THREE.TextureLoader().load(
+        "./assets/artwork-blue.jpg"
+    );
+
+artworkTexture.colorSpace =
+    THREE.SRGBColorSpace;
+
+
+// 작품
+const artwork =
+    new THREE.Mesh(
+        new THREE.PlaneGeometry(
+            1.50,
+            2.90
+        ),
+        new THREE.MeshStandardMaterial({
+            map: artworkTexture,
+            roughness: 0.8,
+            metalness: 0
+        })
+    );
+
+artwork.position.z =
+    0.051;
+
+artworkGroup.add(
+    artwork
+);
+
+
+// ==================================================
+// 중앙 전시벽에 배치
+// ==================================================
+
+artworkGroup.position.set(
+    0,
+    2.05,
+    -4.455
+);
+
+scene.add(
+    artworkGroup
+);
 // ==================================================
 // 천장
 // ==================================================
