@@ -2640,116 +2640,33 @@ function createPlayer(
 
     //     });
 
+    
+    const characterTexture =
+        new THREE.TextureLoader().load(
+            "./assets/character.png"
+        );
+
+    characterTexture.colorSpace =
+        THREE.SRGBColorSpace;
+
+    const material =
+        new THREE.MeshBasicMaterial({
+            map: characterTexture,
+            transparent: true,
+            side: THREE.DoubleSide
+        });
 
 
+    const visual =
+        new THREE.Mesh(
+            geometry,
+            material
+        );
 
 
-
-
-
-
-
-
-// ==================================================
-// 캐릭터 이미지
-// ==================================================
-
-const characterTexture =
-    new THREE.TextureLoader().load(
-        "./assets/character.png"
+    root.add(
+        visual
     );
-
-characterTexture.colorSpace =
-    THREE.SRGBColorSpace;
-
-
-// ==================================================
-// 정면 캐릭터 재질
-// ==================================================
-
-const characterMaterial =
-    new THREE.MeshBasicMaterial({
-
-        map:
-            characterTexture,
-
-        transparent:
-            true,
-
-        alphaTest:
-            0.1
-
-    });
-
-
-// ==================================================
-// 종이의 얇은 옆면 재질
-// ==================================================
-
-const edgeMaterial =
-    new THREE.MeshBasicMaterial({
-
-        color:
-            0x222222
-
-    });
-
-
-// ==================================================
-// 캐릭터 형태
-//
-// 가로 1.0
-// 세로 1.5
-// 두께 0.015
-// ==================================================
-
-const geometry =
-    new THREE.BoxGeometry(
-        1.0,
-        1.5,
-        0.015
-    );
-
-
-// ==================================================
-// BoxGeometry 면별 재질
-//
-// +X  오른쪽 옆면
-// -X  왼쪽 옆면
-// +Y  위
-// -Y  아래
-// +Z  앞
-// -Z  뒤
-// ==================================================
-
-const materials = [
-
-    edgeMaterial,          // 오른쪽
-    edgeMaterial,          // 왼쪽
-
-    edgeMaterial,          // 위
-    edgeMaterial,          // 아래
-
-    characterMaterial,     // 정면
-    characterMaterial      // 뒷면
-
-];
-
-
-// ==================================================
-// 플레이어 외형
-// ==================================================
-
-const visual =
-    new THREE.Mesh(
-        geometry,
-        materials
-    );
-
-
-root.add(
-    visual
-);
 
 
 
