@@ -860,55 +860,100 @@ artworkGroup.add(
 // 중앙 벽 작품 - 테두리 없이 이미지 그대로
 // ==================================================
 
-const artworkTexture =
-    new THREE.TextureLoader().load(
-        // "./assets/artwork-blue.png"
-        "./assets/Group.png"
-    );
 
-artworkTexture.colorSpace =
-    THREE.SRGBColorSpace;
+// ==================================================
+// 중앙 안내 이미지 - 원본 비율 자동 유지
+// ==================================================
 
-artworkTexture.anisotropy =
-    renderer.capabilities.getMaxAnisotropy();
+const guideTextureLoader =
+    new THREE.TextureLoader();
 
 
-const artwork =
-    new THREE.Mesh(
+guideTextureLoader.load(
 
-        new THREE.PlaneGeometry(
-            1.50,   // 그림 가로 크기
-            2.90    // 그림 세로 크기
-        ),
+    "./assets/Group.png",
 
-        new THREE.MeshStandardMaterial({
+    (texture) => {
 
-            map:
-                artworkTexture,
+        texture.colorSpace =
+            THREE.SRGBColorSpace;
 
-            roughness:
-                0.8,
-
-            metalness:
-                0
-
-        })
-
-    );
+        texture.anisotropy =
+            renderer.capabilities.getMaxAnisotropy();
 
 
-// 중앙벽 바로 앞에 붙이기
-artwork.position.set(
+        // ==========================================
+        // 이미지 원본 비율 자동 계산
+        // ==========================================
 
-    0,          // 좌우
-    2.05,       // 높이
-    -4.455      // 벽 앞쪽
+        const aspect =
+            texture.image.width /
+            texture.image.height;
+
+
+        // ★ 여기서 이미지 크기 조절
+        // 세로 크기만 정하면 가로는 자동 계산됨
+        const guideHeight = 3.2;
+
+        const guideWidth =
+            guideHeight * aspect;
+
+
+        // ==========================================
+        // 원본 비율 그대로 Plane 생성
+        // ==========================================
+
+        const guideGeometry =
+            new THREE.PlaneGeometry(
+                guideWidth,
+                guideHeight
+            );
+
+
+        const guideMaterial =
+            new THREE.MeshStandardMaterial({
+
+                map:
+                    texture,
+
+                roughness:
+                    0.8,
+
+                metalness:
+                    0
+
+            });
+
+
+        const guide =
+            new THREE.Mesh(
+                guideGeometry,
+                guideMaterial
+            );
+
+
+        // ==========================================
+        // 위치
+        // ==========================================
+
+        guide.position.set(
+
+            0,          // 좌우
+            2.05,       // 높이
+            -4.455      // 벽 앞
+
+        );
+
+
+        scene.add(
+            guide
+        );
+
+    }
 
 );
 
-scene.add(
-    artwork
-);
+
 // ==================================================
 // 벽 작품 생성 함수
 // ==================================================
