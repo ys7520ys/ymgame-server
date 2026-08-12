@@ -1084,27 +1084,32 @@ function createCornerSpeaker(
     const halfDepth =
         bodyDepth / 2;
 
-    const halfBackWidth =
-        backWidth / 2;
+    const halfTopWidth =
+        topWidth / 2;
 
-    const halfFrontWidth =
-        frontWidth / 2;
+    const halfBottomWidth =
+        bottomWidth / 2;
 
 
     const vertices =
         new Float32Array([
 
-            // 뒤쪽 4점
-            -halfBackWidth, -halfHeight, -halfDepth,
-             halfBackWidth, -halfHeight, -halfDepth,
-             halfBackWidth,  halfHeight, -halfDepth,
-            -halfBackWidth,  halfHeight, -halfDepth,
+            // 뒤쪽 아래
+            -halfBottomWidth, -halfHeight, -halfDepth,
+            halfBottomWidth, -halfHeight, -halfDepth,
 
-            // 앞쪽 4점
-            -halfFrontWidth, -halfHeight * 0.92, halfDepth,
-             halfFrontWidth, -halfHeight * 0.92, halfDepth,
-             halfFrontWidth,  halfHeight * 0.92, halfDepth,
-            -halfFrontWidth,  halfHeight * 0.92, halfDepth
+            // 뒤쪽 위
+            halfTopWidth,  halfHeight, -halfDepth,
+            -halfTopWidth,  halfHeight, -halfDepth,
+
+
+            // 앞쪽 아래
+            -halfBottomWidth, -halfHeight, halfDepth,
+            halfBottomWidth, -halfHeight, halfDepth,
+
+            // 앞쪽 위
+            halfTopWidth,  halfHeight, halfDepth,
+            -halfTopWidth,  halfHeight, halfDepth
 
         ]);
 
