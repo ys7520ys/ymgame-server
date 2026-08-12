@@ -1007,28 +1007,38 @@ function createWallArtwork(
 }
 
 
-
 // ==================================================
-// 왼쪽 벽 작품
+// 왼쪽 벽 작품 - 10개
 // ==================================================
 
 const leftWallArtworks = [
-
     "./assets/art01.jpg",
     "./assets/art02.jpg",
     "./assets/art03.jpg",
     "./assets/art04.jpg",
-    "./assets/art05.jpg"
-
+    "./assets/art05.jpg",
+    "./assets/art06.jpg",
+    "./assets/art07.jpg",
+    "./assets/art08.jpg",
+    "./assets/art09.jpg",
+    "./assets/art10.jpg"
 ];
 
+
+// 벽 전체에 일정한 간격으로 배치
 const leftWallZ = [
-    -6.5,
-    -3.25,
-    0,
-    3.25,
-    6.5
+    -7.5,
+    -5.85,
+    -4.2,
+    -2.55,
+    -0.9,
+     0.9,
+     2.55,
+     4.2,
+     5.85,
+     7.5
 ];
+
 
 for (
     let i = 0;
@@ -1040,40 +1050,50 @@ for (
 
         leftWallArtworks[i],
 
-        -8.89,          // 왼쪽 벽 바로 앞
-        2.6,            // 작품 중심 높이
+        -8.89,          // 왼쪽 벽
+        2.35,           // 작품 중심 높이
         leftWallZ[i],
 
-        1.65,           // 작품 가로
-        2.45,           // 작품 세로
+        0.95,           // 작품 가로
+        1.45,           // 작품 세로
 
-        Math.PI / 2     // 방 안쪽을 향함
-
+        Math.PI / 2
     );
 }
 
 
+
 // ==================================================
-// 오른쪽 벽 작품
+// 오른쪽 벽 작품 - 10개
 // ==================================================
 
 const rightWallArtworks = [
-
-    "./assets/art06.jpg",
-    "./assets/art07.jpg",
-    "./assets/art08.jpg",
-    "./assets/art09.jpg",
-    "./assets/art10.jpg"
-
+    "./assets/art11.jpg",
+    "./assets/art12.jpg",
+    "./assets/art13.jpg",
+    "./assets/art14.jpg",
+    "./assets/art15.jpg",
+    "./assets/art16.jpg",
+    "./assets/art17.jpg",
+    "./assets/art18.jpg",
+    "./assets/art19.jpg",
+    "./assets/art20.jpg"
 ];
+
 
 const rightWallZ = [
-    -6.5,
-    -3.25,
-    0,
-    3.25,
-    6.5
+    -7.5,
+    -5.85,
+    -4.2,
+    -2.55,
+    -0.9,
+     0.9,
+     2.55,
+     4.2,
+     5.85,
+     7.5
 ];
+
 
 for (
     let i = 0;
@@ -1085,15 +1105,14 @@ for (
 
         rightWallArtworks[i],
 
-        8.89,
-        2.6,
+        8.89,           // 오른쪽 벽
+        2.35,
         rightWallZ[i],
 
-        1.65,
-        2.45,
+        0.95,           // 작품 가로
+        1.45,           // 작품 세로
 
         -Math.PI / 2
-
     );
 }
 
