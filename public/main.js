@@ -871,7 +871,7 @@ const guideTextureLoader =
 
 guideTextureLoader.load(
 
-    "./assets/Group.png",
+    "./assets/Group2.png",
 
     (texture) => {
 
