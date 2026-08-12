@@ -2602,8 +2602,13 @@ function createPlayer(
             crouching ? 0.5 : 1,
 
         targetVisualY:
-            crouching ? -0.25 : 0
+            crouching ? -0.25 : 0,
 
+        targetPosition:
+            new THREE.Vector3(x, y, z),
+
+        targetRotation:
+            0,
     };
 
 
@@ -3114,6 +3119,43 @@ socket.on(
 // 다른 플레이어 상태 수신
 // ==================================================
 
+// socket.on(
+//     "playerMoved",
+//     (data) => {
+
+//         const player =
+//             players[data.id];
+
+
+//         if (!player) {
+//             return;
+//         }
+
+
+//         // 위치
+//         player.root.position.set(
+//             data.x,
+//             data.y,
+//             data.z
+//         );
+
+
+//         // 방향
+//         player.root.rotation.y =
+//             data.rotation;
+
+
+//         // 웅크리기
+//         applyCrouchVisual(
+//             player,
+//             Boolean(
+//                 data.crouching
+//             )
+//         );
+
+//     }
+// );
+
 socket.on(
     "playerMoved",
     (data) => {
@@ -3121,33 +3163,34 @@ socket.on(
         const player =
             players[data.id];
 
-
         if (!player) {
             return;
         }
 
+        // 내 캐릭터는 서버 데이터로 덮어쓰지 않음
+        if (data.id === myId) {
+            return;
+        }
 
-        // 위치
-        player.root.position.set(
+        // 상대 플레이어 목표 위치 저장
+        if (!player.targetPosition) {
+            player.targetPosition =
+                new THREE.Vector3();
+        }
+
+        player.targetPosition.set(
             data.x,
             data.y,
             data.z
         );
 
-
-        // 방향
-        player.root.rotation.y =
+        player.targetRotation =
             data.rotation;
 
-
-        // 웅크리기
         applyCrouchVisual(
             player,
-            Boolean(
-                data.crouching
-            )
+            Boolean(data.crouching)
         );
-
     }
 );
 // ==================================================
@@ -3994,7 +4037,31 @@ function animate() {
 
     updateCamera();
 
+    for (const id in players) {
 
+        const player =
+            players[id];
+
+        if (
+            !player ||
+            player.isMe ||
+            !player.targetPosition
+        ) {
+            continue;
+        }
+
+        player.root.position.lerp(
+            player.targetPosition,
+            0.35
+        );
+
+        player.root.rotation.y =
+            THREE.MathUtils.lerp(
+                player.root.rotation.y,
+                player.targetRotation,
+                0.35
+            );
+    }
     renderer.render(
         scene,
         camera
