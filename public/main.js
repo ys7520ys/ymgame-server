@@ -893,7 +893,7 @@ guideTextureLoader.load(
 
         // ★ 여기서 이미지 크기 조절
         // 세로 크기만 정하면 가로는 자동 계산됨
-        const guideHeight = 3.6;
+        const guideHeight = 3;
 
         const guideWidth =
             guideHeight * aspect;
