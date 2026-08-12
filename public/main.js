@@ -1243,7 +1243,8 @@ function createCornerSpeaker(
             directionX,
             directionZ
         );
-
+    speakerGroup.rotation.x =
+        -THREE.MathUtils.degToRad(12);
 
     scene.add(
         speakerGroup
