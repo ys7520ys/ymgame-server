@@ -2800,7 +2800,7 @@ function createPlayer(
                 0.1,
 
             side:
-                THREE.FrontSide
+                THREE.BackSide
 
         });
 
@@ -2821,8 +2821,9 @@ function createPlayer(
             alphaTest:
                 0.1,
 
+            // 뒷면
             side:
-                THREE.BackSide
+                THREE.FrontSide
 
         });
 
