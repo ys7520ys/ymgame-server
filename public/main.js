@@ -165,16 +165,13 @@ renderer.setSize(
 );
 
 
-// renderer.setPixelRatio(
-
-//     Math.min(
-//         window.devicePixelRatio,
-//         2
-//     )
-
-// );
 renderer.setPixelRatio(
-    1
+
+    Math.min(
+        window.devicePixelRatio,
+        2
+    )
+
 );
 
 
@@ -278,10 +275,12 @@ directionalLight.castShadow =
 
 // 그림자 품질
 directionalLight.shadow.mapSize.width =
-    1024;
+    2048;
+
 
 directionalLight.shadow.mapSize.height =
-    1024;
+    2048;
+
 
 // 그림자 가장자리 부드럽게
 directionalLight.shadow.radius =
@@ -573,111 +572,23 @@ function createWall(
 // 외벽
 // ==================================================
 
-// ==================================================
-// 뒤쪽 확장 공간
-// ==================================================
-
-const backRoomWidth = 26;
-const backRoomDepth = 22;
-
-// 기존 전시장과 좌우 중앙 정렬
-const backRoomX = 0;
-const backRoomZ = -20;
-
-
-// 바닥
-const backFloor = new THREE.Mesh(
-    new THREE.PlaneGeometry(
-        backRoomWidth,
-        backRoomDepth
-    ),
-    floorMaterial
-);
-
-backFloor.rotation.x = -Math.PI / 2;
-
-backFloor.position.set(
-    backRoomX,
-    0,
-    backRoomZ
-);
-
-backFloor.receiveShadow = true;
-
-scene.add(backFloor);
-
-
-// 뒤쪽 벽
-createWall(
-    backRoomX,
-    GALLERY_HEIGHT / 2,
-    backRoomZ - backRoomDepth / 2,
-    backRoomWidth,
-    GALLERY_HEIGHT,
-    0.18
-);
-
-
-// 오른쪽 벽
-createWall(
-    backRoomX + backRoomWidth / 2,
-    GALLERY_HEIGHT / 2,
-    backRoomZ,
-    0.18,
-    GALLERY_HEIGHT,
-    backRoomDepth
-);
-
-
-// 왼쪽 벽
-createWall(
-    backRoomX - backRoomWidth / 2,
-    GALLERY_HEIGHT / 2,
-    backRoomZ,
-    0.18,
-    GALLERY_HEIGHT,
-    backRoomDepth
-);
 
 // 뒤쪽
-// createWall(
-
-//     0,
-
-//     GALLERY_HEIGHT / 2,
-
-//     -9,
-
-//     18,
-
-//     GALLERY_HEIGHT,
-
-//     0.18
-
-// );
-
-
-
-// 뒤쪽 벽 - 왼쪽 부분
 createWall(
-    -5.5,
-    GALLERY_HEIGHT / 2,
-    -9,
-    7,
-    GALLERY_HEIGHT,
-    0.18
-);
 
-// 뒤쪽 벽 - 오른쪽 부분
-createWall(
-    5.5,
-    GALLERY_HEIGHT / 2,
-    -9,
-    7,
-    GALLERY_HEIGHT,
-    0.18
-);
+    0,
 
+    GALLERY_HEIGHT / 2,
+
+    -9,
+
+    18,
+
+    GALLERY_HEIGHT,
+
+    0.18
+
+);
 
 
 // 왼쪽
@@ -1090,34 +1001,7 @@ scene.add(
     ceiling
 );
 
-// ==================================================
-// 뒤쪽 확장 공간 천장
-// ==================================================
 
-const backCeiling =
-    new THREE.Mesh(
-
-        new THREE.PlaneGeometry(
-            backRoomWidth,
-            backRoomDepth
-        ),
-
-        ceilingMaterial
-
-    );
-
-backCeiling.rotation.x =
-    Math.PI / 2;
-
-backCeiling.position.set(
-    backRoomX,
-    GALLERY_HEIGHT,
-    backRoomZ
-);
-
-scene.add(
-    backCeiling
-);
 // ==================================================
 // 천장 ↔ 벽 접촉 그림자
 //
@@ -1418,10 +1302,12 @@ const audioLoader =
 
 // 천장 네 꼭짓점
 const speakerPositions = [
-    [-8.45, 6.8, -8.45],
-    [ 8.45, 6.8, -8.45],
-    [-8.45, 6.8,  8.45],
-    [ 8.45, 6.8,  8.45]
+
+    [-8.0, 4.0, -8.0],
+    [ 8.0, 4.0, -8.0],
+    [-8.0, 4.0,  8.0],
+    [ 8.0, 4.0,  8.0]
+
 ];
 
 
@@ -1451,20 +1337,21 @@ audioLoader.load(
             );
 
             sound.setVolume(
-                2.6
+                1.8
             );
 
             sound.setRefDistance(
-                0.8
+                1
             );
 
             sound.setRolloffFactor(
-                7
+                3
             );
 
             sound.setMaxDistance(
-                12
+                10
             );
+
 
             const speaker =
                 new THREE.Object3D();
@@ -1932,178 +1819,42 @@ for (
     // 프레임 옆 그림자
     // ==============================================
 
-    // const shadow =
-    //     new THREE.Mesh(
-
-    //         new THREE.BoxGeometry(
-
-    //             0.09,
-
-    //             0.006,
-
-    //             18
-
-    //         ),
-
-    //         gridShadowMaterial
-
-    //     );
-
-
-    // shadow.position.set(
-
-    //     x + 0.035,
-
-    //     GALLERY_HEIGHT - 0.055,
-
-    //     0
-
-    // );
-
-
-    // scene.add(
-    //     shadow
-    // );
-
-}
-
-// ==================================================
-// 뒤쪽 확장 공간 천장 격자
-// ==================================================
-
-
-// --------------------------------------------------
-// 가로 방향 프레임
-// --------------------------------------------------
-
-for (
-    let z =
-        backRoomZ - backRoomDepth / 2;
-
-    z <=
-        backRoomZ + backRoomDepth / 2;
-
-    z += 2.25
-) {
-
-    const geometry =
-        new THREE.BoxGeometry(
-            backRoomWidth,
-            0.028,
-            0.035
-        );
-
-    const beam =
-        new THREE.Mesh(
-            geometry,
-            gridMaterial
-        );
-
-    beam.position.set(
-        backRoomX,
-        GALLERY_HEIGHT - 0.035,
-        z
-    );
-
-    beam.castShadow = false;
-    beam.receiveShadow = false;
-
-    scene.add(
-        beam
-    );
-
-
-    // 격자 옆 얇은 그림자
     const shadow =
         new THREE.Mesh(
 
             new THREE.BoxGeometry(
-                backRoomWidth,
-                0.006,
-                0.09
-            ),
 
-            gridShadowMaterial
-
-        );
-
-    shadow.position.set(
-        backRoomX,
-        GALLERY_HEIGHT - 0.055,
-        z + 0.035
-    );
-
-    scene.add(
-        shadow
-    );
-}
-
-
-// --------------------------------------------------
-// 세로 방향 프레임
-// --------------------------------------------------
-
-for (
-    let x =
-        backRoomX - backRoomWidth / 2;
-
-    x <=
-        backRoomX + backRoomWidth / 2;
-
-    x += 2.25
-) {
-
-    const geometry =
-        new THREE.BoxGeometry(
-            0.035,
-            0.028,
-            backRoomDepth
-        );
-
-    const beam =
-        new THREE.Mesh(
-            geometry,
-            gridMaterial
-        );
-
-    beam.position.set(
-        x,
-        GALLERY_HEIGHT - 0.035,
-        backRoomZ
-    );
-
-    beam.castShadow = false;
-    beam.receiveShadow = false;
-
-    scene.add(
-        beam
-    );
-
-
-    // 격자 옆 얇은 그림자
-    const shadow =
-        new THREE.Mesh(
-
-            new THREE.BoxGeometry(
                 0.09,
+
                 0.006,
-                backRoomDepth
+
+                18
+
             ),
 
             gridShadowMaterial
 
         );
 
+
     shadow.position.set(
+
         x + 0.035,
+
         GALLERY_HEIGHT - 0.055,
-        backRoomZ
+
+        0
+
     );
+
 
     scene.add(
         shadow
     );
+
 }
+
+
 // ==================================================
 // 넓은 천장 면광원
 // ==================================================
@@ -2140,10 +1891,15 @@ for (
 
     const light =
         new THREE.RectAreaLight(
+
             0xffffff,
+
             2.2,
-            7.5,
-            7.5
+
+            5.5,
+
+            5.5
+
         );
 
 
@@ -2168,54 +1924,7 @@ for (
     );
 
 }
-// ==================================================
-// 뒤쪽 확장 공간 천장 조명
-// ==================================================
 
-const backLightSpacing = 7;
-
-for (
-    let x =
-        backRoomX - backRoomWidth / 2 + 3;
-
-    x <=
-        backRoomX + backRoomWidth / 2 - 3;
-
-    x += backLightSpacing
-) {
-
-    for (
-        let z =
-            backRoomZ - backRoomDepth / 2 + 3;
-
-        z <=
-            backRoomZ + backRoomDepth / 2 - 3;
-
-        z += backLightSpacing
-    ) {
-
-        const light =
-            new THREE.RectAreaLight(
-                0xffffff,
-                2.2,
-                5.5,
-                5.5
-            );
-
-        light.position.set(
-            x,
-            GALLERY_HEIGHT - 0.12,
-            z
-        );
-
-        light.rotation.x =
-            -Math.PI / 2;
-
-        scene.add(
-            light
-        );
-    }
-}
 
 // ==================================================
 // 벤치
