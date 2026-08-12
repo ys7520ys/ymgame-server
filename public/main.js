@@ -194,8 +194,8 @@ renderer.toneMappingExposure =
     1.00;
 
 
-// renderer.shadowMap.enabled =
-//     true;
+renderer.shadowMap.enabled =
+    true;
 
 
 renderer.shadowMap.type =
@@ -1961,9 +1961,9 @@ for (
     // );
 
 
-    scene.add(
-        shadow
-    );
+    // scene.add(
+    //     shadow
+    // );
 
 }
 
