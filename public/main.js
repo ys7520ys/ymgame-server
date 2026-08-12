@@ -1040,10 +1040,10 @@ const audioLoader =
 // 천장 네 꼭짓점
 const speakerPositions = [
 
-    [-8.5, 7.5, -8.5],
-    [ 8.5, 7.5, -8.5],
-    [-8.5, 7.5,  8.5],
-    [ 8.5, 7.5,  8.5]
+    [-8.0, 4.0, -8.0],
+    [ 8.0, 4.0, -8.0],
+    [-8.0, 4.0,  8.0],
+    [ 8.0, 4.0,  8.0]
 
 ];
 
@@ -1074,19 +1074,19 @@ audioLoader.load(
             );
 
             sound.setVolume(
-                0.45
+                0.55
             );
 
             sound.setRefDistance(
-                3
+                1
             );
 
             sound.setRolloffFactor(
-                1.5
+                3
             );
 
             sound.setMaxDistance(
-                20
+                10
             );
 
 
