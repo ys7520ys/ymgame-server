@@ -56,7 +56,7 @@ io.on("connection", (socket) => {
 
         x: 0,
 
-        y: 0,
+        y: 0.75,
 
         z: 5,
 
