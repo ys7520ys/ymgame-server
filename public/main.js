@@ -1137,7 +1137,7 @@ const artworkZPositions = [
      2.7,
      4.05,
      5.4,
-     7.4
+     6.7
 ];
 
 
