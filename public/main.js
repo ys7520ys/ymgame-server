@@ -1027,7 +1027,7 @@ scene.add(
 const speakerBodyMaterial =
     new THREE.MeshStandardMaterial({
 
-        color: 0x353535,
+        color: 0x242424,
 
         roughness: 0.75,
 
@@ -1067,20 +1067,11 @@ function createCornerSpeaker(
     // 크기
     // ========================================
 
-    const bodyHeight =
-        1.8;
+    const bodyHeight = 1.55;
+    const bodyDepth = 0.41;
 
-    const bodyDepth =
-        0.48;
-
-
-    // 뒤쪽은 조금 넓게
-    const backWidth =
-        0.72;
-
-    // 앞쪽은 조금 좁게
-    const frontWidth =
-        0.95;
+    const topWidth = 0.81;
+    const bottomWidth = 0.49;
 
 
     // ========================================
@@ -1199,9 +1190,9 @@ function createCornerSpeaker(
         new THREE.Mesh(
 
             new THREE.BoxGeometry(
-                0.90,   // 가로: 본체와 거의 동일
-                1.72,   // 세로: 본체와 거의 동일
-                0.035
+                0.76,
+                1.46,
+                0.03
             ),
 
             speakerFrontMaterial
