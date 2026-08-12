@@ -2625,9 +2625,9 @@ function createPlayer(
     // 보이는 블록
     const geometry =
         new THREE.BoxGeometry(
-            1,
-            1,
-            1
+            0.8,   // 가로
+            1.5,   // 높이
+            0.45   // 두께
         );
 
 
