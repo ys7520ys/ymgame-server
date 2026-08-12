@@ -859,7 +859,7 @@ artworkGroup.add(
 
 const artworkTexture =
     new THREE.TextureLoader().load(
-        "./assets/artwork-blue.jpg"
+        "./assets/artwork-blue.png"
     );
 
 artworkTexture.colorSpace =
