@@ -572,23 +572,111 @@ function createWall(
 // 외벽
 // ==================================================
 
+// ==================================================
+// 뒤쪽 확장 공간
+// ==================================================
+
+const backRoomWidth = 26;
+const backRoomDepth = 22;
+
+// 기존 전시장 뒤쪽으로 배치
+const backRoomX = 7;
+const backRoomZ = -20;
+
+
+// 바닥
+const backFloor = new THREE.Mesh(
+    new THREE.PlaneGeometry(
+        backRoomWidth,
+        backRoomDepth
+    ),
+    floorMaterial
+);
+
+backFloor.rotation.x = -Math.PI / 2;
+
+backFloor.position.set(
+    backRoomX,
+    0,
+    backRoomZ
+);
+
+backFloor.receiveShadow = true;
+
+scene.add(backFloor);
+
+
+// 뒤쪽 벽
+createWall(
+    backRoomX,
+    GALLERY_HEIGHT / 2,
+    backRoomZ - backRoomDepth / 2,
+    backRoomWidth,
+    GALLERY_HEIGHT,
+    0.18
+);
+
+
+// 오른쪽 벽
+createWall(
+    backRoomX + backRoomWidth / 2,
+    GALLERY_HEIGHT / 2,
+    backRoomZ,
+    0.18,
+    GALLERY_HEIGHT,
+    backRoomDepth
+);
+
+
+// 왼쪽 벽
+createWall(
+    backRoomX - backRoomWidth / 2,
+    GALLERY_HEIGHT / 2,
+    backRoomZ,
+    0.18,
+    GALLERY_HEIGHT,
+    backRoomDepth
+);
 
 // 뒤쪽
+// createWall(
+
+//     0,
+
+//     GALLERY_HEIGHT / 2,
+
+//     -9,
+
+//     18,
+
+//     GALLERY_HEIGHT,
+
+//     0.18
+
+// );
+
+
+
+// 뒤쪽 벽 - 왼쪽 부분
 createWall(
-
-    0,
-
+    -5.5,
     GALLERY_HEIGHT / 2,
-
     -9,
-
-    18,
-
+    7,
     GALLERY_HEIGHT,
-
     0.18
-
 );
+
+// 뒤쪽 벽 - 오른쪽 부분
+createWall(
+    5.5,
+    GALLERY_HEIGHT / 2,
+    -9,
+    7,
+    GALLERY_HEIGHT,
+    0.18
+);
+
 
 
 // 왼쪽
