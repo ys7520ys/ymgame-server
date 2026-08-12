@@ -47,40 +47,43 @@ window.addEventListener(
     (event) => {
 
         if (event.button === 2) {
-            isZooming = true;
+
+            isZooming =
+                !isZooming;
+
         }
 
     }
 );
 
 
-window.addEventListener(
-    "mouseup",
-    (event) => {
+// window.addEventListener(
+//     "mouseup",
+//     (event) => {
 
-        if (event.button === 2) {
-            isZooming = false;
-        }
+//         if (event.button === 2) {
+//             isZooming = false;
+//         }
 
-    }
-);
+//     }
+// );
 
 
 // 마우스를 움직일 때도
 // 우클릭이 실제로 눌려있는지 계속 확인
-window.addEventListener(
-    "mousemove",
-    (event) => {
+// window.addEventListener(
+//     "mousemove",
+//     (event) => {
 
-        if ((event.buttons & 2) === 0) {
-            isZooming = false;
-        }
-        else {
-            isZooming = true;
-        }
+//         if ((event.buttons & 2) === 0) {
+//             isZooming = false;
+//         }
+//         else {
+//             isZooming = true;
+//         }
 
-    }
-);
+//     }
+// );
 
 
 // 창 밖으로 나가면 줌 해제
