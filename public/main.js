@@ -1071,7 +1071,7 @@ function createCornerSpeaker(
     const bodyDepth = 0.41;
 
     const topWidth = 0.81;
-    const bottomWidth = 0.49;
+    const bottomWidth = 0.81;
 
 
     // ========================================
