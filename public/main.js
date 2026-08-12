@@ -1027,7 +1027,7 @@ scene.add(
 const speakerBodyMaterial =
     new THREE.MeshStandardMaterial({
 
-        color: 0x242424,
+        color: 0x353535,
 
         roughness: 0.75,
 
