@@ -905,13 +905,197 @@ artwork.position.set(
 scene.add(
     artwork
 );
+// ==================================================
+// 벽 작품 생성 함수
+// ==================================================
+
+function createWallArtwork(
+    imagePath,
+    x,
+    y,
+    z,
+    width,
+    height,
+    rotationY = 0
+) {
+
+    const group =
+        new THREE.Group();
+
+
+    // ------------------------------
+    // 검은색 얇은 액자
+    // ------------------------------
+
+    const frame =
+        new THREE.Mesh(
+
+            new THREE.PlaneGeometry(
+                width + 0.10,
+                height + 0.10
+            ),
+
+            new THREE.MeshStandardMaterial({
+                color: 0x111111,
+                roughness: 0.7
+            })
+
+        );
+
+    group.add(frame);
+
+
+    // ------------------------------
+    // 이미지
+    // ------------------------------
+
+    const texture =
+        new THREE.TextureLoader().load(
+            imagePath
+        );
+
+    texture.colorSpace =
+        THREE.SRGBColorSpace;
+
+    texture.anisotropy =
+        renderer.capabilities.getMaxAnisotropy();
+
+
+    const picture =
+        new THREE.Mesh(
+
+            new THREE.PlaneGeometry(
+                width,
+                height
+            ),
+
+            new THREE.MeshStandardMaterial({
+                map: texture,
+                roughness: 0.8,
+                metalness: 0
+            })
+
+        );
+
+    // 액자보다 아주 조금 앞으로
+    picture.position.z =
+        0.006;
+
+    group.add(
+        picture
+    );
+
+
+    // ------------------------------
+    // 전체 위치
+    // ------------------------------
+
+    group.position.set(
+        x,
+        y,
+        z
+    );
+
+    group.rotation.y =
+        rotationY;
+
+    scene.add(
+        group
+    );
+
+    return group;
+}
 
 
 
+// ==================================================
+// 왼쪽 벽 작품
+// ==================================================
+
+const leftWallArtworks = [
+
+    "./assets/art01.jpg",
+    "./assets/art02.jpg",
+    "./assets/art03.jpg",
+    "./assets/art04.jpg",
+    "./assets/art05.jpg"
+
+];
+
+const leftWallZ = [
+    -6.5,
+    -3.25,
+    0,
+    3.25,
+    6.5
+];
+
+for (
+    let i = 0;
+    i < leftWallArtworks.length;
+    i++
+) {
+
+    createWallArtwork(
+
+        leftWallArtworks[i],
+
+        -8.89,          // 왼쪽 벽 바로 앞
+        2.6,            // 작품 중심 높이
+        leftWallZ[i],
+
+        1.65,           // 작품 가로
+        2.45,           // 작품 세로
+
+        Math.PI / 2     // 방 안쪽을 향함
+
+    );
+}
 
 
+// ==================================================
+// 오른쪽 벽 작품
+// ==================================================
 
+const rightWallArtworks = [
 
+    "./assets/art06.jpg",
+    "./assets/art07.jpg",
+    "./assets/art08.jpg",
+    "./assets/art09.jpg",
+    "./assets/art10.jpg"
+
+];
+
+const rightWallZ = [
+    -6.5,
+    -3.25,
+    0,
+    3.25,
+    6.5
+];
+
+for (
+    let i = 0;
+    i < rightWallArtworks.length;
+    i++
+) {
+
+    createWallArtwork(
+
+        rightWallArtworks[i],
+
+        8.89,
+        2.6,
+        rightWallZ[i],
+
+        1.65,
+        2.45,
+
+        -Math.PI / 2
+
+    );
+}
 
 
 
