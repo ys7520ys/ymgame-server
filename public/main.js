@@ -1076,11 +1076,11 @@ function createCornerSpeaker(
 
     // 뒤쪽은 조금 넓게
     const backWidth =
-        0.95;
+        0.72;
 
     // 앞쪽은 조금 좁게
     const frontWidth =
-        0.72;
+        0.95;
 
 
     // ========================================
