@@ -1901,6 +1901,100 @@ const gridMaterial =
     });
 
 
+
+
+
+
+
+
+
+
+// ==================================================
+// 천장 가장자리 외곽 테두리
+// ==================================================
+
+const ceilingBorderMaterial =
+    new THREE.MeshBasicMaterial({
+        color: 0x4a4a4a
+    });
+
+const borderThickness = 0.045;
+const borderY = GALLERY_HEIGHT - 0.025;
+
+
+// 앞쪽
+const ceilingBorderFront =
+    new THREE.Mesh(
+        new THREE.BoxGeometry(
+            GALLERY_WIDTH,
+            borderThickness,
+            borderThickness
+        ),
+        ceilingBorderMaterial
+    );
+
+ceilingBorderFront.position.set(
+    0,
+    borderY,
+    GALLERY_DEPTH / 2
+);
+
+scene.add(ceilingBorderFront);
+
+
+// 뒤쪽
+const ceilingBorderBack =
+    ceilingBorderFront.clone();
+
+ceilingBorderBack.position.z =
+    -GALLERY_DEPTH / 2;
+
+scene.add(ceilingBorderBack);
+
+
+// 왼쪽
+const ceilingBorderLeft =
+    new THREE.Mesh(
+        new THREE.BoxGeometry(
+            borderThickness,
+            borderThickness,
+            GALLERY_DEPTH
+        ),
+        ceilingBorderMaterial
+    );
+
+ceilingBorderLeft.position.set(
+    -GALLERY_WIDTH / 2,
+    borderY,
+    0
+);
+
+scene.add(ceilingBorderLeft);
+
+
+// 오른쪽
+const ceilingBorderRight =
+    ceilingBorderLeft.clone();
+
+ceilingBorderRight.position.x =
+    GALLERY_WIDTH / 2;
+
+scene.add(ceilingBorderRight);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ==================================================
 // 격자 프레임 옆 가짜 접촉 그림자
 // ==================================================
