@@ -1019,110 +1019,277 @@ scene.add(
 
 
 // ==================================================
-// 천장 모서리 스피커 외형
+// 3D 천장 모서리 스피커
 // ==================================================
 
-const speakerMaterial =
-    new THREE.MeshBasicMaterial({
-        color: 0x111111,
-        side: THREE.DoubleSide
+
+// 스피커 외부 본체 색상
+const speakerBodyMaterial =
+    new THREE.MeshStandardMaterial({
+
+        color: 0x242424,
+
+        roughness: 0.75,
+
+        metalness: 0.1
+
     });
 
 
-// 스피커 크기
-const speakerWidth = 0.9;
-const speakerHeight = 1.8;
+// 스피커 정면 검은 패널
+const speakerFrontMaterial =
+    new THREE.MeshStandardMaterial({
+
+        color: 0x050505,
+
+        roughness: 0.9,
+
+        metalness: 0
+
+    });
 
 
-// 4개 모서리
-const speakerVisualPositions = [
+// ==================================================
+// 스피커 하나 생성
+// ==================================================
 
-    [-8.82, 6.7, -8.82],
-    [ 8.82, 6.7, -8.82],
-    [-8.82, 6.7,  8.82],
-    [ 8.82, 6.7,  8.82]
-
-];
-
-
-for (
-    const position
-    of speakerVisualPositions
+function createCornerSpeaker(
+    x,
+    y,
+    z
 ) {
 
-    const geometry =
-        new THREE.PlaneGeometry(
-            speakerWidth,
-            speakerHeight
-        );
-
-    const speakerVisual =
-        new THREE.Mesh(
-            geometry,
-            speakerMaterial
-        );
+    const speakerGroup =
+        new THREE.Group();
 
 
-    speakerVisual.position.set(
-        position[0],
-        position[1],
-        position[2]
+    // ========================================
+    // 크기
+    // ========================================
+
+    const bodyHeight =
+        1.8;
+
+    const bodyDepth =
+        0.48;
+
+
+    // 뒤쪽은 조금 넓게
+    const backWidth =
+        0.95;
+
+    // 앞쪽은 조금 좁게
+    const frontWidth =
+        0.72;
+
+
+    // ========================================
+    // 사다리꼴 형태 3D 본체
+    // ========================================
+
+    const halfHeight =
+        bodyHeight / 2;
+
+    const halfDepth =
+        bodyDepth / 2;
+
+    const halfBackWidth =
+        backWidth / 2;
+
+    const halfFrontWidth =
+        frontWidth / 2;
+
+
+    const vertices =
+        new Float32Array([
+
+            // 뒤쪽 4점
+            -halfBackWidth, -halfHeight, -halfDepth,
+             halfBackWidth, -halfHeight, -halfDepth,
+             halfBackWidth,  halfHeight, -halfDepth,
+            -halfBackWidth,  halfHeight, -halfDepth,
+
+            // 앞쪽 4점
+            -halfFrontWidth, -halfHeight * 0.92, halfDepth,
+             halfFrontWidth, -halfHeight * 0.92, halfDepth,
+             halfFrontWidth,  halfHeight * 0.92, halfDepth,
+            -halfFrontWidth,  halfHeight * 0.92, halfDepth
+
+        ]);
+
+
+    const indices = [
+
+        // 뒤
+        0, 2, 1,
+        0, 3, 2,
+
+        // 앞
+        4, 5, 6,
+        4, 6, 7,
+
+        // 왼쪽
+        0, 4, 7,
+        0, 7, 3,
+
+        // 오른쪽
+        1, 2, 6,
+        1, 6, 5,
+
+        // 위
+        3, 7, 6,
+        3, 6, 2,
+
+        // 아래
+        0, 1, 5,
+        0, 5, 4
+
+    ];
+
+
+    const bodyGeometry =
+        new THREE.BufferGeometry();
+
+
+    bodyGeometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(
+            vertices,
+            3
+        )
     );
 
 
-    // 모서리 방향에 맞춰
-    // 대각선으로 약간 돌림
-    const x =
-        position[0];
-
-    const z =
-        position[2];
+    bodyGeometry.setIndex(
+        indices
+    );
 
 
-    if (
-        x < 0 &&
-        z < 0
-    ) {
+    bodyGeometry.computeVertexNormals();
 
-        speakerVisual.rotation.y =
-            Math.PI / 4;
 
-    }
-    else if (
-        x > 0 &&
-        z < 0
-    ) {
+    // ========================================
+    // 본체
+    // ========================================
 
-        speakerVisual.rotation.y =
-            -Math.PI / 4;
+    const body =
+        new THREE.Mesh(
+            bodyGeometry,
+            speakerBodyMaterial
+        );
 
-    }
-    else if (
-        x < 0 &&
-        z > 0
-    ) {
 
-        speakerVisual.rotation.y =
-            -Math.PI / 4;
+    body.castShadow =
+        true;
 
-    }
-    else {
+    body.receiveShadow =
+        true;
 
-        speakerVisual.rotation.y =
-            Math.PI / 4;
 
-    }
+    speakerGroup.add(
+        body
+    );
+
+
+    // ========================================
+    // 정면 검은 패널
+    // ========================================
+
+    const frontPanel =
+        new THREE.Mesh(
+
+            new THREE.BoxGeometry(
+                0.58,
+                1.42,
+                0.035
+            ),
+
+            speakerFrontMaterial
+
+        );
+
+
+    // 본체 정면보다 아주 살짝 앞으로
+    frontPanel.position.z =
+        halfDepth + 0.02;
+
+
+    speakerGroup.add(
+        frontPanel
+    );
+
+
+    // ========================================
+    // 위치
+    // ========================================
+
+    speakerGroup.position.set(
+        x,
+        y,
+        z
+    );
+
+
+    // ========================================
+    // 항상 스피커 정면이
+    // 전시장 중앙을 바라보게
+    // ========================================
+
+    const directionX =
+        -x;
+
+    const directionZ =
+        -z;
+
+
+    speakerGroup.rotation.y =
+        Math.atan2(
+            directionX,
+            directionZ
+        );
 
 
     scene.add(
-        speakerVisual
+        speakerGroup
     );
 
+
+    return speakerGroup;
 }
 // ==================================================
 // 3D 공간 오디오
 // ==================================================
+// ==================================================
+// 천장 네 모서리에 스피커 배치
+// ==================================================
 
+const cornerSpeakers = [
+
+    createCornerSpeaker(
+        -8.45,
+        6.8,
+        -8.45
+    ),
+
+    createCornerSpeaker(
+         8.45,
+         6.8,
+        -8.45
+    ),
+
+    createCornerSpeaker(
+        -8.45,
+         6.8,
+         8.45
+    ),
+
+    createCornerSpeaker(
+         8.45,
+         6.8,
+         8.45
+    )
+
+];
 // 사람의 귀 역할
 const audioListener =
     new THREE.AudioListener();
@@ -1174,7 +1341,7 @@ audioLoader.load(
             );
 
             sound.setVolume(
-                0.75
+                0.55
             );
 
             sound.setRefDistance(
