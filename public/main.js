@@ -1126,33 +1126,6 @@ function createWallArtwork(
             // 액자
             // ==========================================
 
-            const frame =
-                new THREE.Mesh(
-
-                    new THREE.PlaneGeometry(
-
-                        pictureWidth + 0.10,
-                        pictureHeight + 0.10
-
-                    ),
-
-                    new THREE.MeshStandardMaterial({
-
-                        color:
-                            0x111111,
-
-                        roughness:
-                            0.7
-
-                    })
-
-                );
-
-
-            group.add(
-                frame
-            );
-
 
             // ==========================================
             // 작품 이미지
