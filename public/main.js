@@ -1343,7 +1343,7 @@ audioLoader.load(
             );
 
             sound.setRolloffFactor(
-                5
+                7
             );
 
             sound.setMaxDistance(
