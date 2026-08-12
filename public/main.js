@@ -197,8 +197,6 @@ renderer.toneMappingExposure =
 // renderer.shadowMap.enabled =
 //     true;
 
-directionalLight.shadow.mapSize.width = 1024;
-directionalLight.shadow.mapSize.height = 1024;
 
 renderer.shadowMap.type =
     THREE.PCFSoftShadowMap;
@@ -280,12 +278,10 @@ directionalLight.castShadow =
 
 // 그림자 품질
 directionalLight.shadow.mapSize.width =
-    2048;
-
+    1024;
 
 directionalLight.shadow.mapSize.height =
-    2048;
-
+    1024;
 
 // 그림자 가장자리 부드럽게
 directionalLight.shadow.radius =
