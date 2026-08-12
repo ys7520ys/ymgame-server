@@ -1302,12 +1302,10 @@ const audioLoader =
 
 // 천장 네 꼭짓점
 const speakerPositions = [
-
-    [-8.0, 4.0, -8.0],
-    [ 8.0, 4.0, -8.0],
-    [-8.0, 4.0,  8.0],
-    [ 8.0, 4.0,  8.0]
-
+    [-8.45, 6.8, -8.45],
+    [ 8.45, 6.8, -8.45],
+    [-8.45, 6.8,  8.45],
+    [ 8.45, 6.8,  8.45]
 ];
 
 
@@ -1337,21 +1335,20 @@ audioLoader.load(
             );
 
             sound.setVolume(
-                1.8
+                2.2
             );
 
             sound.setRefDistance(
-                1
+                0.8
             );
 
             sound.setRolloffFactor(
-                3
+                5
             );
 
             sound.setMaxDistance(
-                10
+                12
             );
-
 
             const speaker =
                 new THREE.Object3D();
