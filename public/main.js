@@ -2588,7 +2588,7 @@ const groundPlayerY =
 // ==================================================
 
 const standingEyeHeight =
-    0.8;
+    0.35;
 
 const crouchingEyeHeight =
     0.25;
