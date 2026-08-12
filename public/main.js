@@ -1047,15 +1047,14 @@ for (
 ) {
 
     createWallArtwork(
-
         leftWallArtworks[i],
 
-        -8.89,          // 왼쪽 벽
-        2.35,           // 작품 중심 높이
+        -8.89,
+        2.15,      // 높이 낮춤
         leftWallZ[i],
 
-        0.95,           // 작품 가로
-        1.45,           // 작품 세로
+        0.82,      // 가로 작게
+        1.25,      // 세로 작게
 
         Math.PI / 2
     );
@@ -1102,15 +1101,14 @@ for (
 ) {
 
     createWallArtwork(
-
         rightWallArtworks[i],
 
-        8.89,           // 오른쪽 벽
-        2.35,
+        8.89,
+        2.15,
         rightWallZ[i],
 
-        0.95,           // 작품 가로
-        1.45,           // 작품 세로
+        0.82,
+        1.25,
 
         -Math.PI / 2
     );
