@@ -748,8 +748,8 @@ artworkGroup.add(
 const artworkMat =
     new THREE.Mesh(
         new THREE.PlaneGeometry(
-            1.62,
-            3.02
+            2.44,   // 가로
+            2.90    // 세로
         ),
         new THREE.MeshStandardMaterial({
             color: 0xf8f8f5,
