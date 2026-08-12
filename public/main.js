@@ -2528,6 +2528,38 @@ let introView = true;
 // 감도
 const mouseSensitivity =
     0.002;
+    window.addEventListener("keydown", (event) => {
+
+    if (event.code === "KeyP") {
+
+        console.log("===== START VIEW =====");
+
+        console.log(
+            "CAMERA:",
+            camera.position.x.toFixed(3),
+            camera.position.y.toFixed(3),
+            camera.position.z.toFixed(3)
+        );
+
+        if (myId && players[myId]) {
+
+            const p = players[myId].root.position;
+
+            console.log(
+                "PLAYER:",
+                p.x.toFixed(3),
+                p.y.toFixed(3),
+                p.z.toFixed(3)
+            );
+        }
+
+        console.log("YAW:", yaw.toFixed(5));
+        console.log("PITCH:", pitch.toFixed(5));
+
+        console.log("======================");
+    }
+
+});
 
 
 // ==================================================
