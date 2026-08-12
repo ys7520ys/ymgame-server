@@ -2602,15 +2602,9 @@ function createPlayer(
             crouching ? 0.5 : 1,
 
         targetVisualY:
-            crouching ? -0.25 : 0,
+            crouching ? -0.25 : 0
 
-        targetPosition:
-            new THREE.Vector3(x, y, z),
-
-        targetRotation:
-            0,
     };
-
 
     // 최초 웅크림 상태 적용
     applyCrouchVisual(
@@ -3167,29 +3161,25 @@ socket.on(
             return;
         }
 
-        // 내 캐릭터는 서버 데이터로 덮어쓰지 않음
         if (data.id === myId) {
             return;
         }
 
-        // 상대 플레이어 목표 위치 저장
-        if (!player.targetPosition) {
-            player.targetPosition =
-                new THREE.Vector3();
-        }
-
-        player.targetPosition.set(
+        // 서버에서 받은 실제 위치를 바로 반영
+        player.root.position.set(
             data.x,
             data.y,
             data.z
         );
 
-        player.targetRotation =
+        player.root.rotation.y =
             data.rotation;
 
         applyCrouchVisual(
             player,
-            Boolean(data.crouching)
+            Boolean(
+                data.crouching
+            )
         );
     }
 );
@@ -4037,31 +4027,7 @@ function animate() {
 
     updateCamera();
 
-    for (const id in players) {
 
-        const player =
-            players[id];
-
-        if (
-            !player ||
-            player.isMe ||
-            !player.targetPosition
-        ) {
-            continue;
-        }
-
-        player.root.position.lerp(
-            player.targetPosition,
-            0.35
-        );
-
-        player.root.rotation.y =
-            THREE.MathUtils.lerp(
-                player.root.rotation.y,
-                player.targetRotation,
-                0.35
-            );
-    }
     renderer.render(
         scene,
         camera
