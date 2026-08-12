@@ -3175,7 +3175,7 @@ socket.on(
         player.root.rotation.y =
             data.rotation;
         player.visual.rotation.x =
-            -data.pitch;
+            data.pitch;
 
         applyCrouchVisual(
             player,
