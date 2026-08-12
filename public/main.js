@@ -579,8 +579,8 @@ function createWall(
 const backRoomWidth = 26;
 const backRoomDepth = 22;
 
-// 기존 전시장 뒤쪽으로 배치
-const backRoomX = 7;
+// 기존 전시장과 좌우 중앙 정렬
+const backRoomX = 0;
 const backRoomZ = -20;
 
 
@@ -1089,7 +1089,34 @@ scene.add(
     ceiling
 );
 
+// ==================================================
+// 뒤쪽 확장 공간 천장
+// ==================================================
 
+const backCeiling =
+    new THREE.Mesh(
+
+        new THREE.PlaneGeometry(
+            backRoomWidth,
+            backRoomDepth
+        ),
+
+        ceilingMaterial
+
+    );
+
+backCeiling.rotation.x =
+    Math.PI / 2;
+
+backCeiling.position.set(
+    backRoomX,
+    GALLERY_HEIGHT,
+    backRoomZ
+);
+
+scene.add(
+    backCeiling
+);
 // ==================================================
 // 천장 ↔ 벽 접촉 그림자
 //
@@ -1939,7 +1966,143 @@ for (
 
 }
 
+// ==================================================
+// 뒤쪽 확장 공간 천장 격자
+// ==================================================
 
+
+// --------------------------------------------------
+// 가로 방향 프레임
+// --------------------------------------------------
+
+for (
+    let z =
+        backRoomZ - backRoomDepth / 2;
+
+    z <=
+        backRoomZ + backRoomDepth / 2;
+
+    z += 2.25
+) {
+
+    const geometry =
+        new THREE.BoxGeometry(
+            backRoomWidth,
+            0.028,
+            0.035
+        );
+
+    const beam =
+        new THREE.Mesh(
+            geometry,
+            gridMaterial
+        );
+
+    beam.position.set(
+        backRoomX,
+        GALLERY_HEIGHT - 0.035,
+        z
+    );
+
+    beam.castShadow = false;
+    beam.receiveShadow = false;
+
+    scene.add(
+        beam
+    );
+
+
+    // 격자 옆 얇은 그림자
+    const shadow =
+        new THREE.Mesh(
+
+            new THREE.BoxGeometry(
+                backRoomWidth,
+                0.006,
+                0.09
+            ),
+
+            gridShadowMaterial
+
+        );
+
+    shadow.position.set(
+        backRoomX,
+        GALLERY_HEIGHT - 0.055,
+        z + 0.035
+    );
+
+    scene.add(
+        shadow
+    );
+}
+
+
+// --------------------------------------------------
+// 세로 방향 프레임
+// --------------------------------------------------
+
+for (
+    let x =
+        backRoomX - backRoomWidth / 2;
+
+    x <=
+        backRoomX + backRoomWidth / 2;
+
+    x += 2.25
+) {
+
+    const geometry =
+        new THREE.BoxGeometry(
+            0.035,
+            0.028,
+            backRoomDepth
+        );
+
+    const beam =
+        new THREE.Mesh(
+            geometry,
+            gridMaterial
+        );
+
+    beam.position.set(
+        x,
+        GALLERY_HEIGHT - 0.035,
+        backRoomZ
+    );
+
+    beam.castShadow = false;
+    beam.receiveShadow = false;
+
+    scene.add(
+        beam
+    );
+
+
+    // 격자 옆 얇은 그림자
+    const shadow =
+        new THREE.Mesh(
+
+            new THREE.BoxGeometry(
+                0.09,
+                0.006,
+                backRoomDepth
+            ),
+
+            gridShadowMaterial
+
+        );
+
+    shadow.position.set(
+        x + 0.035,
+        GALLERY_HEIGHT - 0.055,
+        backRoomZ
+    );
+
+    scene.add(
+        shadow
+    );
+}
 // ==================================================
 // 넓은 천장 면광원
 // ==================================================
@@ -2009,7 +2172,54 @@ for (
     );
 
 }
+// ==================================================
+// 뒤쪽 확장 공간 천장 조명
+// ==================================================
 
+const backLightSpacing = 4.5;
+
+for (
+    let x =
+        backRoomX - backRoomWidth / 2 + 3;
+
+    x <=
+        backRoomX + backRoomWidth / 2 - 3;
+
+    x += backLightSpacing
+) {
+
+    for (
+        let z =
+            backRoomZ - backRoomDepth / 2 + 3;
+
+        z <=
+            backRoomZ + backRoomDepth / 2 - 3;
+
+        z += backLightSpacing
+    ) {
+
+        const light =
+            new THREE.RectAreaLight(
+                0xffffff,
+                2.2,
+                5.5,
+                5.5
+            );
+
+        light.position.set(
+            x,
+            GALLERY_HEIGHT - 0.12,
+            z
+        );
+
+        light.rotation.x =
+            -Math.PI / 2;
+
+        scene.add(
+            light
+        );
+    }
+}
 
 // ==================================================
 // 벤치
