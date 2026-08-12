@@ -50,16 +50,15 @@ io.on("connection", (socket) => {
     // ================================
     // 새로운 플레이어
     // ================================
-
     players[socket.id] = {
 
         id: socket.id,
 
-        x: Math.random() * 10 - 5,
+        x: 0,
 
         y: 0.5,
 
-        z: Math.random() * 10 - 5,
+        z: 8,
 
         rotation: 0,
 

@@ -2524,7 +2524,7 @@ let yaw = 0;
 
 // 위아래
 let pitch = 0;
-let introView = true;
+// let introView = true;
 // 감도
 const mouseSensitivity =
     0.002;
@@ -3370,7 +3370,7 @@ renderer.domElement.addEventListener(
     () => {
 
         // 시작 화면 종료
-        introView = false;
+        // introView = false;
 
         renderer.domElement
             .requestPointerLock();
@@ -3982,22 +3982,6 @@ function updateCamera() {
     // ==================================================
     // 처음 접속했을 때 갤러리 전체 보기
     // ==================================================
-    if (introView) {
-
-        camera.position.set(
-            0,      // 좌우 중앙
-            4.8,    // 카메라 높이
-            20      // 갤러리 앞쪽에서 멀리 떨어짐
-        );
-
-        camera.lookAt(
-            0,      // 중앙
-            3.2,    // 약간 위쪽을 바라봄
-            -1.5    // 갤러리 안쪽
-        );
-
-        return;
-    }
 
 
     if (!myId) {
