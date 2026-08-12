@@ -1213,7 +1213,7 @@ function createCornerSpeaker(
 
     // 본체 정면보다 아주 살짝 앞으로
     frontPanel.position.z =
-        halfDepth + 0.02;
+        halfTopDepth + 0.02;
 
 
     speakerGroup.add(
