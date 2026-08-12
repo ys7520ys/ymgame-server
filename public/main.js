@@ -1068,11 +1068,7 @@ function createCornerSpeaker(
     // ========================================
 
     const bodyHeight = 1.55;
-
-    // 위쪽이 더 깊고
-    // 아래쪽은 얕게
-    const topDepth = 0.48;
-    const bottomDepth = 0.30;
+    const bodyDepth = 0.41;
 
     const topWidth = 0.81;
     const bottomWidth = 0.81;
@@ -1085,11 +1081,8 @@ function createCornerSpeaker(
     const halfHeight =
         bodyHeight / 2;
 
-    const halfTopDepth =
-        topDepth / 2;
-
-    const halfBottomDepth =
-        bottomDepth / 2;
+    const halfDepth =
+        bodyDepth / 2;
 
     const halfTopWidth =
         topWidth / 2;
@@ -1102,20 +1095,21 @@ function createCornerSpeaker(
         new Float32Array([
 
             // 뒤쪽 아래
-            -halfBottomWidth, -halfHeight, -halfBottomDepth,
-            halfBottomWidth, -halfHeight, -halfBottomDepth,
+            -halfBottomWidth, -halfHeight, -halfDepth,
+            halfBottomWidth, -halfHeight, -halfDepth,
 
             // 뒤쪽 위
-            halfTopWidth,  halfHeight, -halfTopDepth,
-            -halfTopWidth,  halfHeight, -halfTopDepth,
+            halfTopWidth,  halfHeight, -halfDepth,
+            -halfTopWidth,  halfHeight, -halfDepth,
+
 
             // 앞쪽 아래
-            -halfBottomWidth, -halfHeight,  halfBottomDepth,
-            halfBottomWidth, -halfHeight,  halfBottomDepth,
+            -halfBottomWidth, -halfHeight, halfDepth,
+            halfBottomWidth, -halfHeight, halfDepth,
 
             // 앞쪽 위
-            halfTopWidth,  halfHeight,  halfTopDepth,
-            -halfTopWidth,  halfHeight,  halfTopDepth
+            halfTopWidth,  halfHeight, halfDepth,
+            -halfTopWidth,  halfHeight, halfDepth
 
         ]);
 
@@ -1213,7 +1207,7 @@ function createCornerSpeaker(
 
     // 본체 정면보다 아주 살짝 앞으로
     frontPanel.position.z =
-        halfTopDepth + 0.02;
+        halfDepth + 0.02;
 
 
     speakerGroup.add(
