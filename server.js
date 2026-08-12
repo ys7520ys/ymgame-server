@@ -58,7 +58,7 @@ io.on("connection", (socket) => {
 
         y: 0,
 
-        z: 150,
+        z: 80,
 
         rotation: 0,
 
