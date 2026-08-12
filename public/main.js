@@ -2680,7 +2680,7 @@ function createPlayer(
     // );
 
     // ==================================================
-    // 플레이어 이미지
+    // 캐릭터 이미지
     // ==================================================
 
     const characterTexture =
@@ -2693,33 +2693,76 @@ function createPlayer(
 
 
     // ==================================================
-    // 플레이어 평면
+    // 정면 캐릭터 재질
+    // ==================================================
+
+    const characterMaterial =
+        new THREE.MeshBasicMaterial({
+
+            map:
+                characterTexture,
+
+            transparent:
+                true,
+
+            alphaTest:
+                0.1
+
+        });
+
+
+    // ==================================================
+    // 종이의 얇은 옆면 재질
+    // ==================================================
+
+    const edgeMaterial =
+        new THREE.MeshBasicMaterial({
+
+            color:
+                0x222222
+
+        });
+
+
+    // ==================================================
+    // 캐릭터 형태
+    //
+    // 가로 1.0
+    // 세로 1.5
+    // 두께 0.015
     // ==================================================
 
     const geometry =
-        new THREE.PlaneGeometry(
-            1.0,    // 가로
-            1.5     // 세로
+        new THREE.BoxGeometry(
+            1.0,
+            1.5,
+            0.015
         );
 
 
     // ==================================================
-    // 이미지 재질
+    // BoxGeometry 면별 재질
+    //
+    // +X  오른쪽 옆면
+    // -X  왼쪽 옆면
+    // +Y  위
+    // -Y  아래
+    // +Z  앞
+    // -Z  뒤
     // ==================================================
 
-    const material =
-        new THREE.MeshBasicMaterial({
-            map: characterTexture,
+    const materials = [
 
-            // PNG 투명 배경 사용
-            transparent: true,
+        edgeMaterial,          // 오른쪽
+        edgeMaterial,          // 왼쪽
 
-            // 앞/뒤 모두 이미지 표시
-            side: THREE.DoubleSide,
+        edgeMaterial,          // 위
+        edgeMaterial,          // 아래
 
-            // 투명 영역 문제 방지
-            alphaTest: 0.1
-        });
+        characterMaterial,     // 정면
+        characterMaterial      // 뒷면
+
+    ];
 
 
     // ==================================================
@@ -2729,8 +2772,9 @@ function createPlayer(
     const visual =
         new THREE.Mesh(
             geometry,
-            material
+            materials
         );
+
 
     root.add(
         visual
