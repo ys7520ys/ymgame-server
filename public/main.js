@@ -1110,12 +1110,95 @@ const GALLERY_HEIGHT =
 
 
 
-    // ==================================================
-// 실제 이미지 기반 나무 바닥
+//     // ==================================================
+// // 실제 이미지 기반 나무 바닥
+// // ==================================================
+
+// const floorTexture =
+//     new THREE.TextureLoader().load(
+//         "./assets/WoodFloor005_1K-JPG_Color.jpg"
+//     );
+
+// floorTexture.colorSpace =
+//     THREE.SRGBColorSpace;
+
+
+// // 반복 가능하게 설정
+// floorTexture.wrapS =
+//     THREE.RepeatWrapping;
+
+// floorTexture.wrapT =
+//     THREE.RepeatWrapping;
+
+
+// // 바닥에 이미지 반복
+// floorTexture.repeat.set(
+//     7,
+//     7
+// );
+
+
+// // 비스듬히 봤을 때 선명하게
+// floorTexture.anisotropy =
+//     renderer.capabilities.getMaxAnisotropy();
+
+
+// // ==================================================
+// // 바닥 Mesh
+// // ==================================================
+
+// const floorGeometry =
+//     new THREE.PlaneGeometry(
+//         GALLERY_WIDTH,
+//         GALLERY_DEPTH
+//     );
+
+
+// const floorMaterial =
+//     new THREE.MeshStandardMaterial({
+
+//         map:
+//             floorTexture,
+
+//         roughness:
+//             0.28,
+
+//         metalness:
+//             0
+
+//     });
+
+
+// const floor =
+//     new THREE.Mesh(
+//         floorGeometry,
+//         floorMaterial
+//     );
+
+
+// floor.rotation.x =
+//     -Math.PI / 2;
+
+
+// floor.receiveShadow =
+//     true;
+
+
+// scene.add(
+//     floor
+// );
+
+// ==================================================
+// 실제 이미지 기반 광택 나무 바닥
 // ==================================================
 
+const textureLoader =
+    new THREE.TextureLoader();
+
+
+// 나무 색상
 const floorTexture =
-    new THREE.TextureLoader().load(
+    textureLoader.load(
         "./assets/WoodFloor005_1K-JPG_Color.jpg"
     );
 
@@ -1123,28 +1206,50 @@ floorTexture.colorSpace =
     THREE.SRGBColorSpace;
 
 
-// 반복 가능하게 설정
+// 거칠기 맵
+const floorRoughness =
+    textureLoader.load(
+        "./assets/WoodFloor005_1K-JPG_Roughness.jpg"
+    );
+
+
+// ==================================================
+// 반복 설정
+// ==================================================
+
 floorTexture.wrapS =
     THREE.RepeatWrapping;
 
 floorTexture.wrapT =
     THREE.RepeatWrapping;
 
+floorRoughness.wrapS =
+    THREE.RepeatWrapping;
 
-// 바닥에 이미지 반복
+floorRoughness.wrapT =
+    THREE.RepeatWrapping;
+
+
+// 판자 크기
+// 숫자가 클수록 나무판자가 작고 빽빽해짐
 floorTexture.repeat.set(
     7,
     7
 );
 
+floorRoughness.repeat.set(
+    7,
+    7
+);
 
-// 비스듬히 봤을 때 선명하게
+
+// 비스듬히 볼 때 선명하게
 floorTexture.anisotropy =
     renderer.capabilities.getMaxAnisotropy();
 
 
 // ==================================================
-// 바닥 Mesh
+// 바닥
 // ==================================================
 
 const floorGeometry =
@@ -1160,8 +1265,12 @@ const floorMaterial =
         map:
             floorTexture,
 
+        roughnessMap:
+            floorRoughness,
+
+        // 낮을수록 광택이 강함
         roughness:
-            0.72,
+            0.22,
 
         metalness:
             0
@@ -1187,6 +1296,36 @@ floor.receiveShadow =
 scene.add(
     floor
 );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ==================================================
 // 벽 재질
