@@ -1604,57 +1604,188 @@ artworkGroup.add(
 );
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // ==================================================
+// // 작품 이미지 불러오기
+// // ==================================================
+
+// const artworkTexture =
+//     new THREE.TextureLoader().load(
+//         "./assets/artwork-blue.jpg"
+//     );
+
+// artworkTexture.colorSpace =
+//     THREE.SRGBColorSpace;
+
+
+// // 작품
+// const artwork =
+//     new THREE.Mesh(
+//         new THREE.PlaneGeometry(
+//             1.50,
+//             2.90
+//         ),
+//         new THREE.MeshStandardMaterial({
+//             map: artworkTexture,
+//             roughness: 0.8,
+//             metalness: 0
+//         })
+//     );
+
+// artwork.position.z =
+//     0.051;
+
+// artworkGroup.add(
+//     artwork
+// );
+
+
+// // ==================================================
+// // 중앙 전시벽에 배치
+// // ==================================================
+
+// artworkGroup.position.set(
+//     0,
+//     2.05,
+//     -4.455
+// );
+
+// scene.add(
+//     artworkGroup
+// );
+// // ==================================================
+// // 천장
+// // ==================================================
+
+
 // ==================================================
-// 작품 이미지 불러오기
+// 중앙 벽 작품 - 테두리 없이 이미지 그대로
 // ==================================================
 
 const artworkTexture =
     new THREE.TextureLoader().load(
-        "./assets/artwork-blue.jpg"
+        "./assets/artwork-blue.png"
     );
 
 artworkTexture.colorSpace =
     THREE.SRGBColorSpace;
 
+artworkTexture.anisotropy =
+    renderer.capabilities.getMaxAnisotropy();
 
-// 작품
+
 const artwork =
     new THREE.Mesh(
+
         new THREE.PlaneGeometry(
-            1.50,
-            2.90
+            1.50,   // 그림 가로 크기
+            2.90    // 그림 세로 크기
         ),
+
         new THREE.MeshStandardMaterial({
-            map: artworkTexture,
-            roughness: 0.8,
-            metalness: 0
+
+            map:
+                artworkTexture,
+
+            roughness:
+                0.8,
+
+            metalness:
+                0
+
         })
+
     );
 
-artwork.position.z =
-    0.051;
 
-artworkGroup.add(
+// 중앙벽 바로 앞에 붙이기
+artwork.position.set(
+
+    0,          // 좌우
+    2.05,       // 높이
+    -4.455      // 벽 앞쪽
+
+);
+
+scene.add(
     artwork
 );
 
 
-// ==================================================
-// 중앙 전시벽에 배치
-// ==================================================
 
-artworkGroup.position.set(
-    0,
-    2.05,
-    -4.455
-);
 
-scene.add(
-    artworkGroup
-);
-// ==================================================
-// 천장
-// ==================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const ceilingGeometry =
     new THREE.PlaneGeometry(
