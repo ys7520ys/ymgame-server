@@ -1080,34 +1080,52 @@ const GALLERY_HEIGHT =
     8;
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ==================================================
-// 나무 바닥
+// 옛날 교실 스타일 어두운 나무 바닥
 // ==================================================
 
 const floorCanvas =
-    document.createElement(
-        "canvas"
-    );
+    document.createElement("canvas");
 
-
-floorCanvas.width =
-    1024;
-
-
-floorCanvas.height =
-    1024;
-
+floorCanvas.width = 1024;
+floorCanvas.height = 1024;
 
 const floorContext =
-    floorCanvas.getContext(
-        "2d"
-    );
+    floorCanvas.getContext("2d");
 
 
-// 바닥 기본 색
+// 전체 바닥의 어두운 갈색
 floorContext.fillStyle =
-    "#766657";
-
+    "#3a2a20";
 
 floorContext.fillRect(
     0,
@@ -1118,12 +1136,11 @@ floorContext.fillRect(
 
 
 // ==================================================
-// 나무 판자 패턴
+// 길쭉한 옛날식 마루판
 // ==================================================
 
-const plankHeight =
-    64;
-
+const plankHeight = 64;
+const plankWidth = 320;
 
 for (
     let y = 0;
@@ -1134,115 +1151,163 @@ for (
     const row =
         y / plankHeight;
 
-
+    // 줄마다 판자 시작점 엇갈리게
     const offset =
         row % 2 === 0
             ? 0
-            : -128;
+            : -160;
 
 
     for (
         let x = offset;
         x < 1024;
-        x += 256
+        x += plankWidth
     ) {
 
-        const brightness =
-            62 +
-            Math.random() * 22;
+        // 판자마다 약간씩 다른 갈색
+        const variation =
+            Math.random() * 18;
+
+        const r =
+            62 + variation;
+
+        const g =
+            43 + variation * 0.55;
+
+        const b =
+            30 + variation * 0.3;
 
 
         floorContext.fillStyle =
-            `rgb(
-                ${brightness + 18},
-                ${brightness + 8},
-                ${brightness}
-            )`;
-
+            `rgb(${r}, ${g}, ${b})`;
 
         floorContext.fillRect(
-
-            x + 1,
-
-            y + 1,
-
-            254,
-
-            plankHeight - 2
-
+            x + 2,
+            y + 2,
+            plankWidth - 4,
+            plankHeight - 4
         );
 
 
-        // 판자 경계
-        floorContext.strokeStyle =
-            "rgba(40,30,20,0.22)";
+        // ------------------------------------------
+        // 판자 사이의 검고 오래된 틈
+        // ------------------------------------------
 
+        floorContext.strokeStyle =
+            "rgba(18, 11, 7, 0.70)";
 
         floorContext.lineWidth =
-            2;
-
+            3;
 
         floorContext.strokeRect(
-
             x,
-
             y,
-
-            256,
-
+            plankWidth,
             plankHeight
-
         );
 
 
-        // 약한 나뭇결
+        // ------------------------------------------
+        // 나뭇결
+        // ------------------------------------------
+
         for (
             let i = 0;
-            i < 6;
+            i < 10;
             i++
         ) {
 
-            floorContext.strokeStyle =
-                "rgba(70,45,30,0.10)";
+            const grainY =
+                y +
+                7 +
+                Math.random() *
+                (plankHeight - 14);
 
+            floorContext.strokeStyle =
+                "rgba(20, 12, 8, 0.20)";
+
+            floorContext.lineWidth =
+                1;
 
             floorContext.beginPath();
 
+            floorContext.moveTo(
+                x + 5,
+                grainY
+            );
+
+            floorContext.bezierCurveTo(
+                x + plankWidth * 0.30,
+                grainY + Math.random() * 7 - 3.5,
+
+                x + plankWidth * 0.65,
+                grainY + Math.random() * 7 - 3.5,
+
+                x + plankWidth - 5,
+                grainY + Math.random() * 4 - 2
+            );
+
+            floorContext.stroke();
+        }
+
+
+        // ------------------------------------------
+        // 오래된 마루의 약한 밝은 결
+        // ------------------------------------------
+
+        for (
+            let i = 0;
+            i < 3;
+            i++
+        ) {
 
             const grainY =
                 y +
                 Math.random() *
                 plankHeight;
 
+            floorContext.strokeStyle =
+                "rgba(150, 110, 75, 0.08)";
+
+            floorContext.beginPath();
 
             floorContext.moveTo(
-                x,
+                x + 10,
                 grainY
             );
 
-
             floorContext.lineTo(
-
-                x + 256,
-
+                x + plankWidth - 10,
                 grainY +
-                    Math.random() * 5
-
+                Math.random() * 5 - 2.5
             );
 
-
             floorContext.stroke();
-
         }
-
     }
-
 }
 
 
-// ==================================================
-// 바닥 텍스처
-// ==================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const floorTexture =
     new THREE.CanvasTexture(
