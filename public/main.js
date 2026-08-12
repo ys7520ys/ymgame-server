@@ -1116,7 +1116,7 @@ const GALLERY_HEIGHT =
 
 const floorTexture =
     new THREE.TextureLoader().load(
-        "./assets/WoodFloor004_1K-JPG_Color.jpg"
+        "./assets/WoodFloor005_1K-JPG_Color.jpg"
     );
 
 floorTexture.colorSpace =
