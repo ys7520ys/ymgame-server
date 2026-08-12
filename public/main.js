@@ -1240,16 +1240,16 @@ const leftWallArtworks = [
     "./assets/Group.png",
     "./assets/Group.png",
 
-    "./assets/art11.jpg",
-    "./assets/art12.jpg",
-    "./assets/art13.jpg",
-    "./assets/art14.jpg",
-    "./assets/art15.jpg",
-    "./assets/art16.jpg",
-    "./assets/art17.jpg",
-    "./assets/art18.jpg",
-    "./assets/art19.jpg",
-    "./assets/art20.jpg"
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
 ];
 
 
@@ -1258,27 +1258,27 @@ const leftWallArtworks = [
 // ==================================================
 
 const rightWallArtworks = [
-    "./assets/art21.jpg",
-    "./assets/art22.jpg",
-    "./assets/art23.jpg",
-    "./assets/art24.jpg",
-    "./assets/art25.jpg",
-    "./assets/art26.jpg",
-    "./assets/art27.jpg",
-    "./assets/art28.jpg",
-    "./assets/art29.jpg",
-    "./assets/art30.jpg",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
 
-    "./assets/art31.jpg",
-    "./assets/art32.jpg",
-    "./assets/art33.jpg",
-    "./assets/art34.jpg",
-    "./assets/art35.jpg",
-    "./assets/art36.jpg",
-    "./assets/art37.jpg",
-    "./assets/art38.jpg",
-    "./assets/art39.jpg",
-    "./assets/art40.jpg"
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
+    "./assets/Group.png",
 ];
 
 
