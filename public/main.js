@@ -165,13 +165,16 @@ renderer.setSize(
 );
 
 
+// renderer.setPixelRatio(
+
+//     Math.min(
+//         window.devicePixelRatio,
+//         2
+//     )
+
+// );
 renderer.setPixelRatio(
-
-    Math.min(
-        window.devicePixelRatio,
-        2
-    )
-
+    1
 );
 
 
@@ -191,9 +194,11 @@ renderer.toneMappingExposure =
     1.00;
 
 
-renderer.shadowMap.enabled =
-    true;
+// renderer.shadowMap.enabled =
+//     true;
 
+directionalLight.shadow.mapSize.width = 1024;
+directionalLight.shadow.mapSize.height = 1024;
 
 renderer.shadowMap.type =
     THREE.PCFSoftShadowMap;
@@ -1931,33 +1936,33 @@ for (
     // 프레임 옆 그림자
     // ==============================================
 
-    const shadow =
-        new THREE.Mesh(
+    // const shadow =
+    //     new THREE.Mesh(
 
-            new THREE.BoxGeometry(
+    //         new THREE.BoxGeometry(
 
-                0.09,
+    //             0.09,
 
-                0.006,
+    //             0.006,
 
-                18
+    //             18
 
-            ),
+    //         ),
 
-            gridShadowMaterial
+    //         gridShadowMaterial
 
-        );
+    //     );
 
 
-    shadow.position.set(
+    // shadow.position.set(
 
-        x + 0.035,
+    //     x + 0.035,
 
-        GALLERY_HEIGHT - 0.055,
+    //     GALLERY_HEIGHT - 0.055,
 
-        0
+    //     0
 
-    );
+    // );
 
 
     scene.add(
@@ -2139,15 +2144,10 @@ for (
 
     const light =
         new THREE.RectAreaLight(
-
             0xffffff,
-
             2.2,
-
-            5.5,
-
-            5.5
-
+            7.5,
+            7.5
         );
 
 
@@ -2176,7 +2176,7 @@ for (
 // 뒤쪽 확장 공간 천장 조명
 // ==================================================
 
-const backLightSpacing = 4.5;
+const backLightSpacing = 7;
 
 for (
     let x =
