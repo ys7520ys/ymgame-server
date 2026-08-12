@@ -1161,7 +1161,7 @@ const floorMaterial =
             floorTexture,
 
         roughness:
-            0.28,
+            0.5,
 
         metalness:
             0
