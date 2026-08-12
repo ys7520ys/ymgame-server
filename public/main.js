@@ -1018,7 +1018,107 @@ scene.add(
 
 
 
+// ==================================================
+// 천장 모서리 스피커 외형
+// ==================================================
 
+const speakerMaterial =
+    new THREE.MeshBasicMaterial({
+        color: 0x111111,
+        side: THREE.DoubleSide
+    });
+
+
+// 스피커 크기
+const speakerWidth = 0.9;
+const speakerHeight = 1.8;
+
+
+// 4개 모서리
+const speakerVisualPositions = [
+
+    [-8.82, 6.7, -8.82],
+    [ 8.82, 6.7, -8.82],
+    [-8.82, 6.7,  8.82],
+    [ 8.82, 6.7,  8.82]
+
+];
+
+
+for (
+    const position
+    of speakerVisualPositions
+) {
+
+    const geometry =
+        new THREE.PlaneGeometry(
+            speakerWidth,
+            speakerHeight
+        );
+
+    const speakerVisual =
+        new THREE.Mesh(
+            geometry,
+            speakerMaterial
+        );
+
+
+    speakerVisual.position.set(
+        position[0],
+        position[1],
+        position[2]
+    );
+
+
+    // 모서리 방향에 맞춰
+    // 대각선으로 약간 돌림
+    const x =
+        position[0];
+
+    const z =
+        position[2];
+
+
+    if (
+        x < 0 &&
+        z < 0
+    ) {
+
+        speakerVisual.rotation.y =
+            Math.PI / 4;
+
+    }
+    else if (
+        x > 0 &&
+        z < 0
+    ) {
+
+        speakerVisual.rotation.y =
+            -Math.PI / 4;
+
+    }
+    else if (
+        x < 0 &&
+        z > 0
+    ) {
+
+        speakerVisual.rotation.y =
+            -Math.PI / 4;
+
+    }
+    else {
+
+        speakerVisual.rotation.y =
+            Math.PI / 4;
+
+    }
+
+
+    scene.add(
+        speakerVisual
+    );
+
+}
 // ==================================================
 // 3D 공간 오디오
 // ==================================================
