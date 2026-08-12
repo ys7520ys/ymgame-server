@@ -1133,8 +1133,8 @@ floorTexture.wrapT =
 
 // 바닥에 이미지 반복
 floorTexture.repeat.set(
-    3,
-    3
+    7,
+    7
 );
 
 
