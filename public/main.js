@@ -2624,10 +2624,10 @@ function createPlayer(
 
     // 보이는 블록
     const geometry =
-    new THREE.BoxGeometry(
-        0.8,   // 가로
-        1.5,   // 높이
-    );
+        new THREE.PlaneGeometry(
+            0.8,   // 가로
+            1.5,   // 높이
+        );
 
 
     // const material =
