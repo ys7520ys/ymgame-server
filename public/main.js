@@ -958,6 +958,109 @@ guideTextureLoader.load(
 // 벽 작품 생성 함수
 // ==================================================
 
+// function createWallArtwork(
+//     imagePath,
+//     x,
+//     y,
+//     z,
+//     width,
+//     height,
+//     rotationY = 0
+// ) {
+
+//     const group =
+//         new THREE.Group();
+
+
+//     // ------------------------------
+//     // 검은색 얇은 액자
+//     // ------------------------------
+
+//     const frame =
+//         new THREE.Mesh(
+
+//             new THREE.PlaneGeometry(
+//                 width + 0.10,
+//                 height + 0.10
+//             ),
+
+//             new THREE.MeshStandardMaterial({
+//                 color: 0x111111,
+//                 roughness: 0.7
+//             })
+
+//         );
+
+//     group.add(frame);
+
+
+//     // ------------------------------
+//     // 이미지
+//     // ------------------------------
+
+//     const texture =
+//         new THREE.TextureLoader().load(
+//             imagePath
+//         );
+
+//     texture.colorSpace =
+//         THREE.SRGBColorSpace;
+
+//     texture.anisotropy =
+//         renderer.capabilities.getMaxAnisotropy();
+
+
+//     const picture =
+//         new THREE.Mesh(
+
+//             new THREE.PlaneGeometry(
+//                 width,
+//                 height
+//             ),
+
+//             new THREE.MeshStandardMaterial({
+//                 map: texture,
+//                 roughness: 0.8,
+//                 metalness: 0
+//             })
+
+//         );
+
+//     // 액자보다 아주 조금 앞으로
+//     picture.position.z =
+//         0.006;
+
+//     group.add(
+//         picture
+//     );
+
+
+//     // ------------------------------
+//     // 전체 위치
+//     // ------------------------------
+
+//     group.position.set(
+//         x,
+//         y,
+//         z
+//     );
+
+//     group.rotation.y =
+//         rotationY;
+
+//     scene.add(
+//         group
+//     );
+
+//     return group;
+// }
+
+
+// ==================================================
+// 벽 작품 생성 함수
+// 이미지 원본 비율 자동 유지
+// ==================================================
+
 function createWallArtwork(
     imagePath,
     x,
@@ -972,73 +1075,7 @@ function createWallArtwork(
         new THREE.Group();
 
 
-    // ------------------------------
-    // 검은색 얇은 액자
-    // ------------------------------
-
-    const frame =
-        new THREE.Mesh(
-
-            new THREE.PlaneGeometry(
-                width + 0.10,
-                height + 0.10
-            ),
-
-            new THREE.MeshStandardMaterial({
-                color: 0x111111,
-                roughness: 0.7
-            })
-
-        );
-
-    group.add(frame);
-
-
-    // ------------------------------
-    // 이미지
-    // ------------------------------
-
-    const texture =
-        new THREE.TextureLoader().load(
-            imagePath
-        );
-
-    texture.colorSpace =
-        THREE.SRGBColorSpace;
-
-    texture.anisotropy =
-        renderer.capabilities.getMaxAnisotropy();
-
-
-    const picture =
-        new THREE.Mesh(
-
-            new THREE.PlaneGeometry(
-                width,
-                height
-            ),
-
-            new THREE.MeshStandardMaterial({
-                map: texture,
-                roughness: 0.8,
-                metalness: 0
-            })
-
-        );
-
-    // 액자보다 아주 조금 앞으로
-    picture.position.z =
-        0.006;
-
-    group.add(
-        picture
-    );
-
-
-    // ------------------------------
-    // 전체 위치
-    // ------------------------------
-
+    // 일단 전체 위치부터 설정
     group.position.set(
         x,
         y,
@@ -1048,13 +1085,126 @@ function createWallArtwork(
     group.rotation.y =
         rotationY;
 
+
+    // 이미지 로드
+    const textureLoader =
+        new THREE.TextureLoader();
+
+
+    textureLoader.load(
+
+        imagePath,
+
+        (texture) => {
+
+            texture.colorSpace =
+                THREE.SRGBColorSpace;
+
+            texture.anisotropy =
+                renderer.capabilities.getMaxAnisotropy();
+
+
+            // ==========================================
+            // ★ 이미지 원본 비율
+            // ==========================================
+
+            const aspect =
+                texture.image.width /
+                texture.image.height;
+
+
+            // 세로 높이는 기존 height 사용
+            const pictureHeight =
+                height;
+
+            // 가로는 원본 이미지 비율에 따라 자동 계산
+            const pictureWidth =
+                pictureHeight * aspect;
+
+
+            // ==========================================
+            // 액자
+            // ==========================================
+
+            const frame =
+                new THREE.Mesh(
+
+                    new THREE.PlaneGeometry(
+
+                        pictureWidth + 0.10,
+                        pictureHeight + 0.10
+
+                    ),
+
+                    new THREE.MeshStandardMaterial({
+
+                        color:
+                            0x111111,
+
+                        roughness:
+                            0.7
+
+                    })
+
+                );
+
+
+            group.add(
+                frame
+            );
+
+
+            // ==========================================
+            // 작품 이미지
+            // ==========================================
+
+            const picture =
+                new THREE.Mesh(
+
+                    new THREE.PlaneGeometry(
+
+                        pictureWidth,
+                        pictureHeight
+
+                    ),
+
+                    new THREE.MeshStandardMaterial({
+
+                        map:
+                            texture,
+
+                        roughness:
+                            0.8,
+
+                        metalness:
+                            0
+
+                    })
+
+                );
+
+
+            // 액자보다 살짝 앞으로
+            picture.position.z =
+                0.006;
+
+
+            group.add(
+                picture
+            );
+
+        }
+
+    );
+
+
     scene.add(
         group
     );
 
+
     return group;
 }
-
 
 
 
@@ -1106,7 +1256,7 @@ function createWallArtwork(
 // ==================================================
 
 const leftWallArtworks = [
-    "./assets/art01.jpg",
+    "./assets/Group.png",
     "./assets/art02.jpg",
     "./assets/art03.jpg",
     "./assets/art04.jpg",
