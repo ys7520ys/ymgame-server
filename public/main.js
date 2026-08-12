@@ -2443,9 +2443,9 @@ benchGroup.position.set(
 );
 
 
-scene.add(
-    benchGroup
-);
+// scene.add(
+//     benchGroup
+// );
 
 
 // ==================================================
