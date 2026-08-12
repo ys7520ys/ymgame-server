@@ -1009,6 +1009,122 @@ scene.add(
 // 얇은 회색 선이 보이는 느낌
 // ==================================================
 
+
+
+
+
+
+
+
+
+
+
+// ==================================================
+// 3D 공간 오디오
+// ==================================================
+
+// 사람의 귀 역할
+const audioListener =
+    new THREE.AudioListener();
+
+camera.add(
+    audioListener
+);
+
+
+// 음악 파일 로더
+const audioLoader =
+    new THREE.AudioLoader();
+
+
+// 천장 네 꼭짓점
+const speakerPositions = [
+
+    [-8.5, 7.5, -8.5],
+    [ 8.5, 7.5, -8.5],
+    [-8.5, 7.5,  8.5],
+    [ 8.5, 7.5,  8.5]
+
+];
+
+
+// 음악 파일을 한 번 불러오기
+audioLoader.load(
+
+    "./assets/music.mp3",
+
+    (buffer) => {
+
+        for (
+            const position
+            of speakerPositions
+        ) {
+
+            const sound =
+                new THREE.PositionalAudio(
+                    audioListener
+                );
+
+            sound.setBuffer(
+                buffer
+            );
+
+            sound.setLoop(
+                true
+            );
+
+            sound.setVolume(
+                0.45
+            );
+
+            sound.setRefDistance(
+                3
+            );
+
+            sound.setRolloffFactor(
+                1.5
+            );
+
+            sound.setMaxDistance(
+                20
+            );
+
+
+            const speaker =
+                new THREE.Object3D();
+
+            speaker.position.set(
+                position[0],
+                position[1],
+                position[2]
+            );
+
+            speaker.add(
+                sound
+            );
+
+            scene.add(
+                speaker
+            );
+
+            sound.play();
+
+        }
+
+    }
+
+);
+
+
+
+
+
+
+
+
+
+
+
 const contactShadowMaterial =
     new THREE.MeshBasicMaterial({
 
