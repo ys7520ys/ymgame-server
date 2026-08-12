@@ -889,6 +889,32 @@ const normalFov = 62;
 const zoomFov = 30;
 
 let isZooming = false;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 window.addEventListener(
     "mousedown",
     (event) => {
@@ -900,17 +926,155 @@ window.addEventListener(
         }
     }
 );
+function stopZoom(event) {
+
+    if (!event || event.button === 2) {
+        isZooming = false;
+    }
+}
+
+
+// 우클릭을 뗐을 때
+window.addEventListener(
+    "mouseup",
+    stopZoom
+);
+
+document.addEventListener(
+    "mouseup",
+    stopZoom
+);
+
+
+// 브라우저가 포커스를 잃었을 때도 줌 해제
+window.addEventListener(
+    "blur",
+    () => {
+        isZooming = false;
+    }
+);
+
+
+// Pointer Lock 상태가 바뀌었을 때
+document.addEventListener(
+    "pointerlockchange",
+    () => {
+
+        if (
+            document.pointerLockElement !==
+            renderer.domElement
+        ) {
+            isZooming = false;
+        }
+
+    }
+);
+const normalFov = 62;
+const zoomFov = 30;
+
+let isZooming = false;
+
+
+// ========================================
+// 우클릭 줌
+// ========================================
+
+window.addEventListener(
+    "mousedown",
+    (event) => {
+
+        if (event.button === 2) {
+            isZooming = true;
+        }
+
+    }
+);
+
+
 window.addEventListener(
     "mouseup",
     (event) => {
 
         if (event.button === 2) {
-
             isZooming = false;
-
         }
+
     }
 );
+
+
+// 마우스를 움직일 때도
+// 우클릭이 실제로 눌려있는지 계속 확인
+window.addEventListener(
+    "mousemove",
+    (event) => {
+
+        if ((event.buttons & 2) === 0) {
+            isZooming = false;
+        }
+        else {
+            isZooming = true;
+        }
+
+    }
+);
+
+
+// 창 밖으로 나가면 줌 해제
+window.addEventListener(
+    "blur",
+    () => {
+
+        isZooming = false;
+
+    }
+);
+
+
+// 우클릭 메뉴 방지
+window.addEventListener(
+    "contextmenu",
+    (event) => {
+
+        event.preventDefault();
+
+    }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 window.addEventListener(
     "contextmenu",
     (event) => {
