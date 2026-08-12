@@ -2627,18 +2627,32 @@ function createPlayer(
     new THREE.BoxGeometry(
         0.8,   // 가로
         1.5,   // 높이
-        0.45   // 두께
     );
 
 
+    // const material =
+    //     new THREE.MeshStandardMaterial({
+
+    //         color:
+    //             isMe
+    //                 ? 0x0088ff
+    //                 : 0xff4444
+
+    //     });
+
+    const characterTexture =
+        new THREE.TextureLoader().load(
+            "./assets/character.png"
+        );
+
+    characterTexture.colorSpace =
+        THREE.SRGBColorSpace;
+
     const material =
-        new THREE.MeshStandardMaterial({
-
-            color:
-                isMe
-                    ? 0x0088ff
-                    : 0xff4444
-
+        new THREE.MeshBasicMaterial({
+            map: characterTexture,
+            transparent: true,
+            side: THREE.DoubleSide
         });
 
 
