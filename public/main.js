@@ -2675,59 +2675,94 @@ function createPlayer(
 
     const characterHeight = 1.5;
 
-    const textureLoader =
-        new THREE.TextureLoader();
 
-    textureLoader.load(
-        "./assets/character.png",
+    // 이미지 텍스처 생성
+    const characterTexture =
+        new THREE.TextureLoader().load(
+            "./assets/character.png",
 
-        (characterTexture) => {
+            (loadedTexture) => {
 
-            characterTexture.colorSpace =
-                THREE.SRGBColorSpace;
-
-            // PNG 원본 이미지의 가로/세로 비율
-            const aspect =
-                characterTexture.image.width /
-                characterTexture.image.height;
-
-            // 높이는 1.5로 고정하고
-            // 가로는 원본 비율에 맞춰 자동 계산
-            const characterWidth =
-                characterHeight * aspect;
+                loadedTexture.colorSpace =
+                    THREE.SRGBColorSpace;
 
 
-            const geometry =
-                new THREE.PlaneGeometry(
-                    characterWidth,
-                    characterHeight
-                );
+                // 원본 이미지 가로 / 세로 비율
+                const aspect =
+                    loadedTexture.image.width /
+                    loadedTexture.image.height;
 
 
-            const material =
-                new THREE.MeshBasicMaterial({
-
-                    map: characterTexture,
-
-                    transparent: true,
-
-                    side: THREE.DoubleSide,
-
-                    alphaTest: 0.1
-
-                });
+                // 높이 1.5 기준으로
+                // 가로 크기 자동 계산
+                const characterWidth =
+                    characterHeight * aspect;
 
 
-            const visual =
-                new THREE.Mesh(
-                    geometry,
-                    material
-            );
+                // 이미지 로딩이 끝나면
+                // 평면 크기만 원본 비율에 맞게 변경
+                visual.geometry.dispose();
+
+                visual.geometry =
+                    new THREE.PlaneGeometry(
+                        characterWidth,
+                        characterHeight
+                    );
+            }
+        );
 
 
-            root.add(visual);
+    characterTexture.colorSpace =
+        THREE.SRGBColorSpace;
 
-        }
+
+    // ========================================
+    // 처음에는 임시 크기로 생성
+    // 이미지 로딩 후 위에서 비율 자동 수정
+    // ========================================
+
+    const geometry =
+        new THREE.PlaneGeometry(
+            1,
+            characterHeight
+        );
+
+
+    // ========================================
+    // 캐릭터 재질
+    // ========================================
+
+    const material =
+        new THREE.MeshBasicMaterial({
+
+            map:
+                characterTexture,
+
+            transparent:
+                true,
+
+            side:
+                THREE.DoubleSide,
+
+            alphaTest:
+                0.1
+
+        });
+
+
+    // ========================================
+    // 캐릭터 평면 생성
+    // ========================================
+
+    const visual =
+        new THREE.Mesh(
+            geometry,
+            material
+        );
+
+
+    root.add(
+        visual
     );
 
 
