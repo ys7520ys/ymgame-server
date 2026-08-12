@@ -2673,24 +2673,90 @@ function createPlayer(
     // 캐릭터 이미지 - 원본 비율 자동 유지
     // ========================================
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // ========================================
-    // 캐릭터 앞면 / 뒷면 이미지
+    // 캐릭터 앞면 / 뒷면
     // ========================================
 
     const characterHeight = 1.5;
 
 
-    // 앞면 텍스처
+    // 캐릭터 전체 그룹
+    const visual =
+        new THREE.Group();
+
+
+    // ========================================
+    // 앞면 이미지
+    // ========================================
+
     const frontTexture =
         new THREE.TextureLoader().load(
-            "./assets/character-front.png"
+            "./assets/character-front.png",
+
+            (texture) => {
+
+                texture.colorSpace =
+                    THREE.SRGBColorSpace;
+
+                const aspect =
+                    texture.image.width /
+                    texture.image.height;
+
+                const width =
+                    characterHeight * aspect;
+
+                front.geometry.dispose();
+
+                front.geometry =
+                    new THREE.PlaneGeometry(
+                        width,
+                        characterHeight
+                    );
+
+                back.geometry.dispose();
+
+                back.geometry =
+                    new THREE.PlaneGeometry(
+                        width,
+                        characterHeight
+                    );
+            }
         );
 
     frontTexture.colorSpace =
         THREE.SRGBColorSpace;
 
 
-    // 뒷면 텍스처
+    // ========================================
+    // 뒷면 이미지
+    // ========================================
+
     const backTexture =
         new THREE.TextureLoader().load(
             "./assets/character-back.png"
@@ -2701,40 +2767,69 @@ function createPlayer(
 
 
     // ========================================
-    // 캐릭터 그룹
+    // 임시 평면
     // ========================================
 
-    const visual =
-        new THREE.Group();
+    const frontGeometry =
+        new THREE.PlaneGeometry(
+            1,
+            characterHeight
+        );
+
+    const backGeometry =
+        new THREE.PlaneGeometry(
+            1,
+            characterHeight
+        );
 
 
-    // 임시 가로 크기
-    // 이미지 로딩 후 자동으로 수정
-    let characterWidth = 1;
+    // ========================================
+    // 앞면 재질
+    // ========================================
+
+    const frontMaterial =
+        new THREE.MeshBasicMaterial({
+
+            map:
+                frontTexture,
+
+            transparent:
+                true,
+
+            alphaTest:
+                0.1,
+
+            side:
+                THREE.FrontSide
+
+        });
+
+
+    // ========================================
+    // 뒷면 재질
+    // ========================================
+
+    const backMaterial =
+        new THREE.MeshBasicMaterial({
+
+            map:
+                backTexture,
+
+            transparent:
+                true,
+
+            alphaTest:
+                0.1,
+
+            side:
+                THREE.BackSide
+
+        });
 
 
     // ========================================
     // 앞면
     // ========================================
-
-    const frontGeometry =
-        new THREE.PlaneGeometry(
-            characterWidth,
-            characterHeight
-        );
-
-    const frontMaterial =
-        new THREE.MeshBasicMaterial({
-
-            map: frontTexture,
-
-            transparent: true,
-
-            alphaTest: 0.1,
-
-            side: THREE.FrontSide
-
-        });
 
     const front =
         new THREE.Mesh(
@@ -2747,25 +2842,6 @@ function createPlayer(
     // 뒷면
     // ========================================
 
-    const backGeometry =
-        new THREE.PlaneGeometry(
-            characterWidth,
-            characterHeight
-        );
-
-    const backMaterial =
-        new THREE.MeshBasicMaterial({
-
-            map: backTexture,
-
-            transparent: true,
-
-            alphaTest: 0.1,
-
-            side: THREE.FrontSide
-
-        });
-
     const back =
         new THREE.Mesh(
             backGeometry,
@@ -2773,28 +2849,13 @@ function createPlayer(
         );
 
 
-    // 뒷면을 반대로 돌림
-    back.rotation.y =
-        Math.PI;
-
-
-    // 아주 미세하게 떨어뜨려서
-    // 화면 깜빡임 방지
-    front.position.z =
-        0.001;
-
-    back.position.z =
-        -0.001;
-
-
-    // 그룹에 추가
+    // 둘을 정확히 같은 위치에 배치
     visual.add(front);
     visual.add(back);
 
+
+    // 플레이어에 추가
     root.add(visual);
-
-
-
 
 
 
