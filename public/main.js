@@ -1195,8 +1195,8 @@ function createCornerSpeaker(
         new THREE.Mesh(
 
             new THREE.BoxGeometry(
-                0.76,
-                1.46,
+                0.58,
+                1.38,
                 0.03
             ),
 
