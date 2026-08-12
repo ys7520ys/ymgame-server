@@ -2588,7 +2588,7 @@ const groundPlayerY =
 // ==================================================
 
 const standingEyeHeight =
-    0.35;
+    0.9;
 
 const crouchingEyeHeight =
     0.25;
@@ -2624,11 +2624,11 @@ function createPlayer(
 
     // 보이는 블록
     const geometry =
-        new THREE.BoxGeometry(
-            0.8,   // 가로
-            1.5,   // 높이
-            0.45   // 두께
-        );
+    new THREE.BoxGeometry(
+        0.8,   // 가로
+        1.5,   // 높이
+        0.45   // 두께
+    );
 
 
     const material =
