@@ -1230,7 +1230,7 @@ function createWallArtwork(
 
 const leftWallArtworks = [
     "./assets/Group1-1.png",
-    "./assets/Group.png",
+    "./assets/Group1-2.png",
     "./assets/Group.png",
     "./assets/Group.png",
     "./assets/Group.png",
