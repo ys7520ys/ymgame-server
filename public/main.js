@@ -1231,20 +1231,18 @@ function createCornerSpeaker(
     // 전시장 중앙을 바라보게
     // ========================================
 
-    const directionX =
-        -x;
+    // 스피커가 전시장 중앙의 아래쪽을 바라보게
+    speakerGroup.up.set(
+        0,
+        1,
+        0
+    );
 
-    const directionZ =
-        -z;
-
-
-    speakerGroup.rotation.y =
-        Math.atan2(
-            directionX,
-            directionZ
-        );
-    speakerGroup.rotation.x =
-        -THREE.MathUtils.degToRad(12);
+    speakerGroup.lookAt(
+        0,      // 중앙 X
+        2.5,    // 바라보는 높이
+        0       // 중앙 Z
+    );
 
     scene.add(
         speakerGroup
