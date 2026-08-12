@@ -2640,6 +2640,49 @@ function createPlayer(
 
     //     });
 
+
+
+
+
+
+
+
+
+
+
+
+
+    // const characterTexture =
+    //     new THREE.TextureLoader().load(
+    //         "./assets/character.png"
+    //     );
+
+    // characterTexture.colorSpace =
+    //     THREE.SRGBColorSpace;
+
+    // const material =
+    //     new THREE.MeshBasicMaterial({
+    //         map: characterTexture,
+    //         transparent: true,
+    //         side: THREE.DoubleSide
+    //     });
+
+
+    // const visual =
+    //     new THREE.Mesh(
+    //         geometry,
+    //         material
+    //     );
+
+
+    // root.add(
+    //     visual
+    // );
+
+    // ==================================================
+    // 플레이어 이미지
+    // ==================================================
+
     const characterTexture =
         new THREE.TextureLoader().load(
             "./assets/character.png"
@@ -2648,13 +2691,40 @@ function createPlayer(
     characterTexture.colorSpace =
         THREE.SRGBColorSpace;
 
+
+    // ==================================================
+    // 플레이어 평면
+    // ==================================================
+
+    const geometry =
+        new THREE.PlaneGeometry(
+            1.0,    // 가로
+            1.5     // 세로
+        );
+
+
+    // ==================================================
+    // 이미지 재질
+    // ==================================================
+
     const material =
         new THREE.MeshBasicMaterial({
             map: characterTexture,
+
+            // PNG 투명 배경 사용
             transparent: true,
-            side: THREE.DoubleSide
+
+            // 앞/뒤 모두 이미지 표시
+            side: THREE.DoubleSide,
+
+            // 투명 영역 문제 방지
+            alphaTest: 0.1
         });
 
+
+    // ==================================================
+    // 플레이어 외형
+    // ==================================================
 
     const visual =
         new THREE.Mesh(
@@ -2662,10 +2732,21 @@ function createPlayer(
             material
         );
 
-
     root.add(
         visual
     );
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     scene.add(
