@@ -1007,8 +1007,53 @@ function createWallArtwork(
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ==================================================
 // 왼쪽 벽 작품 - 10개
+// ==================================================
+// ==================================================
+// 좌우 벽 작품 - 각 20개
+// 위 10개 + 아래 10개
+// ==================================================
+
+
+// ==================================================
+// 왼쪽 벽 작품 20개
 // ==================================================
 
 const leftWallArtworks = [
@@ -1021,52 +1066,8 @@ const leftWallArtworks = [
     "./assets/art07.jpg",
     "./assets/art08.jpg",
     "./assets/art09.jpg",
-    "./assets/art10.jpg"
-];
+    "./assets/art10.jpg",
 
-
-// 벽 전체에 일정한 간격으로 배치
-const leftWallZ = [
-    -7.5,
-    -5.85,
-    -4.2,
-    -2.55,
-    -0.9,
-     0.9,
-     2.55,
-     4.2,
-     5.85,
-     7.5
-];
-
-
-for (
-    let i = 0;
-    i < leftWallArtworks.length;
-    i++
-) {
-
-    createWallArtwork(
-        leftWallArtworks[i],
-
-        -8.89,
-        2.15,      // 높이 낮춤
-        leftWallZ[i],
-
-        0.82,      // 가로 작게
-        1.25,      // 세로 작게
-
-        Math.PI / 2
-    );
-}
-
-
-
-// ==================================================
-// 오른쪽 벽 작품 - 10개
-// ==================================================
-
-const rightWallArtworks = [
     "./assets/art11.jpg",
     "./assets/art12.jpg",
     "./assets/art13.jpg",
@@ -1080,39 +1081,159 @@ const rightWallArtworks = [
 ];
 
 
-const rightWallZ = [
-    -7.5,
-    -5.85,
-    -4.2,
-    -2.55,
-    -0.9,
-     0.9,
-     2.55,
-     4.2,
-     5.85,
-     7.5
+// ==================================================
+// 오른쪽 벽 작품 20개
+// ==================================================
+
+const rightWallArtworks = [
+    "./assets/art21.jpg",
+    "./assets/art22.jpg",
+    "./assets/art23.jpg",
+    "./assets/art24.jpg",
+    "./assets/art25.jpg",
+    "./assets/art26.jpg",
+    "./assets/art27.jpg",
+    "./assets/art28.jpg",
+    "./assets/art29.jpg",
+    "./assets/art30.jpg",
+
+    "./assets/art31.jpg",
+    "./assets/art32.jpg",
+    "./assets/art33.jpg",
+    "./assets/art34.jpg",
+    "./assets/art35.jpg",
+    "./assets/art36.jpg",
+    "./assets/art37.jpg",
+    "./assets/art38.jpg",
+    "./assets/art39.jpg",
+    "./assets/art40.jpg"
 ];
 
 
-for (
-    let i = 0;
-    i < rightWallArtworks.length;
-    i++
-) {
+// ==================================================
+// 작품 배치 설정
+// ==================================================
 
+// 작품 크기
+const wallArtworkWidth = 0.65;
+const wallArtworkHeight = 0.95;
+
+
+// 높이
+const lowerArtworkY = 1.65;
+const upperArtworkY = 2.95;
+
+
+// Z 방향 위치
+// 기존 -7.5 ~ 7.5보다 안쪽으로 당겨서
+// 벽 끝/중앙 구조물에 가려지는 것 방지
+const artworkZPositions = [
+    -6.7,
+    -5.25,
+    -3.8,
+    -2.35,
+    -0.9,
+     0.9,
+     2.35,
+     3.8,
+     5.25,
+     6.7
+];
+
+
+// ==================================================
+// 왼쪽 벽
+// ==================================================
+
+for (let i = 0; i < 10; i++) {
+
+    // 아래쪽
+    createWallArtwork(
+        leftWallArtworks[i],
+        -8.82,
+        lowerArtworkY,
+        artworkZPositions[i],
+        wallArtworkWidth,
+        wallArtworkHeight,
+        Math.PI / 2
+    );
+
+
+    // 위쪽
+    createWallArtwork(
+        leftWallArtworks[i + 10],
+        -8.82,
+        upperArtworkY,
+        artworkZPositions[i],
+        wallArtworkWidth,
+        wallArtworkHeight,
+        Math.PI / 2
+    );
+}
+
+
+// ==================================================
+// 오른쪽 벽
+// ==================================================
+
+for (let i = 0; i < 10; i++) {
+
+    // 아래쪽
     createWallArtwork(
         rightWallArtworks[i],
+        8.82,
+        lowerArtworkY,
+        artworkZPositions[i],
+        wallArtworkWidth,
+        wallArtworkHeight,
+        -Math.PI / 2
+    );
 
-        8.89,
-        2.15,
-        rightWallZ[i],
 
-        0.82,
-        1.25,
-
+    // 위쪽
+    createWallArtwork(
+        rightWallArtworks[i + 10],
+        8.82,
+        upperArtworkY,
+        artworkZPositions[i],
+        wallArtworkWidth,
+        wallArtworkHeight,
         -Math.PI / 2
     );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
