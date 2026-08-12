@@ -1109,228 +1109,38 @@ const GALLERY_HEIGHT =
 
 
 
+
+    // ==================================================
+// 실제 이미지 기반 나무 바닥
 // ==================================================
-// 옛날 교실 스타일 어두운 나무 바닥
-// ==================================================
-
-const floorCanvas =
-    document.createElement("canvas");
-
-floorCanvas.width = 1024;
-floorCanvas.height = 1024;
-
-const floorContext =
-    floorCanvas.getContext("2d");
-
-
-// 전체 바닥의 어두운 갈색
-floorContext.fillStyle =
-    "#3a2a20";
-
-floorContext.fillRect(
-    0,
-    0,
-    1024,
-    1024
-);
-
-
-// ==================================================
-// 길쭉한 옛날식 마루판
-// ==================================================
-
-const plankHeight = 64;
-const plankWidth = 320;
-
-for (
-    let y = 0;
-    y < 1024;
-    y += plankHeight
-) {
-
-    const row =
-        y / plankHeight;
-
-    // 줄마다 판자 시작점 엇갈리게
-    const offset =
-        row % 2 === 0
-            ? 0
-            : -160;
-
-
-    for (
-        let x = offset;
-        x < 1024;
-        x += plankWidth
-    ) {
-
-        // 판자마다 약간씩 다른 갈색
-        const variation =
-            Math.random() * 18;
-
-        const r =
-            62 + variation;
-
-        const g =
-            43 + variation * 0.55;
-
-        const b =
-            30 + variation * 0.3;
-
-
-        floorContext.fillStyle =
-            `rgb(${r}, ${g}, ${b})`;
-
-        floorContext.fillRect(
-            x + 2,
-            y + 2,
-            plankWidth - 4,
-            plankHeight - 4
-        );
-
-
-        // ------------------------------------------
-        // 판자 사이의 검고 오래된 틈
-        // ------------------------------------------
-
-        floorContext.strokeStyle =
-            "rgba(18, 11, 7, 0.70)";
-
-        floorContext.lineWidth =
-            3;
-
-        floorContext.strokeRect(
-            x,
-            y,
-            plankWidth,
-            plankHeight
-        );
-
-
-        // ------------------------------------------
-        // 나뭇결
-        // ------------------------------------------
-
-        for (
-            let i = 0;
-            i < 10;
-            i++
-        ) {
-
-            const grainY =
-                y +
-                7 +
-                Math.random() *
-                (plankHeight - 14);
-
-            floorContext.strokeStyle =
-                "rgba(20, 12, 8, 0.20)";
-
-            floorContext.lineWidth =
-                1;
-
-            floorContext.beginPath();
-
-            floorContext.moveTo(
-                x + 5,
-                grainY
-            );
-
-            floorContext.bezierCurveTo(
-                x + plankWidth * 0.30,
-                grainY + Math.random() * 7 - 3.5,
-
-                x + plankWidth * 0.65,
-                grainY + Math.random() * 7 - 3.5,
-
-                x + plankWidth - 5,
-                grainY + Math.random() * 4 - 2
-            );
-
-            floorContext.stroke();
-        }
-
-
-        // ------------------------------------------
-        // 오래된 마루의 약한 밝은 결
-        // ------------------------------------------
-
-        for (
-            let i = 0;
-            i < 3;
-            i++
-        ) {
-
-            const grainY =
-                y +
-                Math.random() *
-                plankHeight;
-
-            floorContext.strokeStyle =
-                "rgba(150, 110, 75, 0.08)";
-
-            floorContext.beginPath();
-
-            floorContext.moveTo(
-                x + 10,
-                grainY
-            );
-
-            floorContext.lineTo(
-                x + plankWidth - 10,
-                grainY +
-                Math.random() * 5 - 2.5
-            );
-
-            floorContext.stroke();
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 const floorTexture =
-    new THREE.CanvasTexture(
-        floorCanvas
+    new THREE.TextureLoader().load(
+        "./assets/WoodFloor004_1K-JPG_Color.jpg"
     );
-
 
 floorTexture.colorSpace =
     THREE.SRGBColorSpace;
 
 
+// 반복 가능하게 설정
 floorTexture.wrapS =
     THREE.RepeatWrapping;
-
 
 floorTexture.wrapT =
     THREE.RepeatWrapping;
 
 
+// 바닥에 이미지 반복
 floorTexture.repeat.set(
-    2.2,
-    2.2
+    3,
+    3
 );
+
+
+// 비스듬히 봤을 때 선명하게
+floorTexture.anisotropy =
+    renderer.capabilities.getMaxAnisotropy();
 
 
 // ==================================================
@@ -1339,11 +1149,8 @@ floorTexture.repeat.set(
 
 const floorGeometry =
     new THREE.PlaneGeometry(
-
         GALLERY_WIDTH,
-
         GALLERY_DEPTH
-
     );
 
 
@@ -1354,7 +1161,7 @@ const floorMaterial =
             floorTexture,
 
         roughness:
-            0.68,
+            0.72,
 
         metalness:
             0
@@ -1364,11 +1171,8 @@ const floorMaterial =
 
 const floor =
     new THREE.Mesh(
-
         floorGeometry,
-
         floorMaterial
-
     );
 
 
@@ -1383,7 +1187,6 @@ floor.receiveShadow =
 scene.add(
     floor
 );
-
 
 // ==================================================
 // 벽 재질
