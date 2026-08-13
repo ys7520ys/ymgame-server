@@ -646,38 +646,28 @@ centerWall.castShadow = false;
 // 중앙벽 뒤 좌우 벽
 // ==================================================
 
-createWall(
-
+const rearLeftWall = createWall(
     -6.75,
-
     2.05,
-
     -6.1,
-
     4.3,
-
     4.1,
-
     0.20
-
 );
 
+rearLeftWall.castShadow = false;
 
-createWall(
 
+const rearRightWall = createWall(
     6.75,
-
     2.05,
-
     -6.1,
-
     4.3,
-
     4.1,
-
     0.20
-
 );
+
+rearRightWall.castShadow = false;
 
 const centerWallFloorShadow =
     new THREE.Mesh(
