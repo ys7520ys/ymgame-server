@@ -33,6 +33,18 @@ const camera =
 
         1000
     );
+    // 서버 연결 전 임시 카메라도 실제 시작 위치와 동일하게
+    camera.position.set(
+        0,
+        1.35,
+        26
+    );
+
+    camera.lookAt(
+        0,
+        1.35,
+        25
+    );
 const normalFov = 62;
 const zoomFov = 20;
 
