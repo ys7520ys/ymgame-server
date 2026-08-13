@@ -252,11 +252,8 @@ scene.add(
 
 const directionalLight =
     new THREE.DirectionalLight(
-
         0xfffdf8,
-
-        1.15
-
+        0.65
     );
 
 
@@ -774,7 +771,77 @@ artworkGroup.add(
 
 
 
+const sunlightMaterial =
+    new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        transparent: true,
+        opacity: 0.10,
+        depthWrite: false,
+        side: THREE.DoubleSide
+    });
 
+
+// ------------------------------
+// 뒤쪽 벽 채광 삼각형
+// ------------------------------
+
+const backSunGeometry =
+    new THREE.BufferGeometry();
+
+backSunGeometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute([
+        -3.7, 4.9, -8.905,
+        -2.5, 4.1, -8.905,
+        -0.9, 4.1, -8.905
+    ], 3)
+);
+
+backSunGeometry.setIndex([
+    0, 1, 2
+]);
+
+backSunGeometry.computeVertexNormals();
+
+const backSun =
+    new THREE.Mesh(
+        backSunGeometry,
+        sunlightMaterial
+    );
+
+scene.add(backSun);
+
+
+// ------------------------------
+// 중앙 앞벽 채광 삼각형
+// 위쪽 삼각형과 이어져 보이게
+// ------------------------------
+
+const frontSunGeometry =
+    new THREE.BufferGeometry();
+
+frontSunGeometry.setAttribute(
+    "position",
+    new THREE.Float32BufferAttribute([
+        -2.5, 4.09, -4.475,
+        -0.9, 4.09, -4.475,
+         1.0, 0.05, -4.475
+    ], 3)
+);
+
+frontSunGeometry.setIndex([
+    0, 1, 2
+]);
+
+frontSunGeometry.computeVertexNormals();
+
+const frontSun =
+    new THREE.Mesh(
+        frontSunGeometry,
+        sunlightMaterial
+    );
+
+scene.add(frontSun);
 
 
 
