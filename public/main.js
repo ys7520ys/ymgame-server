@@ -655,36 +655,21 @@ createWall(
 // ==================================================
 
 createWall(
-
     -6.75,
-
-    2.05,
-
+    GALLERY_HEIGHT / 2,
     -6.1,
-
     4.3,
-
-    4.1,
-
+    GALLERY_HEIGHT,
     0.20
-
 );
 
-
 createWall(
-
     6.75,
-
-    2.05,
-
+    GALLERY_HEIGHT / 2,
     -6.1,
-
     4.3,
-
-    4.1,
-
+    GALLERY_HEIGHT,
     0.20
-
 );
 
 const centerWallFloorShadow =
