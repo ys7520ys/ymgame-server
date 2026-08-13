@@ -77,3 +77,6 @@ canvas {
 #sceneFade.scene-ready {
     opacity: 0;
 }
+#ui {
+    display: none !important;
+}
