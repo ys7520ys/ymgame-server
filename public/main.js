@@ -261,10 +261,15 @@ const directionalLight =
 
 
 directionalLight.position.set(
-    0,
-    10,
-    2
+
+    -4,
+
+    8,
+
+    5
+
 );
+
 
 // 그림자
 directionalLight.castShadow =
