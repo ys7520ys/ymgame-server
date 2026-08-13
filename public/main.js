@@ -690,8 +690,8 @@ createWall(
 const centerWallFloorShadow =
     new THREE.Mesh(
         new THREE.PlaneGeometry(
-            8.2,
-            0.45
+            7.8,
+            0.35
         ),
         new THREE.MeshBasicMaterial({
             color: 0x000000,
@@ -707,7 +707,7 @@ centerWallFloorShadow.rotation.x =
 centerWallFloorShadow.position.set(
     0,
     0.012,
-    -4.43
+    -4.50
 );
 
 scene.add(
