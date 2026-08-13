@@ -1541,24 +1541,22 @@ scene.add(
 
 
 // 스피커 외부 본체 색상
-const speakerFrontMaterial =
+// 스피커 외부 본체
+const speakerBodyMaterial =
     new THREE.MeshStandardMaterial({
         color: 0x0d0d0d,
         roughness: 0.62,
         metalness: 0.02
     });
+
+
 // 스피커 정면 검은 패널
 const speakerFrontMaterial =
     new THREE.MeshStandardMaterial({
-
         color: 0x050505,
-
         roughness: 0.9,
-
         metalness: 0
-
     });
-
 
 // ==================================================
 // 스피커 하나 생성
