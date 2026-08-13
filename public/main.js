@@ -506,76 +506,93 @@ const wallMaterial =
 // 벽 생성 함수
 // ==================================================
 
-function createWall(
+// ==================================================
+// 충돌 영역
+// ==================================================
 
+const wallColliders = [];
+
+
+// 일반 직사각형 충돌벽 추가
+function addWallCollider(
     x,
-
-    y,
-
     z,
-
     width,
-
-    height,
-
     depth
+) {
 
+    wallColliders.push({
+        minX: x - width / 2,
+        maxX: x + width / 2,
+        minZ: z - depth / 2,
+        maxZ: z + depth / 2
+    });
+
+}
+function createWall(
+    x,
+    y,
+    z,
+    width,
+    height,
+    depth
 ) {
 
     const geometry =
         new THREE.BoxGeometry(
-
             width,
-
             height,
-
             depth
-
         );
 
 
     const wall =
         new THREE.Mesh(
-
             geometry,
-
             wallMaterial
-
         );
 
 
     wall.position.set(
-
         x,
-
         y,
-
         z
-
     );
 
 
-    wall.castShadow =
-        true;
+    wall.castShadow = true;
+    wall.receiveShadow = true;
+
+    scene.add(wall);
 
 
-    wall.receiveShadow =
-        true;
-
-
-    scene.add(
-        wall
+    // ★ 이 벽을 충돌벽으로도 등록
+    addWallCollider(
+        x,
+        z,
+        width,
+        depth
     );
 
 
     return wall;
-
 }
-
 
 // ==================================================
 // 외벽
 // ==================================================
+
+// ==================================================
+// 열린 쪽 투명 충돌벽
+// 화면에는 보이지 않고 플레이어만 막힘
+// ==================================================
+
+addWallCollider(
+    0,      // 중앙
+    9,      // 갤러리 앞쪽 끝
+    18,     // 전체 가로폭
+    0.20
+);
 
 
 // 뒤쪽
@@ -1754,6 +1771,18 @@ function createCornerSpeaker(
 
     scene.add(
         speakerGroup
+    );
+
+
+    // ========================================
+    // 스피커 충돌 영역
+    // ========================================
+
+    addWallCollider(
+        x,
+        z,
+        1.10,
+        0.75
     );
 
 
@@ -3920,8 +3949,94 @@ window.addEventListener(
 
 
 // ==================================================
+// 벽 / 스피커 충돌 검사
+// ==================================================
+
+function resolveWorldCollision(
+    player,
+    previousPosition
+) {
+
+    // 플레이어 몸통 반경
+    const playerRadius = 0.38;
+
+    const x =
+        player.root.position.x;
+
+    const z =
+        player.root.position.z;
+
+
+    for (const wall of wallColliders) {
+
+        const collision =
+            x + playerRadius > wall.minX &&
+            x - playerRadius < wall.maxX &&
+            z + playerRadius > wall.minZ &&
+            z - playerRadius < wall.maxZ;
+
+
+        if (collision) {
+
+            // 일단 이전 위치로 되돌림
+            player.root.position.x =
+                previousPosition.x;
+
+            player.root.position.z =
+                previousPosition.z;
+
+            return;
+        }
+    }
+}
+
+// ==================================================
 // 이동
 // ==================================================
+
+
+// ==================================================
+// 벽 / 스피커 충돌 검사
+// ==================================================
+
+function resolveWorldCollision(
+    player,
+    previousPosition
+) {
+
+    // 플레이어 몸통 반경
+    const playerRadius = 0.38;
+
+    const x =
+        player.root.position.x;
+
+    const z =
+        player.root.position.z;
+
+
+    for (const wall of wallColliders) {
+
+        const collision =
+            x + playerRadius > wall.minX &&
+            x - playerRadius < wall.maxX &&
+            z + playerRadius > wall.minZ &&
+            z - playerRadius < wall.maxZ;
+
+
+        if (collision) {
+
+            // 일단 이전 위치로 되돌림
+            player.root.position.x =
+                previousPosition.x;
+
+            player.root.position.z =
+                previousPosition.z;
+
+            return;
+        }
+    }
+}
+
 
 function movePlayer() {
 
@@ -4185,6 +4300,10 @@ function movePlayer() {
             true;
 
     }
+    resolveWorldCollision(
+        player,
+        previousPosition
+    );
 
     resolvePlayerCollisions(
         player,
