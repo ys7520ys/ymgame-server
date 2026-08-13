@@ -2113,7 +2113,7 @@ const borderY = GALLERY_HEIGHT - 0.025;
 const ceilingBorderFront =
     new THREE.Mesh(
         new THREE.BoxGeometry(
-            GALLERY_WIDTH,
+            GALLERY_WIDTH - 0.24,
             borderThickness,
             borderThickness
         ),
@@ -2123,9 +2123,8 @@ const ceilingBorderFront =
 ceilingBorderFront.position.set(
     0,
     borderY,
-    GALLERY_DEPTH / 2
+    GALLERY_DEPTH / 2 - 0.12
 );
-
 scene.add(ceilingBorderFront);
 
 
@@ -2134,7 +2133,7 @@ const ceilingBorderBack =
     ceilingBorderFront.clone();
 
 ceilingBorderBack.position.z =
-    -GALLERY_DEPTH / 2;
+    -GALLERY_DEPTH / 2 + 0.12;
 
 scene.add(ceilingBorderBack);
 
@@ -2145,13 +2144,12 @@ const ceilingBorderLeft =
         new THREE.BoxGeometry(
             borderThickness,
             borderThickness,
-            GALLERY_DEPTH
+            GALLERY_DEPTH - 0.24
         ),
         ceilingBorderMaterial
     );
-
 ceilingBorderLeft.position.set(
-    -GALLERY_WIDTH / 2,
+    -GALLERY_WIDTH / 2 + 0.12,
     borderY,
     0
 );
@@ -2164,7 +2162,7 @@ const ceilingBorderRight =
     ceilingBorderLeft.clone();
 
 ceilingBorderRight.position.x =
-    GALLERY_WIDTH / 2;
+    GALLERY_WIDTH / 2 - 0.12;
 
 scene.add(ceilingBorderRight);
 
@@ -2218,15 +2216,21 @@ for (
 
 ) {
 
+    // const geometry =
+    //     new THREE.BoxGeometry(
+
+    //         18,
+
+    //         0.028,
+
+    //         0.035
+
+    //     );
     const geometry =
         new THREE.BoxGeometry(
-
-            18,
-
+            17.70,
             0.028,
-
             0.035
-
         );
 
 
@@ -2271,14 +2275,19 @@ for (
     const shadow =
         new THREE.Mesh(
 
+            // new THREE.BoxGeometry(
+
+            //     18,
+
+            //     0.006,
+
+            //     0.09
+
+            // ),
             new THREE.BoxGeometry(
-
-                18,
-
+                17.70,
                 0.006,
-
                 0.09
-
             ),
 
             gridShadowMaterial
@@ -2320,25 +2329,16 @@ for (
 
     const geometry =
         new THREE.BoxGeometry(
-
-            0.035,
-
+            17.70,
             0.028,
-
-            18
-
+            0.035
         );
-
 
     const beam =
         new THREE.Mesh(
-
             geometry,
-
             gridMaterial
-
         );
-
 
     beam.position.set(
 
@@ -2371,15 +2371,11 @@ for (
     const shadow =
         new THREE.Mesh(
 
-            new THREE.BoxGeometry(
-
-                0.09,
-
-                0.006,
-
-                18
-
-            ),
+        new THREE.BoxGeometry(
+            0.09,
+            0.006,
+            17.70
+        ),
 
             gridShadowMaterial
 
