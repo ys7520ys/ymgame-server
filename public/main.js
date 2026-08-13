@@ -1739,7 +1739,8 @@ function createCornerSpeaker(
     speakerGroup.position.set(
         x,
         y,
-        z
+        z,
+        rotationY = 0
     );
 
 
@@ -1750,7 +1751,7 @@ function createCornerSpeaker(
 
     speakerGroup.rotation.set(
         0,
-        0,
+        rotationY,
         0
     );
 
@@ -1771,15 +1772,17 @@ function createCornerSpeaker(
 const cornerSpeakers = [
 
     createCornerSpeaker(
-        -8.0,
+        -7.7,
         0.925,
-        -8.35
+        -8.35,
+        Math.PI / 8
     ),
 
     createCornerSpeaker(
-         8.0,
+         7.7,
          0.925,
-        -8.35
+        -8.35,
+        -Math.PI / 8
     )
 
 ];
@@ -1799,10 +1802,8 @@ const audioLoader =
 
 // 천장 네 꼭짓점
 const speakerPositions = [
-
-    [-8.0, 0.775, -8.35],
-    [ 8.0, 0.775, -8.35]
-
+    [-7.7, 0.925, -8.35],
+    [ 7.7, 0.925, -8.35]
 ];
 
 
