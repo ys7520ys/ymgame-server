@@ -261,15 +261,10 @@ const directionalLight =
 
 
 directionalLight.position.set(
-
-    -4,
-
-    8,
-
-    5
-
+    0,
+    10,
+    2
 );
-
 
 // 그림자
 directionalLight.castShadow =
@@ -655,21 +650,36 @@ createWall(
 // ==================================================
 
 createWall(
+
     -6.75,
-    GALLERY_HEIGHT / 2,
+
+    2.05,
+
     -6.1,
+
     4.3,
-    GALLERY_HEIGHT,
+
+    4.1,
+
     0.20
+
 );
 
+
 createWall(
+
     6.75,
-    GALLERY_HEIGHT / 2,
+
+    2.05,
+
     -6.1,
+
     4.3,
-    GALLERY_HEIGHT,
+
+    4.1,
+
     0.20
+
 );
 
 const centerWallFloorShadow =
