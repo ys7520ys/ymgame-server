@@ -1720,21 +1720,14 @@ function createCornerSpeaker(
 
 
     // ========================================
-    // 항상 스피커 정면이
-    // 전시장 중앙을 바라보게
+    // 스피커를 바닥에 수직으로 세우고
+    // 전시장 안쪽을 바라보게
     // ========================================
 
-    // 스피커가 전시장 중앙의 아래쪽을 바라보게
-    speakerGroup.up.set(
+    speakerGroup.rotation.set(
         0,
-        1,
+        0,
         0
-    );
-
-    speakerGroup.lookAt(
-        0,      // 중앙 X
-        2.5,    // 바라보는 높이
-        0       // 중앙 Z
     );
 
     scene.add(
@@ -1754,27 +1747,15 @@ function createCornerSpeaker(
 const cornerSpeakers = [
 
     createCornerSpeaker(
-        -8.45,
-        6.8,
-        -8.45
+        -8.0,
+        0.775,
+        -8.35
     ),
 
     createCornerSpeaker(
-         8.45,
-         6.8,
-        -8.45
-    ),
-
-    createCornerSpeaker(
-        -8.45,
-         6.8,
-         8.45
-    ),
-
-    createCornerSpeaker(
-         8.45,
-         6.8,
-         8.45
+         8.0,
+         0.775,
+        -8.35
     )
 
 ];
