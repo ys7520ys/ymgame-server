@@ -554,8 +554,7 @@ function createWall(
 
 
     wall.castShadow =
-        true;
-
+        false;
 
     wall.receiveShadow =
         true;
