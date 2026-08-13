@@ -554,7 +554,7 @@ function createWall(
 
 
     wall.castShadow =
-        false;
+        true;
 
     wall.receiveShadow =
         true;
@@ -2036,6 +2036,51 @@ rightBackCornerShadow.position.set(
 );
 
 scene.add(rightBackCornerShadow);
+
+
+
+
+
+// ==================================================
+// 중앙 전시벽 측면 접합 그림자
+// ==================================================
+
+const centerLeftCornerShadow =
+    new THREE.Mesh(
+        new THREE.BoxGeometry(
+            0.05,
+            4.1,
+            0.18
+        ),
+        wallCornerShadowMaterial
+    );
+
+centerLeftCornerShadow.position.set(
+    -4.30,
+    2.05,
+    -4.70
+);
+
+scene.add(centerLeftCornerShadow);
+
+
+const centerRightCornerShadow =
+    new THREE.Mesh(
+        new THREE.BoxGeometry(
+            0.05,
+            4.1,
+            0.18
+        ),
+        wallCornerShadowMaterial
+    );
+
+centerRightCornerShadow.position.set(
+    4.30,
+    2.05,
+    -4.70
+);
+
+scene.add(centerRightCornerShadow);
 // ==================================================
 // 천장 격자 프레임 재질
 // ==================================================
