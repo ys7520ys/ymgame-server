@@ -496,7 +496,7 @@ const wallMaterial =
 
     });
 
-
+const wallColliders = [];
 // ==================================================
 // 벽 생성 함수
 // ==================================================
@@ -556,7 +556,12 @@ function createWall(
     wall.receiveShadow =
         true;
 
-
+    wallColliders.push({
+        x: x,
+        z: z,
+        halfWidth: width / 2,
+        halfDepth: depth / 2
+    });
     scene.add(
         wall
     );
@@ -668,6 +673,107 @@ const rearRightWall = createWall(
 );
 
 rearRightWall.castShadow = false;
+// ==================================================
+// 플레이어 ↔ 벽 충돌
+// ==================================================
+
+function resolveWallCollisions(player) {
+
+    // 플레이어 몸통 반지름
+    const playerRadius = 0.32;
+
+    for (const wall of wallColliders) {
+
+        const minX =
+            wall.x -
+            wall.halfWidth -
+            playerRadius;
+
+        const maxX =
+            wall.x +
+            wall.halfWidth +
+            playerRadius;
+
+        const minZ =
+            wall.z -
+            wall.halfDepth -
+            playerRadius;
+
+        const maxZ =
+            wall.z +
+            wall.halfDepth +
+            playerRadius;
+
+
+        const px =
+            player.root.position.x;
+
+        const pz =
+            player.root.position.z;
+
+
+        // 벽 영역 안이 아니면 패스
+        if (
+            px <= minX ||
+            px >= maxX ||
+            pz <= minZ ||
+            pz >= maxZ
+        ) {
+            continue;
+        }
+
+
+        // 각 방향으로 얼마나 겹쳤는지 계산
+        const overlapLeft =
+            px - minX;
+
+        const overlapRight =
+            maxX - px;
+
+        const overlapBack =
+            pz - minZ;
+
+        const overlapFront =
+            maxZ - pz;
+
+
+        const smallest =
+            Math.min(
+                overlapLeft,
+                overlapRight,
+                overlapBack,
+                overlapFront
+            );
+
+
+        // 가장 가까운 방향으로 플레이어 밀어내기
+        if (smallest === overlapLeft) {
+
+            player.root.position.x =
+                minX;
+
+        }
+        else if (smallest === overlapRight) {
+
+            player.root.position.x =
+                maxX;
+
+        }
+        else if (smallest === overlapBack) {
+
+            player.root.position.z =
+                minZ;
+
+        }
+        else {
+
+            player.root.position.z =
+                maxZ;
+
+        }
+    }
+}
+
 
 const centerWallFloorShadow =
     new THREE.Mesh(
@@ -4174,7 +4280,7 @@ function movePlayer() {
             moveZ *
             currentSpeed;
 
-
+        resolveWallCollisions(player);
         player.root.rotation.y =
             yaw;
 
