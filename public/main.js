@@ -1450,6 +1450,28 @@ const ceilingGeometry =
     );
 
 
+// const ceilingMaterial =
+//     new THREE.MeshStandardMaterial({
+
+//         color:
+//             0xffffff,
+
+//         emissive:
+//             0xffffff,
+
+//         emissiveIntensity:
+//             0.8,
+
+//         roughness:
+//             0.82,
+
+//         metalness:
+//             0,
+
+//         side:
+//             THREE.DoubleSide
+
+//     });
 const ceilingMaterial =
     new THREE.MeshStandardMaterial({
 
@@ -1460,10 +1482,10 @@ const ceilingMaterial =
             0xffffff,
 
         emissiveIntensity:
-            0.8,
+            1.6,
 
         roughness:
-            0.82,
+            0.95,
 
         metalness:
             0,
