@@ -587,13 +587,40 @@ function createWall(
 // 화면에는 보이지 않고 플레이어만 막힘
 // ==================================================
 
+// ==================================================
+// 미술관 앞쪽 추가 투명 공간
+// 기존 방과 동일한 크기 18 x 18
+//
+// 기존 공간 : z -9 ~ 9
+// 추가 공간 : z  9 ~ 27
+// ==================================================
+
+
+// 추가 공간 왼쪽 투명벽
 addWallCollider(
-    0,      // 중앙
-    9,      // 갤러리 앞쪽 끝
-    18,     // 전체 가로폭
-    0.20
+    -9,
+    18,
+    0.20,
+    18
 );
 
+
+// 추가 공간 오른쪽 투명벽
+addWallCollider(
+    9,
+    18,
+    0.20,
+    18
+);
+
+
+// 추가 공간 맨 끝 투명벽
+addWallCollider(
+    0,
+    27,
+    18,
+    0.20
+);
 
 // 뒤쪽
 createWall(
@@ -3952,20 +3979,40 @@ window.addEventListener(
 // 벽 / 스피커 충돌 검사
 // ==================================================
 
-function resolveWorldCollision(
-    player,
-    previousPosition
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ==================================================
+// 벽 / 스피커 충돌 검사
+// 벽을 따라 자연스럽게 미끄러지도록 X / Z 분리
+// ==================================================
+
+function isWorldColliding(
+    x,
+    z,
+    playerRadius = 0.38
 ) {
-
-    // 플레이어 몸통 반경
-    const playerRadius = 0.38;
-
-    const x =
-        player.root.position.x;
-
-    const z =
-        player.root.position.z;
-
 
     for (const wall of wallColliders) {
 
@@ -3975,20 +4022,86 @@ function resolveWorldCollision(
             z + playerRadius > wall.minZ &&
             z - playerRadius < wall.maxZ;
 
-
         if (collision) {
-
-            // 일단 이전 위치로 되돌림
-            player.root.position.x =
-                previousPosition.x;
-
-            player.root.position.z =
-                previousPosition.z;
-
-            return;
+            return true;
         }
     }
+
+    return false;
 }
+
+
+function resolveWorldCollision(
+    player,
+    previousPosition
+) {
+
+    const targetX =
+        player.root.position.x;
+
+    const targetZ =
+        player.root.position.z;
+
+
+    // ==========================================
+    // X축부터 검사
+    // ==========================================
+
+    if (
+        isWorldColliding(
+            targetX,
+            previousPosition.z
+        )
+    ) {
+
+        player.root.position.x =
+            previousPosition.x;
+
+    }
+    else {
+
+        player.root.position.x =
+            targetX;
+
+    }
+
+
+    // ==========================================
+    // 그 다음 Z축 검사
+    // X축에서 확정된 위치를 이용
+    // ==========================================
+
+    if (
+        isWorldColliding(
+            player.root.position.x,
+            targetZ
+        )
+    ) {
+
+        player.root.position.z =
+            previousPosition.z;
+
+    }
+    else {
+
+        player.root.position.z =
+            targetZ;
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ==================================================
 // 이동
