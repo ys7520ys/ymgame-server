@@ -1294,8 +1294,8 @@ const wallArtworkHeight = 0.95;
 
 
 // 높이
-const lowerArtworkY = 1.65;
-const upperArtworkY = 2.95;
+const lowerArtworkY = 1.35;
+const upperArtworkY = 2.65;
 
 
 // Z 방향 위치
