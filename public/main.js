@@ -2685,14 +2685,14 @@ const stateSendInterval =
 // 이동 설정
 // ==================================================
 
-const walkSpeed =
-    0.08;
+// 걷기
+const walkSpeed = 0.045;
 
-const runSpeed =
-    0.15;
+// 달리기
+const runSpeed = 0.085;
 
-const crouchSpeed =
-    0.045;
+// 웅크린 상태 이동속도
+const crouchSpeed = 0.025;
 
 
 // ==================================================
