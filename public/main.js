@@ -4112,44 +4112,6 @@ function resolveWorldCollision(
 // 벽 / 스피커 충돌 검사
 // ==================================================
 
-function resolveWorldCollision(
-    player,
-    previousPosition
-) {
-
-    // 플레이어 몸통 반경
-    const playerRadius = 0.38;
-
-    const x =
-        player.root.position.x;
-
-    const z =
-        player.root.position.z;
-
-
-    for (const wall of wallColliders) {
-
-        const collision =
-            x + playerRadius > wall.minX &&
-            x - playerRadius < wall.maxX &&
-            z + playerRadius > wall.minZ &&
-            z - playerRadius < wall.maxZ;
-
-
-        if (collision) {
-
-            // 일단 이전 위치로 되돌림
-            player.root.position.x =
-                previousPosition.x;
-
-            player.root.position.z =
-                previousPosition.z;
-
-            return;
-        }
-    }
-}
-
 
 function movePlayer() {
 
