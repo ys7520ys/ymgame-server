@@ -2329,9 +2329,9 @@ for (
 
     const geometry =
         new THREE.BoxGeometry(
-            17.70,
+            0.035,
             0.028,
-            0.035
+            17.70
         );
 
     const beam =
