@@ -2113,7 +2113,7 @@ const borderY = GALLERY_HEIGHT - 0.025;
 const ceilingBorderFront =
     new THREE.Mesh(
         new THREE.BoxGeometry(
-            GALLERY_WIDTH - 0.24,
+            GALLERY_WIDTH,
             borderThickness,
             borderThickness
         ),
@@ -2123,8 +2123,9 @@ const ceilingBorderFront =
 ceilingBorderFront.position.set(
     0,
     borderY,
-    GALLERY_DEPTH / 2 - 0.12
+    GALLERY_DEPTH / 2
 );
+
 scene.add(ceilingBorderFront);
 
 
@@ -2133,7 +2134,7 @@ const ceilingBorderBack =
     ceilingBorderFront.clone();
 
 ceilingBorderBack.position.z =
-    -GALLERY_DEPTH / 2 + 0.12;
+    -GALLERY_DEPTH / 2;
 
 scene.add(ceilingBorderBack);
 
@@ -2144,12 +2145,13 @@ const ceilingBorderLeft =
         new THREE.BoxGeometry(
             borderThickness,
             borderThickness,
-            GALLERY_DEPTH - 0.24
+            GALLERY_DEPTH
         ),
         ceilingBorderMaterial
     );
+
 ceilingBorderLeft.position.set(
-    -GALLERY_WIDTH / 2 + 0.12,
+    -GALLERY_WIDTH / 2,
     borderY,
     0
 );
@@ -2162,7 +2164,7 @@ const ceilingBorderRight =
     ceilingBorderLeft.clone();
 
 ceilingBorderRight.position.x =
-    GALLERY_WIDTH / 2 - 0.12;
+    GALLERY_WIDTH / 2;
 
 scene.add(ceilingBorderRight);
 
@@ -2216,21 +2218,15 @@ for (
 
 ) {
 
-    // const geometry =
-    //     new THREE.BoxGeometry(
-
-    //         18,
-
-    //         0.028,
-
-    //         0.035
-
-    //     );
     const geometry =
         new THREE.BoxGeometry(
-            17.70,
+
+            18,
+
             0.028,
+
             0.035
+
         );
 
 
@@ -2275,19 +2271,14 @@ for (
     const shadow =
         new THREE.Mesh(
 
-            // new THREE.BoxGeometry(
-
-            //     18,
-
-            //     0.006,
-
-            //     0.09
-
-            // ),
             new THREE.BoxGeometry(
-                17.70,
+
+                18,
+
                 0.006,
+
                 0.09
+
             ),
 
             gridShadowMaterial
@@ -2329,16 +2320,25 @@ for (
 
     const geometry =
         new THREE.BoxGeometry(
+
             0.035,
+
             0.028,
-            17.70
+
+            18
+
         );
+
 
     const beam =
         new THREE.Mesh(
+
             geometry,
+
             gridMaterial
+
         );
+
 
     beam.position.set(
 
@@ -2371,11 +2371,15 @@ for (
     const shadow =
         new THREE.Mesh(
 
-        new THREE.BoxGeometry(
-            0.09,
-            0.006,
-            17.70
-        ),
+            new THREE.BoxGeometry(
+
+                0.09,
+
+                0.006,
+
+                18
+
+            ),
 
             gridShadowMaterial
 
@@ -3975,40 +3979,20 @@ window.addEventListener(
 // 벽 / 스피커 충돌 검사
 // ==================================================
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ==================================================
-// 벽 / 스피커 충돌 검사
-// 벽을 따라 자연스럽게 미끄러지도록 X / Z 분리
-// ==================================================
-
-function isWorldColliding(
-    x,
-    z,
-    playerRadius = 0.38
+function resolveWorldCollision(
+    player,
+    previousPosition
 ) {
+
+    // 플레이어 몸통 반경
+    const playerRadius = 0.38;
+
+    const x =
+        player.root.position.x;
+
+    const z =
+        player.root.position.z;
+
 
     for (const wall of wallColliders) {
 
@@ -4018,86 +4002,20 @@ function isWorldColliding(
             z + playerRadius > wall.minZ &&
             z - playerRadius < wall.maxZ;
 
+
         if (collision) {
-            return true;
+
+            // 일단 이전 위치로 되돌림
+            player.root.position.x =
+                previousPosition.x;
+
+            player.root.position.z =
+                previousPosition.z;
+
+            return;
         }
     }
-
-    return false;
 }
-
-
-function resolveWorldCollision(
-    player,
-    previousPosition
-) {
-
-    const targetX =
-        player.root.position.x;
-
-    const targetZ =
-        player.root.position.z;
-
-
-    // ==========================================
-    // X축부터 검사
-    // ==========================================
-
-    if (
-        isWorldColliding(
-            targetX,
-            previousPosition.z
-        )
-    ) {
-
-        player.root.position.x =
-            previousPosition.x;
-
-    }
-    else {
-
-        player.root.position.x =
-            targetX;
-
-    }
-
-
-    // ==========================================
-    // 그 다음 Z축 검사
-    // X축에서 확정된 위치를 이용
-    // ==========================================
-
-    if (
-        isWorldColliding(
-            player.root.position.x,
-            targetZ
-        )
-    ) {
-
-        player.root.position.z =
-            previousPosition.z;
-
-    }
-    else {
-
-        player.root.position.z =
-            targetZ;
-
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // ==================================================
 // 이동
@@ -4107,6 +4025,44 @@ function resolveWorldCollision(
 // ==================================================
 // 벽 / 스피커 충돌 검사
 // ==================================================
+
+function resolveWorldCollision(
+    player,
+    previousPosition
+) {
+
+    // 플레이어 몸통 반경
+    const playerRadius = 0.38;
+
+    const x =
+        player.root.position.x;
+
+    const z =
+        player.root.position.z;
+
+
+    for (const wall of wallColliders) {
+
+        const collision =
+            x + playerRadius > wall.minX &&
+            x - playerRadius < wall.maxX &&
+            z + playerRadius > wall.minZ &&
+            z - playerRadius < wall.maxZ;
+
+
+        if (collision) {
+
+            // 일단 이전 위치로 되돌림
+            player.root.position.x =
+                previousPosition.x;
+
+            player.root.position.z =
+                previousPosition.z;
+
+            return;
+        }
+    }
+}
 
 
 function movePlayer() {
