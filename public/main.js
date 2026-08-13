@@ -34,7 +34,7 @@ const camera =
         1000
     );
 const normalFov = 62;
-const zoomFov = 30;
+const zoomFov = 20;
 
 let isZooming = false;
 
