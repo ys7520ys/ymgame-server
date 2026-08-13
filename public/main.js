@@ -1989,7 +1989,53 @@ scene.add(
     rightCeilingShadow
 );
 
+const wallCornerShadowMaterial =
+    new THREE.MeshBasicMaterial({
+        color: 0x777777,
+        transparent: true,
+        opacity: 0.10,
+        depthWrite: false
+    });
 
+
+// 왼쪽 뒤 모서리
+const leftBackCornerShadow =
+    new THREE.Mesh(
+        new THREE.BoxGeometry(
+            0.04,
+            GALLERY_HEIGHT,
+            0.14
+        ),
+        wallCornerShadowMaterial
+    );
+
+leftBackCornerShadow.position.set(
+    -8.88,
+    GALLERY_HEIGHT / 2,
+    -8.86
+);
+
+scene.add(leftBackCornerShadow);
+
+
+// 오른쪽 뒤 모서리
+const rightBackCornerShadow =
+    new THREE.Mesh(
+        new THREE.BoxGeometry(
+            0.04,
+            GALLERY_HEIGHT,
+            0.14
+        ),
+        wallCornerShadowMaterial
+    );
+
+rightBackCornerShadow.position.set(
+    8.88,
+    GALLERY_HEIGHT / 2,
+    -8.86
+);
+
+scene.add(rightBackCornerShadow);
 // ==================================================
 // 천장 격자 프레임 재질
 // ==================================================
