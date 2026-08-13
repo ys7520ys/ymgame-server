@@ -3964,6 +3964,49 @@ window.addEventListener(
     true
 );
 
+window.addEventListener(
+    "keydown",
+    (event) => {
+
+        if (event.code !== "KeyP") {
+            return;
+        }
+
+        if (!myId) {
+            return;
+        }
+
+        const player =
+            players[myId];
+
+        if (!player) {
+            return;
+        }
+
+        console.log(
+            "===== SPAWN POSITION ====="
+        );
+
+        console.log({
+            x: player.root.position.x,
+            y: player.root.position.y,
+            z: player.root.position.z,
+
+            yaw: yaw,
+            pitch: pitch,
+
+            yawDegree:
+                THREE.MathUtils.radToDeg(yaw),
+
+            pitchDegree:
+                THREE.MathUtils.radToDeg(pitch)
+        });
+
+        console.log(
+            "=========================="
+        );
+    }
+);
 
 // ==================================================
 // 포커스 잃으면 키 초기화
