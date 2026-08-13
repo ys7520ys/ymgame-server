@@ -3575,7 +3575,6 @@ socket.on(
 // ==================================================
 // 현재 플레이어 목록
 // ==================================================
-
 socket.on(
     "currentPlayers",
     (serverPlayers) => {
@@ -3588,10 +3587,8 @@ socket.on(
                 continue;
             }
 
-
             const player =
                 serverPlayers[id];
-
 
             createPlayer(
                 id,
@@ -3606,9 +3603,34 @@ socket.on(
 
         }
 
+
+        // ==========================================
+        // 첫 화면 Fade In
+        // ==========================================
+
+        const sceneFade =
+            document.getElementById(
+                "sceneFade"
+            );
+
+        if (sceneFade) {
+
+            // 카메라와 장면이 먼저 몇 프레임 그려질 시간
+            setTimeout(
+                () => {
+
+                    sceneFade.classList.add(
+                        "scene-ready"
+                    );
+
+                },
+                300
+            );
+
+        }
+
     }
 );
-
 
 // ==================================================
 // 새 플레이어 접속
