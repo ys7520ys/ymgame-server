@@ -297,27 +297,29 @@ directionalLight.shadow.bias =
 
 // 그림자 범위
 directionalLight.shadow.camera.left =
-    -12;
-
+    -20;
 
 directionalLight.shadow.camera.right =
-    12;
-
+    20;
 
 directionalLight.shadow.camera.top =
-    12;
-
+    20;
 
 directionalLight.shadow.camera.bottom =
-    -12;
-
+    -20;
 
 directionalLight.shadow.camera.near =
-    0.5;
-
+    0.1;
 
 directionalLight.shadow.camera.far =
-    30;
+    50;
+
+
+
+
+
+
+
 
 
 scene.add(
