@@ -252,8 +252,11 @@ scene.add(
 
 const directionalLight =
     new THREE.DirectionalLight(
+
         0xfffdf8,
-        0
+
+        1.15
+
     );
 
 
@@ -496,7 +499,7 @@ const wallMaterial =
 
     });
 
-const wallColliders = [];
+
 // ==================================================
 // 벽 생성 함수
 // ==================================================
@@ -553,15 +556,11 @@ function createWall(
     wall.castShadow =
         true;
 
+
     wall.receiveShadow =
         true;
 
-    wallColliders.push({
-        x: x,
-        z: z,
-        halfWidth: width / 2,
-        halfDepth: depth / 2
-    });
+
     scene.add(
         wall
     );
@@ -635,151 +634,65 @@ createWall(
 // 중앙 메인 전시벽
 // ==================================================
 
-const centerWall = createWall(
-    0,
-    2.05,
-    -4.6,
-    8.6,
-    4.1,
-    0.24
-);
+createWall(
 
-centerWall.castShadow = false;
+    0,
+
+    2.05,
+
+    -4.6,
+
+    8.6,
+
+    4.1,
+
+    0.24
+
+);
 
 
 // ==================================================
 // 중앙벽 뒤 좌우 벽
 // ==================================================
 
-const rearLeftWall = createWall(
+createWall(
+
     -6.75,
+
     2.05,
+
     -6.1,
+
     4.3,
+
     4.1,
+
     0.20
+
 );
 
-rearLeftWall.castShadow = false;
 
+createWall(
 
-const rearRightWall = createWall(
     6.75,
+
     2.05,
+
     -6.1,
+
     4.3,
+
     4.1,
+
     0.20
+
 );
-
-rearRightWall.castShadow = false;
-// ==================================================
-// 플레이어 ↔ 벽 충돌
-// ==================================================
-
-function resolveWallCollisions(player) {
-
-    // 플레이어 몸통 반지름
-    const playerRadius = 0.32;
-
-    for (const wall of wallColliders) {
-
-        const minX =
-            wall.x -
-            wall.halfWidth -
-            playerRadius;
-
-        const maxX =
-            wall.x +
-            wall.halfWidth +
-            playerRadius;
-
-        const minZ =
-            wall.z -
-            wall.halfDepth -
-            playerRadius;
-
-        const maxZ =
-            wall.z +
-            wall.halfDepth +
-            playerRadius;
-
-
-        const px =
-            player.root.position.x;
-
-        const pz =
-            player.root.position.z;
-
-
-        // 벽 영역 안이 아니면 패스
-        if (
-            px <= minX ||
-            px >= maxX ||
-            pz <= minZ ||
-            pz >= maxZ
-        ) {
-            continue;
-        }
-
-
-        // 각 방향으로 얼마나 겹쳤는지 계산
-        const overlapLeft =
-            px - minX;
-
-        const overlapRight =
-            maxX - px;
-
-        const overlapBack =
-            pz - minZ;
-
-        const overlapFront =
-            maxZ - pz;
-
-
-        const smallest =
-            Math.min(
-                overlapLeft,
-                overlapRight,
-                overlapBack,
-                overlapFront
-            );
-
-
-        // 가장 가까운 방향으로 플레이어 밀어내기
-        if (smallest === overlapLeft) {
-
-            player.root.position.x =
-                minX;
-
-        }
-        else if (smallest === overlapRight) {
-
-            player.root.position.x =
-                maxX;
-
-        }
-        else if (smallest === overlapBack) {
-
-            player.root.position.z =
-                minZ;
-
-        }
-        else {
-
-            player.root.position.z =
-                maxZ;
-
-        }
-    }
-}
-
 
 const centerWallFloorShadow =
     new THREE.Mesh(
         new THREE.PlaneGeometry(
-            7.8,
-            0.35
+            8.2,
+            0.45
         ),
         new THREE.MeshBasicMaterial({
             color: 0x000000,
@@ -795,7 +708,7 @@ centerWallFloorShadow.rotation.x =
 centerWallFloorShadow.position.set(
     0,
     0.012,
-    -4.50
+    -4.43
 );
 
 scene.add(
@@ -850,16 +763,6 @@ artworkMat.position.z =
 artworkGroup.add(
     artworkMat
 );
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2087,98 +1990,7 @@ scene.add(
     rightCeilingShadow
 );
 
-const wallCornerShadowMaterial =
-    new THREE.MeshBasicMaterial({
-        color: 0x777777,
-        transparent: true,
-        opacity: 0.10,
-        depthWrite: false
-    });
 
-
-// 왼쪽 뒤 모서리
-const leftBackCornerShadow =
-    new THREE.Mesh(
-        new THREE.BoxGeometry(
-            0.04,
-            GALLERY_HEIGHT,
-            0.14
-        ),
-        wallCornerShadowMaterial
-    );
-
-leftBackCornerShadow.position.set(
-    -8.88,
-    GALLERY_HEIGHT / 2,
-    -8.86
-);
-
-scene.add(leftBackCornerShadow);
-
-
-// 오른쪽 뒤 모서리
-const rightBackCornerShadow =
-    new THREE.Mesh(
-        new THREE.BoxGeometry(
-            0.04,
-            GALLERY_HEIGHT,
-            0.14
-        ),
-        wallCornerShadowMaterial
-    );
-
-rightBackCornerShadow.position.set(
-    8.88,
-    GALLERY_HEIGHT / 2,
-    -8.86
-);
-
-scene.add(rightBackCornerShadow);
-
-
-
-
-
-// ==================================================
-// 중앙 전시벽 측면 접합 그림자
-// ==================================================
-
-const centerLeftCornerShadow =
-    new THREE.Mesh(
-        new THREE.BoxGeometry(
-            0.05,
-            4.1,
-            0.18
-        ),
-        wallCornerShadowMaterial
-    );
-
-centerLeftCornerShadow.position.set(
-    -4.30,
-    2.05,
-    -4.70
-);
-
-scene.add(centerLeftCornerShadow);
-
-
-const centerRightCornerShadow =
-    new THREE.Mesh(
-        new THREE.BoxGeometry(
-            0.05,
-            4.1,
-            0.18
-        ),
-        wallCornerShadowMaterial
-    );
-
-centerRightCornerShadow.position.set(
-    4.30,
-    2.05,
-    -4.70
-);
-
-scene.add(centerRightCornerShadow);
 // ==================================================
 // 천장 격자 프레임 재질
 // ==================================================
@@ -4280,7 +4092,7 @@ function movePlayer() {
             moveZ *
             currentSpeed;
 
-        resolveWallCollisions(player);
+
         player.root.rotation.y =
             yaw;
 
