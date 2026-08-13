@@ -2686,7 +2686,7 @@ const stateSendInterval =
 // ==================================================
 
 // 걷기
-const walkSpeed = 0.045;
+const walkSpeed = 0.055;
 
 // 달리기
 const runSpeed = 0.085;
