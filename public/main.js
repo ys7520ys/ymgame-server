@@ -1710,15 +1710,12 @@ function createCornerSpeaker(
 
     const frontPanel =
         new THREE.Mesh(
-
             new THREE.BoxGeometry(
-                0.72,
-                1.65,
+                0.90,
+                1.75,
                 0.03
             ),
-
             speakerFrontMaterial
-
         );
 
 
