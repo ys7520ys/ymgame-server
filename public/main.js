@@ -954,7 +954,7 @@ const guideTextureLoader =
 
 guideTextureLoader.load(
 
-    "./assets/Group2.png",
+    "./assets/Group.png",
 
     (texture) => {
 
@@ -1312,27 +1312,27 @@ function createWallArtwork(
 // ==================================================
 
 const leftWallArtworks = [
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
 
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
 ];
 
 
@@ -1341,27 +1341,27 @@ const leftWallArtworks = [
 // ==================================================
 
 const rightWallArtworks = [
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
 
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
+    "./assets/Group1-2.png",
 ];
 
 
