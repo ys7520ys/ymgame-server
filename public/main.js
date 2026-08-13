@@ -1584,11 +1584,11 @@ function createCornerSpeaker(
     // 크기
     // ========================================
 
-    const bodyHeight = 1.55;
-    const bodyDepth = 0.41;
+    const bodyHeight = 1.85;
+    const bodyDepth = 0.50;
 
-    const topWidth = 0.81;
-    const bottomWidth = 0.81;
+    const topWidth = 0.98;
+    const bottomWidth = 0.98;
 
 
     // ========================================
@@ -1712,8 +1712,8 @@ function createCornerSpeaker(
         new THREE.Mesh(
 
             new THREE.BoxGeometry(
-                0.58,
-                1.38,
+                0.72,
+                1.65,
                 0.03
             ),
 
@@ -1724,7 +1724,7 @@ function createCornerSpeaker(
 
     // 본체 정면보다 아주 살짝 앞으로
     frontPanel.position.z =
-        halfDepth - 0.015;
+        halfDepth - 0.005;
 
 
     speakerGroup.add(
@@ -1772,13 +1772,13 @@ const cornerSpeakers = [
 
     createCornerSpeaker(
         -8.0,
-        0.775,
+        0.925,
         -8.35
     ),
 
     createCornerSpeaker(
          8.0,
-         0.775,
+         0.925,
         -8.35
     )
 
