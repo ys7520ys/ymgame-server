@@ -1541,18 +1541,12 @@ scene.add(
 
 
 // 스피커 외부 본체 색상
-const speakerBodyMaterial =
+const speakerFrontMaterial =
     new THREE.MeshStandardMaterial({
-
-        color: 0x242424,
-
-        roughness: 0.75,
-
-        metalness: 0.1
-
+        color: 0x0d0d0d,
+        roughness: 0.62,
+        metalness: 0.02
     });
-
-
 // 스피커 정면 검은 패널
 const speakerFrontMaterial =
     new THREE.MeshStandardMaterial({
@@ -1731,6 +1725,170 @@ function createCornerSpeaker(
         frontPanel
     );
 
+    // ==================================================
+    // 실제 스피커 느낌의 전면 유닛
+    // ==================================================
+
+    const speakerConeMaterial =
+        new THREE.MeshStandardMaterial({
+            color: 0x111111,
+            roughness: 0.55,
+            metalness: 0.05
+        });
+
+    const speakerSurroundMaterial =
+        new THREE.MeshStandardMaterial({
+            color: 0x242424,
+            roughness: 0.8,
+            metalness: 0
+        });
+
+    const tweeterMaterial =
+        new THREE.MeshStandardMaterial({
+            color: 0x222222,
+            roughness: 0.35,
+            metalness: 0.25
+        });
+
+
+    // 우퍼 생성 함수
+    function createWoofer(y, radius) {
+
+        const group =
+            new THREE.Group();
+
+
+        // 바깥 고무 서라운드
+        const surround =
+            new THREE.Mesh(
+
+                new THREE.CylinderGeometry(
+                    radius,
+                    radius,
+                    0.045,
+                    32
+                ),
+
+                speakerSurroundMaterial
+
+            );
+
+        surround.rotation.x =
+            Math.PI / 2;
+
+        surround.position.z =
+            halfDepth + 0.065;
+
+        group.add(
+            surround
+        );
+
+
+        // 안쪽 콘
+        const cone =
+            new THREE.Mesh(
+
+                new THREE.CylinderGeometry(
+                    radius * 0.68,
+                    radius * 0.48,
+                    0.035,
+                    32
+                ),
+
+                speakerConeMaterial
+
+            );
+
+        cone.rotation.x =
+            Math.PI / 2;
+
+        cone.position.z =
+            halfDepth + 0.09;
+
+        group.add(
+            cone
+        );
+
+
+        // 중앙 더스트캡
+        const dustCap =
+            new THREE.Mesh(
+
+                new THREE.SphereGeometry(
+                    radius * 0.24,
+                    24,
+                    12
+                ),
+
+                speakerConeMaterial
+
+            );
+
+        dustCap.scale.z =
+            0.35;
+
+        dustCap.position.z =
+            halfDepth + 0.115;
+
+        group.add(
+            dustCap
+        );
+
+
+        group.position.y =
+            y;
+
+        return group;
+    }
+
+
+    // 아래 우퍼
+    speakerGroup.add(
+        createWoofer(
+            -0.38,
+            0.20
+        )
+    );
+
+
+    // 위 미드/우퍼
+    speakerGroup.add(
+        createWoofer(
+            0.18,
+            0.16
+        )
+    );
+
+
+    // ==================================================
+    // 트위터
+    // ==================================================
+
+    const tweeter =
+        new THREE.Mesh(
+
+            new THREE.SphereGeometry(
+                0.075,
+                24,
+                12
+            ),
+
+            tweeterMaterial
+
+        );
+
+    tweeter.scale.z =
+        0.35;
+
+    tweeter.position.set(
+        0,
+        0.55,
+        halfDepth + 0.10
+    );
+
+    speakerGroup.add(
+        tweeter
+    );
 
     // ========================================
     // 위치
