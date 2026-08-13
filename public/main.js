@@ -3331,15 +3331,17 @@ function findStandingPlayer(player) {
     return null;
 }
 
-
-function resolvePlayerCollisions(
+function isPlayerCollidingAt(
     player,
-    previousPosition
+    x,
+    z
 ) {
 
-    const myHalfWidth = 0.5;
+    const playerRadius = 0.50;
 
-    let landedOnPlayer = false;
+    const myBounds =
+        getPlayerBounds(player);
+
 
     for (const id in players) {
 
@@ -3354,7 +3356,82 @@ function resolvePlayerCollisions(
             continue;
         }
 
-        const otherHalfWidth = 0.5;
+
+        const otherBounds =
+            getPlayerBounds(other);
+
+
+        // 높이가 실제로 겹치는 경우에만
+        // 옆 충돌 처리
+        const verticalOverlap =
+            myBounds.top >
+                otherBounds.bottom + 0.05 &&
+            myBounds.bottom <
+                otherBounds.top - 0.05;
+
+
+        if (!verticalOverlap) {
+            continue;
+        }
+
+
+        const dx =
+            x -
+            other.root.position.x;
+
+        const dz =
+            z -
+            other.root.position.z;
+
+
+        const distance =
+            Math.hypot(
+                dx,
+                dz
+            );
+
+
+        if (
+            distance <
+            playerRadius * 2
+        ) {
+
+            return true;
+        }
+    }
+
+
+    return false;
+}
+
+
+
+function resolvePlayerCollisions(
+    player,
+    previousPosition
+) {
+
+    let landedOnPlayer =
+        false;
+
+
+    // ==================================================
+    // 1. 다른 플레이어 머리 위 착지
+    // ==================================================
+
+    for (const id in players) {
+
+        if (id === myId) {
+            continue;
+        }
+
+        const other =
+            players[id];
+
+        if (!other) {
+            continue;
+        }
+
 
         const myBounds =
             getPlayerBounds(player);
@@ -3362,21 +3439,20 @@ function resolvePlayerCollisions(
         const otherBounds =
             getPlayerBounds(other);
 
+
         const overlapX =
             Math.abs(
                 player.root.position.x -
                 other.root.position.x
-            ) <
-            myHalfWidth +
-            otherHalfWidth;
+            ) < 0.95;
+
 
         const overlapZ =
             Math.abs(
                 player.root.position.z -
                 other.root.position.z
-            ) <
-            myHalfWidth +
-            otherHalfWidth;
+            ) < 0.95;
+
 
         if (
             !overlapX ||
@@ -3385,10 +3461,13 @@ function resolvePlayerCollisions(
             continue;
         }
 
-        const previousBottom =
-            previousPosition.y - 0.5;
 
-        // 위에서 내려오면 머리 위 착지
+        const previousBottom =
+            previousPosition.y -
+            0.5;
+
+
+        // 위에서 떨어질 때만
         if (
             verticalVelocity <= 0 &&
             previousBottom >=
@@ -3400,116 +3479,77 @@ function resolvePlayerCollisions(
             player.root.position.y =
                 otherBounds.top + 0.5;
 
-            verticalVelocity = 0;
+            verticalVelocity =
+                0;
 
-            isGrounded = true;
+            isGrounded =
+                true;
 
-            landedOnPlayer = true;
+            landedOnPlayer =
+                true;
 
-            continue;
-        }
-
-
-        const verticalOverlap =
-            myBounds.top >
-                otherBounds.bottom + 0.05 &&
-            myBounds.bottom <
-                otherBounds.top - 0.05;
-
-        // if (verticalOverlap) {
-
-        //     player.root.position.x =
-        //         previousPosition.x;
-
-        //     player.root.position.z =
-        //         previousPosition.z;
-        // }
-
-        if (verticalOverlap) {
-
-            const dx =
-                player.root.position.x -
-                other.root.position.x;
-
-            const dz =
-                player.root.position.z -
-                other.root.position.z;
-
-
-            let distance =
-                Math.hypot(
-                    dx,
-                    dz
-                );
-
-
-            if (distance < 0.0001) {
-                distance = 0.0001;
-            }
-
-
-            const normalX =
-                dx / distance;
-
-            const normalZ =
-                dz / distance;
-
-
-            const overlap =
-                1.0 - distance;
-
-
-            if (overlap > 0) {
-
-                // =========================================
-                // 내 캐릭터도 살짝 밀림
-                // =========================================
-
-                const selfPush =
-                    0.25;
-
-
-                player.root.position.x +=
-                    normalX *
-                    overlap *
-                    selfPush;
-
-
-                player.root.position.z +=
-                    normalZ *
-                    overlap *
-                    selfPush;
-
-
-                // =========================================
-                // 상대 캐릭터도 밀기
-                // =========================================
-
-                const otherPush =
-                    0.06;
-
-
-                socket.emit(
-                    "pushPlayer",
-                    {
-
-                        targetId:
-                            id,
-
-                        pushX:
-                            -normalX *
-                            otherPush,
-
-                        pushZ:
-                            -normalZ *
-                            otherPush
-
-                    }
-                );
-            }
+            break;
         }
     }
 
+
+    // ==================================================
+    // 2. 플레이어끼리 옆 충돌
+    // 벽처럼 X / Z 따로 검사
+    // ==================================================
+
+    const targetX =
+        player.root.position.x;
+
+    const targetZ =
+        player.root.position.z;
+
+
+    // X만 움직였을 때 충돌하는지 확인
+    if (
+        isPlayerCollidingAt(
+            player,
+            targetX,
+            previousPosition.z
+        )
+    ) {
+
+        player.root.position.x =
+            previousPosition.x;
+
+    }
+    else {
+
+        player.root.position.x =
+            targetX;
+
+    }
+
+
+    // Z는 확정된 X 기준으로 검사
+    if (
+        isPlayerCollidingAt(
+            player,
+            player.root.position.x,
+            targetZ
+        )
+    ) {
+
+        player.root.position.z =
+            previousPosition.z;
+
+    }
+    else {
+
+        player.root.position.z =
+            targetZ;
+
+    }
+
+
+    // ==================================================
+    // 3. 머리 위에 서 있다가 상대가 빠져나간 경우
+    // ==================================================
 
     if (
         isGrounded &&
@@ -3519,23 +3559,30 @@ function resolvePlayerCollisions(
     ) {
 
         const support =
-            findStandingPlayer(player);
+            findStandingPlayer(
+                player
+            );
+
 
         if (support) {
 
             const supportBounds =
-                getPlayerBounds(support);
+                getPlayerBounds(
+                    support
+                );
 
             player.root.position.y =
                 supportBounds.top + 0.5;
 
-        } else {
+        }
+        else {
 
-            isGrounded = false;
+            isGrounded =
+                false;
+
         }
     }
 }
-
 
 // ==================================================
 // 접속 완료
@@ -3742,26 +3789,26 @@ socket.on(
 // 서버에서 플레이어 밀림 수신
 // ==================================================
 
-socket.on(
-    "playerPushed",
-    (data) => {
+// socket.on(
+//     "playerPushed",
+//     (data) => {
 
-        const player =
-            players[data.id];
+//         const player =
+//             players[data.id];
 
-        if (!player) {
-            return;
-        }
+//         if (!player) {
+//             return;
+//         }
 
 
-        player.root.position.x =
-            data.x;
+//         player.root.position.x =
+//             data.x;
 
-        player.root.position.z =
-            data.z;
+//         player.root.position.z =
+//             data.z;
 
-    }
-);
+//     }
+// );
 
 
 // ==================================================
