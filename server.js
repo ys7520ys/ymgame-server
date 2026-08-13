@@ -55,19 +55,13 @@ io.on("connection", (socket) => {
         id: socket.id,
 
         x: 0,
-
         y: 0.75,
-
-        z: 5,
+        z: 26,
 
         rotation: 0,
 
-        pitch: 0,
-
         crouching: false
-
     };
-
 
     // ================================
     // 새 접속자에게
