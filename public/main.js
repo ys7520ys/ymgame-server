@@ -253,7 +253,7 @@ scene.add(
 const directionalLight =
     new THREE.DirectionalLight(
         0xfffdf8,
-        0.65
+        0
     );
 
 
