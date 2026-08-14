@@ -1434,9 +1434,9 @@ createWallArtwork(
 // 오른쪽 벽 경고문
 createWallArtwork(
     "./assets/warning.png",
-    8.82,           // 오른쪽 벽
+    1.82,           // 오른쪽 벽
     2.2,            // 높이
-    -6.8,           // 앞뒤 위치
+    -1.8,           // 앞뒤 위치
     1.0,
     0.4,
     -Math.PI / 2
