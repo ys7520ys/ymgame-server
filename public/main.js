@@ -440,8 +440,8 @@ floorTexture.wrapT =
 
 // 바닥에 이미지 반복
 floorTexture.repeat.set(
-    9,
-    9
+    7,
+    7
 );
 
 
@@ -2706,7 +2706,6 @@ benchGroup.position.set(
 const players = {};
 const gltfLoader =
     new THREE.GLTFLoader();
-
 // let myId = null;
 
 
@@ -2900,166 +2899,86 @@ function createPlayer(
 
 
 
+// ========================================
+// 3D GLB 캐릭터
+// ========================================
 
-    // ========================================
-    // 캐릭터 앞면 / 뒷면
-    // ========================================
+const visual =
+    new THREE.Group();
 
-    const characterHeight = 1.5;
-
-
-    // 캐릭터 전체 그룹
-    const visual =
-        new THREE.Group();
+root.add(
+    visual
+);
 
 
-    // ========================================
-    // 앞면 이미지
-    // ========================================
+// GLB 캐릭터 불러오기
+gltfLoader.load(
 
-    const frontTexture =
-        new THREE.TextureLoader().load(
-            "./assets/character-front.png",
+    "./assets/character.glb",
 
-            (texture) => {
+    (gltf) => {
 
-                texture.colorSpace =
-                    THREE.SRGBColorSpace;
+        const model =
+            gltf.scene;
 
-                const aspect =
-                    texture.image.width /
-                    texture.image.height;
 
-                const width =
-                    characterHeight * aspect;
+        // 크기
+        model.scale.set(
+            1,
+            1,
+            1
+        );
 
-                front.geometry.dispose();
 
-                front.geometry =
-                    new THREE.PlaneGeometry(
-                        width,
-                        characterHeight
-                    );
+        // 방향
+        model.rotation.y =
+            Math.PI;
 
-                back.geometry.dispose();
 
-                back.geometry =
-                    new THREE.PlaneGeometry(
-                        width,
-                        characterHeight
-                    );
+        // 위치
+        model.position.set(
+            0,
+            -0.75,
+            0
+        );
+
+
+        // 그림자
+        model.traverse(
+            (child) => {
+
+                if (child.isMesh) {
+
+                    child.castShadow =
+                        true;
+
+                    child.receiveShadow =
+                        true;
+
+                }
+
             }
         );
 
-    frontTexture.colorSpace =
-        THREE.SRGBColorSpace;
 
-
-    // ========================================
-    // 뒷면 이미지
-    // ========================================
-
-    const backTexture =
-        new THREE.TextureLoader().load(
-            "./assets/character-back.png"
+        visual.add(
+            model
         );
 
-    backTexture.colorSpace =
-        THREE.SRGBColorSpace;
+    },
 
+    undefined,
 
-    // ========================================
-    // 임시 평면
-    // ========================================
+    (error) => {
 
-    const frontGeometry =
-        new THREE.PlaneGeometry(
-            1,
-            characterHeight
+        console.error(
+            "캐릭터 GLB 로딩 실패:",
+            error
         );
 
-    const backGeometry =
-        new THREE.PlaneGeometry(
-            1,
-            characterHeight
-        );
+    }
 
-
-    // ========================================
-    // 앞면 재질
-    // ========================================
-
-    const frontMaterial =
-        new THREE.MeshBasicMaterial({
-
-            map:
-                frontTexture,
-
-            transparent:
-                true,
-
-            alphaTest:
-                0.1,
-
-            side:
-                THREE.BackSide
-
-        });
-
-
-    // ========================================
-    // 뒷면 재질
-    // ========================================
-
-    const backMaterial =
-        new THREE.MeshBasicMaterial({
-
-            map:
-                backTexture,
-
-            transparent:
-                true,
-
-            alphaTest:
-                0.1,
-
-            // 뒷면
-            side:
-                THREE.FrontSide
-
-        });
-
-
-    // ========================================
-    // 앞면
-    // ========================================
-
-    const front =
-        new THREE.Mesh(
-            frontGeometry,
-            frontMaterial
-        );
-
-
-    // ========================================
-    // 뒷면
-    // ========================================
-
-    const back =
-        new THREE.Mesh(
-            backGeometry,
-            backMaterial
-        );
-
-
-    // 둘을 정확히 같은 위치에 배치
-    visual.add(front);
-    visual.add(back);
-
-
-    // 플레이어에 추가
-    root.add(visual);
-
+);
 
 
 
