@@ -440,8 +440,8 @@ floorTexture.wrapT =
 
 // 바닥에 이미지 반복
 floorTexture.repeat.set(
-    2,
-    2
+    9,
+    9
 );
 
 
@@ -2704,6 +2704,8 @@ benchGroup.position.set(
 // ==================================================
 
 const players = {};
+const gltfLoader =
+    new THREE.GLTFLoader();
 
 // let myId = null;
 
