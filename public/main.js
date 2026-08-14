@@ -1,7 +1,23 @@
+const MULTIPLAYER = true;
 
 const socket = io(
     "https://ymgame-server.onrender.com"
 );
+
+
+
+// 멀티플레이 임시 OFF
+
+// const socket = {
+//     id: "local-player",
+
+//     on: function () {},
+
+//     emit: function () {}
+// };
+
+
+
 
 
 // ==================================================
@@ -307,6 +323,11 @@ directionalLight.shadow.bias =
     -0.0003;
 
 
+
+
+
+    
+
 // 그림자 범위
 directionalLight.shadow.camera.left =
     -20;
@@ -319,6 +340,16 @@ directionalLight.shadow.camera.top =
 
 directionalLight.shadow.camera.bottom =
     -20;
+
+
+
+
+
+
+
+
+
+
 
 directionalLight.shadow.camera.near =
     0.1;
@@ -409,8 +440,8 @@ floorTexture.wrapT =
 
 // 바닥에 이미지 반복
 floorTexture.repeat.set(
-    7,
-    7
+    2,
+    2
 );
 
 
@@ -437,7 +468,7 @@ const floorMaterial =
             floorTexture,
 
         roughness:
-            0.5,
+            0.3,
 
         metalness:
             0
@@ -954,7 +985,7 @@ const guideTextureLoader =
 
 guideTextureLoader.load(
 
-    "./assets/Group2.png",
+    "./assets/Group3.png",
 
     (texture) => {
 
@@ -998,6 +1029,12 @@ guideTextureLoader.load(
 
                 map:
                     texture,
+
+                transparent:
+                    true,
+
+                alphaTest:
+                    0.01,
 
                 roughness:
                     0.8,
@@ -1312,152 +1349,84 @@ function createWallArtwork(
 // ==================================================
 
 const leftWallArtworks = [
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
+    "./assets/Group1-3.png",
+    "./assets/Group1-4.png",
+    "./assets/Group1-5.png",
+    "./assets/Group1-1.png"
 ];
 
 
 // ==================================================
-// 오른쪽 벽 작품 20개
+// 오른쪽 벽 작품 4개
 // ==================================================
 
 const rightWallArtworks = [
     "./assets/Group1-1.png",
     "./assets/Group1-1.png",
     "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
+    "./assets/Group1-1.png"
 ];
-
 
 // ==================================================
 // 작품 배치 설정
 // ==================================================
 
 // 작품 크기
-const wallArtworkWidth = 0.65;
-const wallArtworkHeight = 0.95;
+const wallArtworkWidth = 0.9;
+const wallArtworkHeight = 1.3;
 
-
+const artworkY = 2.0;
 // 높이
-const lowerArtworkY = 1.25;
-const upperArtworkY = 2.55;
-
 
 // Z 방향 위치
 // 기존 -7.5 ~ 7.5보다 안쪽으로 당겨서
 // 벽 끝/중앙 구조물에 가려지는 것 방지
 const artworkZPositions = [
-    -4.4,
-    -3.05,
-    -1.7,
-    -0.35,
-     1.0,
-     2.35,
-     3.7,
-     5.05,
-     6.4,
-     7.7
+    -3.4,
+     0.2,
+     3.8,
+     7.4
 ];
 
 // ==================================================
 // 왼쪽 벽
 // ==================================================
 
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 4; i++) {
 
-    // 아래쪽
     createWallArtwork(
         leftWallArtworks[i],
         -8.82,
-        lowerArtworkY,
+        artworkY,
         artworkZPositions[i],
         wallArtworkWidth,
         wallArtworkHeight,
         Math.PI / 2
     );
 
-
-    // 위쪽
-    createWallArtwork(
-        leftWallArtworks[i + 10],
-        -8.82,
-        upperArtworkY,
-        artworkZPositions[i],
-        wallArtworkWidth,
-        wallArtworkHeight,
-        Math.PI / 2
-    );
-}
-
+}   
 
 // ==================================================
 // 오른쪽 벽
 // ==================================================
 
-for (let i = 0; i < 10; i++) {
+// ==================================================
+// 오른쪽 벽 작품 4개
+// ==================================================
 
-    // 아래쪽
+for (let i = 0; i < 4; i++) {
+
     createWallArtwork(
         rightWallArtworks[i],
         8.82,
-        lowerArtworkY,
+        artworkY,
         artworkZPositions[i],
         wallArtworkWidth,
         wallArtworkHeight,
         -Math.PI / 2
     );
 
-
-    // 위쪽
-    createWallArtwork(
-        rightWallArtworks[i + 10],
-        8.82,
-        upperArtworkY,
-        artworkZPositions[i],
-        wallArtworkWidth,
-        wallArtworkHeight,
-        -Math.PI / 2
-    );
 }
-
-
-
 
 
 
@@ -2736,7 +2705,14 @@ benchGroup.position.set(
 
 const players = {};
 
-let myId = null;
+// let myId = null;
+
+
+
+
+
+
+let myId = "local-player";
 
 
 // ==================================================
@@ -3149,6 +3125,29 @@ function createPlayer(
 }
 
 
+
+
+
+if (!MULTIPLAYER) {
+    createPlayer(
+        myId,
+        0,
+        0.75,
+        26,
+        true,
+        false
+    );
+
+    // 개인용 모드에서도 시작 화면 페이드 제거
+    const sceneFade =
+        document.getElementById("sceneFade");
+
+    if (sceneFade) {
+        setTimeout(() => {
+            sceneFade.classList.add("scene-ready");
+        }, 300);
+    }
+}
 // ==================================================
 // 웅크리기 모양 적용
 // ==================================================
@@ -3866,24 +3865,22 @@ function updatePlayerCount() {
 
 }
 
-
-// ==================================================
-// 마우스 잠금
-// ==================================================
-
 renderer.domElement.addEventListener(
     "click",
     () => {
 
-        // 시작 화면 종료
-        // introView = false;
+        // 브라우저가 막아둔 오디오 활성화
+        if (
+            audioListener.context.state === "suspended"
+        ) {
+            audioListener.context.resume();
+        }
 
         renderer.domElement
             .requestPointerLock();
 
     }
 );
-
 
 // ==================================================
 // 마우스 시점
