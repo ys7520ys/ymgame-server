@@ -1247,32 +1247,25 @@ function createWallArtwork(
             const picture =
                 new THREE.Mesh(
 
-                    new THREE.PlaneGeometry(
-
+                    new THREE.BoxGeometry(
                         pictureWidth,
-                        pictureHeight
-
+                        pictureHeight,
+                        0.06          // 두께
                     ),
 
                     new THREE.MeshStandardMaterial({
-
-                        map:
-                            texture,
-
-                        roughness:
-                            0.8,
-
-                        metalness:
-                            0
-
+                        map: texture,
+                        roughness: 0.8,
+                        metalness: 0
                     })
 
                 );
 
-
+            picture.castShadow = true;
+            picture.receiveShadow = true;
             // 액자보다 살짝 앞으로
             picture.position.z =
-                0.006;
+                0.005;
 
 
             group.add(
