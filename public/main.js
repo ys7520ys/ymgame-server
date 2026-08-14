@@ -1372,6 +1372,13 @@ const leftWallArtworks = [
     "./assets/Group1-1.png"
 ];
 
+// ★ 각 작품 옆 네임택
+const leftWallNameTags = [
+    "./assets/name1.png",
+    "./assets/name2.png",
+    "./assets/name3.png",
+    "./assets/name4.png"
+];
 
 // ==================================================
 // 오른쪽 벽 작품 4개
@@ -1383,7 +1390,12 @@ const rightWallArtworks = [
     "./assets/Group1-1.png",
     "./assets/Group1-1.png"
 ];
-
+const rightWallNameTags = [
+    "./assets/name5.png",
+    "./assets/name6.png",
+    "./assets/name7.png",
+    "./assets/name8.png"
+];
 // ==================================================
 // 작품 배치 설정
 // ==================================================
@@ -1411,6 +1423,9 @@ const artworkZPositions = [
 
 for (let i = 0; i < 4; i++) {
 
+    // ==============================
+    // 작품
+    // ==============================
     createWallArtwork(
         leftWallArtworks[i],
         -8.82,
@@ -1421,8 +1436,24 @@ for (let i = 0; i < 4; i++) {
         Math.PI / 2
     );
 
-}   
 
+    // ==============================
+    // 작품 옆 네임택
+    // ==============================
+    createWallArtwork(
+        leftWallNameTags[i],
+
+        -8.82,                         // 같은 벽
+        1.65,                          // 네임택 높이
+        artworkZPositions[i] + 0.9,    // 작품 옆으로 이동
+
+        0.3,
+        0.28,                          // 네임택 세로 크기
+
+        Math.PI / 2
+    );
+
+}
 // ==================================================
 // 오른쪽 벽
 // ==================================================
@@ -1433,6 +1464,7 @@ for (let i = 0; i < 4; i++) {
 
 for (let i = 0; i < 4; i++) {
 
+    // 작품
     createWallArtwork(
         rightWallArtworks[i],
         8.82,
@@ -1443,6 +1475,18 @@ for (let i = 0; i < 4; i++) {
         -Math.PI / 2
     );
 
+
+    // 작품 옆 네임택
+    createWallArtwork(
+        rightWallNameTags[i],
+        8.82,
+        1.65,
+        artworkZPositions[i] - 0.9,
+        0.3,
+        0.28,
+        -Math.PI / 2
+    );
+
 }
 createWallArtwork(
     "./assets/warning.png",
@@ -1450,7 +1494,7 @@ createWallArtwork(
     2.2,            // 높이
     -6.8,           // 앞뒤 위치
     1.0,
-    0.4,            // 이미지 세로 크기
+    0.3,            // 이미지 세로 크기
     Math.PI / 2
 );
 
@@ -1462,7 +1506,7 @@ createWallArtwork(
     2.2,            // 높이
     -6.8,           // 앞뒤 위치
     1.0,
-    0.4,
+    0.3,
     -Math.PI / 2
 );
 
