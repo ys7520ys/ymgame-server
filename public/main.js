@@ -1173,6 +1173,7 @@ guideTextureLoader.load(
 // 벽 작품 생성 함수
 // 이미지 원본 비율 자동 유지
 // ==================================================
+const artworkSideColor = 0x222222;
 
 function createWallArtwork(
     imagePath,
@@ -1244,25 +1245,55 @@ function createWallArtwork(
             // 작품 이미지
             // ==========================================
 
-            const picture =
-                new THREE.Mesh(
-
-                    new THREE.BoxGeometry(
-                        pictureWidth,
-                        pictureHeight,
-                        0.06          // 두께
-                    ),
-
-                    new THREE.MeshStandardMaterial({
-                        map: texture,
-                        roughness: 0.8,
-                        metalness: 0
-                    })
-
+            const pictureGeometry =
+                new THREE.BoxGeometry(
+                    pictureWidth,
+                    pictureHeight,
+                    0.06
                 );
 
-            picture.castShadow = true;
-            picture.receiveShadow = true;
+
+            // 옆면 / 윗면 / 아랫면 / 뒷면용
+            const sideMaterial =
+                new THREE.MeshStandardMaterial({
+                    color: artworkSideColor,
+                    roughness: 0.8,
+                    metalness: 0
+                });
+
+
+            // 정면 이미지용
+            const frontMaterial =
+                new THREE.MeshStandardMaterial({
+                    map: texture,
+                    roughness: 0.8,
+                    metalness: 0
+                });
+
+
+            // BoxGeometry 재질 순서
+            const pictureMaterials = [
+                sideMaterial,   // 오른쪽
+                sideMaterial,   // 왼쪽
+                sideMaterial,   // 위
+                sideMaterial,   // 아래
+                frontMaterial,  // 앞
+                sideMaterial    // 뒤
+            ];
+
+
+            const picture =
+                new THREE.Mesh(
+                    pictureGeometry,
+                    pictureMaterials
+                );
+
+
+            picture.castShadow =
+                true;
+
+            picture.receiveShadow =
+                true;
             // 액자보다 살짝 앞으로
             picture.position.z =
                 0.005;
