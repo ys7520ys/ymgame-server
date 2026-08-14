@@ -1425,19 +1425,13 @@ for (let i = 0; i < 4; i++) {
 // 오른쪽 스피커 옆 경고문 1개
 createWallArtwork(
     "./assets/warning.png",
-    8.82,
-    2.2,
-    -7.0,
+    4.0,
+    3.0,
+    -4.45,
     1.0,
     0.4,
-    -Math.PI / 2
+    0
 );
-
-
-
-
-
-
 
 
 
