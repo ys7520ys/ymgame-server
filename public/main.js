@@ -1708,7 +1708,6 @@ const leftWallArtworks = [
     "./assets/엶아바라.png",
 ];
 
-// ★ 각 작품 옆 네임택
 const leftWallNameTags = [
     "./assets/코딱지네임.png",
     "./assets/엶아바라네임.png",
