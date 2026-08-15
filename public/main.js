@@ -1,8 +1,54 @@
+// const MULTIPLAYER = true;
+// const MULTIPLAYER = false;
+
+// const socket = io(
+//     "https://ymgame-server.onrender.com"
+// );
+
+
+
+
+
+
+
+
+
+
+
+
 const MULTIPLAYER = true;
 
-const socket = io(
-    "https://ymgame-server.onrender.com"
-);
+let socket;
+
+if (MULTIPLAYER) {
+
+    socket = io(
+        "https://ymgame-server.onrender.com"
+    );
+
+}
+else {
+
+    socket = {
+        id: "local-player",
+        on: function () {},
+        emit: function () {}
+    };
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -62,7 +108,7 @@ const camera =
         25
     );
 const normalFov = 62;
-const zoomFov = 20;
+const zoomFov = 35;
 
 let isZooming = false;
 
@@ -725,10 +771,10 @@ createWall(
 
 createWall(
     0,
-    2.5,    // 중심 높이
+    3.15,   // ★ 2.5 → 3.5
     -4.6,
     8.6,
-    5.0,    // 벽 높이 4.1 → 5.0
+    6.3,
     0.24
 );
 
@@ -779,7 +825,7 @@ createWall(
     2.05,
     -6.1,
     5.3,     // 기존 4.3
-    4.1,
+    5.1,
     0.20
 );
 
@@ -789,7 +835,7 @@ createWall(
     2.05,
     -6.1,
     5.3,     // 기존 4.3
-    4.1,
+    5.1,
     0.20
 );
 
@@ -1000,7 +1046,7 @@ guideTextureLoader.load(
 
         // ★ 여기서 이미지 크기 조절
         // 세로 크기만 정하면 가로는 자동 계산됨
-        const guideHeight = 2.5;
+        const guideHeight = 0.65;
 
         const guideWidth =
             guideHeight * aspect;
@@ -1010,39 +1056,105 @@ guideTextureLoader.load(
         // 원본 비율 그대로 Plane 생성
         // ==========================================
 
+        const guideThickness = 0.035;
+
         const guideGeometry =
-            new THREE.PlaneGeometry(
+            new THREE.BoxGeometry(
                 guideWidth,
-                guideHeight
+                guideHeight,
+                guideThickness
             );
 
 
-        const guideMaterial =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        const guideSideMaterial =
             new THREE.MeshStandardMaterial({
-
-                map:
-                    texture,
-
-                transparent:
-                    true,
-
-                alphaTest:
-                    0.01,
-
-                roughness:
-                    0.8,
-
-                metalness:
-                    0
-
+                color: 0x111111,
+                roughness: 0.8,
+                metalness: 0
             });
 
+        const guideFrontMaterial =
+            new THREE.MeshStandardMaterial({
+                map: texture,
+                roughness: 0.8,
+                metalness: 0
+            });
+
+        const guideMaterials = [
+            guideSideMaterial,
+            guideSideMaterial,
+            guideSideMaterial,
+            guideSideMaterial,
+            guideFrontMaterial,
+            guideSideMaterial
+        ];
 
         const guide =
             new THREE.Mesh(
                 guideGeometry,
-                guideMaterial
+                guideMaterials
             );
+
+        guide.castShadow = true;
+        guide.receiveShadow = true;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         // ==========================================
@@ -1050,13 +1162,10 @@ guideTextureLoader.load(
         // ==========================================
 
         guide.position.set(
-
-            0,          // 좌우
-            2.05,       // 높이
+            1.9,       // 오른쪽
+            1.35,       // 아래쪽
             -4.455      // 벽 앞
-
         );
-
 
         scene.add(
             guide
@@ -1065,6 +1174,233 @@ guideTextureLoader.load(
     }
 
 );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ==================================================
+// 중앙 벽 MP4 영상 - 원본 비율 자동 유지
+// ==================================================
+
+const video =
+    document.createElement("video");
+
+video.src =
+    "./assets/main-video.mp4";
+
+video.loop = true;
+video.muted = true;
+video.autoplay = true;
+video.playsInline = true;
+video.preload = "auto";
+
+video.load();
+video.play().catch(() => {});
+// 영상 크기 정보를 읽은 뒤 화면 생성
+video.addEventListener(
+    "loadedmetadata",
+    () => {
+
+        // 실제 MP4 원본 비율
+        const aspect =
+            video.videoWidth /
+            video.videoHeight;
+
+        // ==========================================
+        // ★ 영상 크기 조절
+        // ==========================================
+
+        const videoHeight = 5.7;
+
+        const videoWidth =
+            videoHeight * aspect;
+        const bottomGap = 0.3; // ★ 바닥에서 띄울 거리
+
+        console.log(
+            "video size:",
+            video.videoWidth,
+            video.videoHeight,
+            "aspect:",
+            aspect
+        );
+
+
+        const videoTexture =
+            new THREE.VideoTexture(
+                video
+            );
+
+        videoTexture.colorSpace =
+            THREE.SRGBColorSpace;
+
+
+        const videoMaterial =
+            new THREE.MeshBasicMaterial({
+                map: videoTexture,
+
+                // ★ 처음에는 완전히 투명
+                transparent: true,
+                opacity: 0
+            });
+        const videoSideMaterial =
+            new THREE.MeshStandardMaterial({
+                color: 0x111111,
+                roughness: 0.75,
+                metalness: 0
+            });
+
+        const videoMaterials = [
+            videoSideMaterial,
+            videoSideMaterial,
+            videoSideMaterial,
+            videoSideMaterial,
+            videoMaterial,
+            videoSideMaterial
+        ];
+
+        const videoThickness = 0.055;
+
+        const videoGeometry =
+            new THREE.BoxGeometry(
+                videoWidth,
+                videoHeight,
+                videoThickness
+            );
+        const videoScreen =
+            new THREE.Mesh(
+                videoGeometry,
+                videoMaterials
+            );
+
+        videoScreen.castShadow = true;
+        videoScreen.receiveShadow = true;
+
+        videoScreen.position.set(
+            -0.3,
+            bottomGap + videoHeight / 2,
+            -4.455
+        );
+
+
+        scene.add(
+            videoScreen
+        );
+        // ==========================================
+        // ==========================================
+        // 영상 준비되면 Fade In
+        // ==========================================
+
+        const fadeDuration = 700;
+
+        function startVideoFade() {
+
+            const fadeStart = performance.now();
+
+            function fadeInVideo(now) {
+
+                const progress = Math.min(
+                    (now - fadeStart) / fadeDuration,
+                    1
+                );
+
+                videoMaterial.opacity = progress;
+
+                if (progress < 1) {
+                    requestAnimationFrame(fadeInVideo);
+                }
+            }
+
+            requestAnimationFrame(fadeInVideo);
+        }
+
+
+        // 이미 재생 가능한 상태라면 바로 시작
+        if (video.readyState >= 3) {
+
+            startVideoFade();
+
+        } else {
+
+            // 영상이 실제 재생 가능한 상태가 되면 등장
+            video.addEventListener(
+                "canplay",
+                startVideoFade,
+                { once: true }
+            );
+
+        }
+        video.play().catch(
+            (error) => {
+                console.log(
+                    "video autoplay:",
+                    error
+                );
+            }
+        );
+
+    }
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // ==================================================
@@ -1182,7 +1518,9 @@ function createWallArtwork(
     z,
     width,
     height,
-    rotationY = 0
+    rotationY = 0,
+    thickness = 0.03,
+    sideColor = 0xffffff
 ) {
 
     const group =
@@ -1249,14 +1587,14 @@ function createWallArtwork(
                 new THREE.BoxGeometry(
                     pictureWidth,
                     pictureHeight,
-                    0.06
+                    thickness
                 );
 
 
             // 옆면 / 윗면 / 아랫면 / 뒷면용
             const sideMaterial =
                 new THREE.MeshStandardMaterial({
-                    color: artworkSideColor,
+                    color: sideColor,
                     roughness: 0.8,
                     metalness: 0
                 });
@@ -1366,18 +1704,14 @@ function createWallArtwork(
 // ==================================================
 
 const leftWallArtworks = [
-    "./assets/Group1-3.png",
-    "./assets/Group1-4.png",
-    "./assets/Group1-5.png",
-    "./assets/Group1-1.png"
+    "./assets/코딱지.png",
+    "./assets/여르미바보.png",
 ];
 
 // ★ 각 작품 옆 네임택
 const leftWallNameTags = [
-    "./assets/name1.png",
-    "./assets/name2.png",
-    "./assets/name3.png",
-    "./assets/name4.png"
+    "./assets/코딱지네임.png",
+    "./assets/네임.png",
 ];
 
 // ==================================================
@@ -1385,43 +1719,36 @@ const leftWallNameTags = [
 // ==================================================
 
 const rightWallArtworks = [
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png",
-    "./assets/Group1-1.png"
+    "./assets/따뜻님.png",
+    "./assets/에어버스.png",
 ];
 const rightWallNameTags = [
-    "./assets/name5.png",
-    "./assets/name6.png",
-    "./assets/name7.png",
-    "./assets/name8.png"
+    "./assets/따뜻님네임.png",
+    "./assets/에어버스네임.png",
 ];
 // ==================================================
 // 작품 배치 설정
 // ==================================================
 
 // 작품 크기
-const wallArtworkWidth = 0.9;
-const wallArtworkHeight = 1.3;
+const wallArtworkWidth = 1.0;
+const wallArtworkHeight = 1.75;  // ★ 1.45 → 1.75
 
-const artworkY = 2.0;
-// 높이
+const artworkY = 1.73;   
 
 // Z 방향 위치
 // 기존 -7.5 ~ 7.5보다 안쪽으로 당겨서
 // 벽 끝/중앙 구조물에 가려지는 것 방지
 const artworkZPositions = [
-    -3.4,
-     0.2,
-     3.8,
-     7.4
+    0,
+    5.5
 ];
 
 // ==================================================
 // 왼쪽 벽
 // ==================================================
 
-for (let i = 0; i < 4; i++) {
+for (let i = 0; i < 2; i++) {
 
     // ==============================
     // 작품
@@ -1443,16 +1770,18 @@ for (let i = 0; i < 4; i++) {
     createWallArtwork(
         leftWallNameTags[i],
 
-        -8.82,                         // 같은 벽
-        1.65,                          // 네임택 높이
-        artworkZPositions[i] + 0.9,    // 작품 옆으로 이동
+        -8.82,
+        1,                           // ★ 네임택도 아래로
+        artworkZPositions[i] - 1.15,   // ★ 큰 작품과 조금 거리 확보
 
         0.3,
-        0.28,                          // 네임택 세로 크기
+        0.30,    
 
-        Math.PI / 2
+        Math.PI / 2,
+
+        0.01,       // 네임택 두께
+        0x111111     // ★ 네임택 옆/위/아래/뒤 = 흰색
     );
-
 }
 // ==================================================
 // 오른쪽 벽
@@ -1462,7 +1791,7 @@ for (let i = 0; i < 4; i++) {
 // 오른쪽 벽 작품 4개
 // ==================================================
 
-for (let i = 0; i < 4; i++) {
+for (let i = 0; i < 2; i++) {
 
     // 작품
     createWallArtwork(
@@ -1479,14 +1808,19 @@ for (let i = 0; i < 4; i++) {
     // 작품 옆 네임택
     createWallArtwork(
         rightWallNameTags[i],
-        8.82,
-        1.65,
-        artworkZPositions[i] - 0.9,
-        0.3,
-        0.28,
-        -Math.PI / 2
-    );
 
+        8.82,
+        1,                           // ★ 아래로
+        artworkZPositions[i] + 1.15,
+
+        0.3,
+        0.30,   
+
+        -Math.PI / 2,
+
+        0.01,
+        0x111111 
+    );
 }
 createWallArtwork(
     "./assets/warning.png",
